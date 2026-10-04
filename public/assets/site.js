@@ -43,7 +43,7 @@ document.querySelectorAll('form.enquiry').forEach((form) => {
     } catch (_) { /* carry on to booking */ }
     try {
       sessionStorage.setItem('vouch_lead', JSON.stringify({
-        name: data.get('name'), email: data.get('email'), phone: data.get('phone'),
+        name: data.get('name'), business: data.get('business'), email: data.get('email'), phone: data.get('phone'),
       }));
     } catch (_) { /* private mode: the calendar will just ask again */ }
     window.location.href = '/book';
@@ -59,6 +59,8 @@ if (booking) {
   const params = new URLSearchParams();
   if (first) params.set('first_name', first);
   if (rest.length) params.set('last_name', rest.join(' '));
+  if (lead.name) params.set('full_name', String(lead.name).trim());
+  if (lead.business) params.set('company_name', String(lead.business).trim());
   if (lead.email) params.set('email', lead.email);
   if (lead.phone) {
     // UK mobiles: 07700 900123 -> +447700900123 so GHL matches the same contact
