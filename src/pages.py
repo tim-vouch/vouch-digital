@@ -53,11 +53,11 @@ def home():
          "A website that converts", "Set up for ChatGPT &amp; AI search"])
 
     lose = "".join(f'<li><span class="dot no">{icon("x")}</span>{t}</li>' for t in
-                   ["Last review 8 months ago", "Opening hours missing",
-                    "No services listed", "Website buried below competitors", "Not mentioned by ChatGPT"])
+                   ["Infrequent reviews", "Not in the top 3 on Google Maps",
+                    "Website buried below competitors", "Not mentioned by ChatGPT"])
     win = "".join(f'<li><span class="dot yes">{icon("check")}</span>{t}</li>' for t in
-                  ["Fresh reviews every week", "Accurate opening hours", "Every service listed",
-                   "Top 3 on Google Maps", "Website answers customer questions", "Recommended by ChatGPT"])
+                  ["Fresh reviews every week", "Top 3 on Google Maps",
+                   "Website ranks above competitors", "Recommended by ChatGPT"])
 
     JOBS = {
         "electrician": (["Socket swaps", "Small call-outs", "Cheapest-quote hunters"],
@@ -141,7 +141,7 @@ def home():
       <div class="gbp">
         <p class="lbl">Your business</p>
         <h3 data-swap="you">Your Electrical Co.</h3>
-        <p class="rating"><b>3.8</b> {stars(4)} (6 reviews)</p>
+        <p class="rating"><b>39 reviews</b> <span class="score">4.6 {stars(5)}</span></p>
         <div class="thumbs"><div>No photos</div><div></div><div></div><div></div></div>
         <ul class="checks">{lose}</ul>
         <div class="call quiet">Phone stays quiet</div>
@@ -153,7 +153,7 @@ def home():
         <span class="badge1">#1 on Google</span>
         <p class="lbl">The business above you</p>
         <h3 data-swap="them">Other Electrical Ltd</h3>
-        <p class="rating"><b>4.9</b> {stars(5)} (127 reviews)</p>
+        <p class="rating"><b>214 reviews</b> <span class="score">4.9 {stars(5)}</span></p>
         <div class="thumbs"><div>{icon('tool')}</div><div>{icon('bolt')}</div><div>{icon('image')}</div><div>{icon('clock')}</div></div>
         <ul class="checks">{win}</ul>
         <div class="call ring">{icon('phone')} Gets the call</div>
