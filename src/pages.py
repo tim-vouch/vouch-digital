@@ -11,13 +11,13 @@ def stars(n, total=5):
 
 def audit_form(eyebrow="Free for electricians &amp; plumbers"):
     ticks = "".join(f"<li>{icon('check')} {t}</li>" for t in
-                    ["Video call, no hard sell", "No obligation",
+                    ["Honest advice, not a sales pitch", "Useful even if you never work with us",
                      "Fix it yourself, or we can do it for you"])
     return f"""
 <div class="audit" id="audit">
   <p class="eyebrow">{eyebrow}</p>
   <h2>We'll find at least 5 ways you're losing jobs online, and show you how to fix them in 15 minutes, for free.</h2>
-  <p class="small">We check your Google reviews, Business Profile and website, then walk you through the biggest opportunities on a video call.</p>
+  <p class="small">We check everything your business has online, then walk you through your biggest opportunities to win more jobs on a 15-minute video call.</p>
   <ul>{ticks}</ul>
   <form class="enquiry" action="/api/enquiry" method="post" novalidate>
     <div class="field">{icon('user')}<input name="name" placeholder="Your name" autocomplete="name" required aria-label="Your name"></div>
@@ -27,7 +27,7 @@ def audit_form(eyebrow="Free for electricians &amp; plumbers"):
     <input type="hidden" name="t">
     <button class="btn btn-mint btn-block" type="submit">Find My Missed Jobs {icon('arrow')}</button>
     <p class="form-msg" role="status"></p>
-    <p class="form-note">No obligation, just honest advice. We'll only use your details to arrange your call. <a href="/privacy">Privacy Policy</a>.</p>
+    <p class="form-note">We'll only use your details to arrange your call. <a href="/privacy">Privacy Policy</a>.</p>
   </form>
 </div>"""
 

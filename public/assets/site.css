@@ -78,10 +78,10 @@ h1,h2,h3{font-family:var(--head);line-height:1.1;letter-spacing:-.02em}
 /* Audit form card */
 .audit{background:linear-gradient(180deg,#f1fcf7,#fff 30%);color:var(--ink);border-radius:20px;padding:28px;max-width:440px;justify-self:end;border:2px solid var(--mint);box-shadow:0 24px 60px rgba(0,0,0,.35)}
 .audit .eyebrow{font-size:11.5px;color:var(--ink-soft)}
-.audit h2{font-size:24px;margin:8px 0 10px;line-height:1.2}
-.audit p.small{font-size:14px;color:var(--ink-soft)}
+.audit h2{font-size:29px;margin:8px 0 12px;line-height:1.15}
+.audit p.small{font-size:15px;color:var(--ink-soft)}
 .audit ul{list-style:none;margin:14px 0 18px;display:grid;gap:6px}
-.audit ul li{display:flex;gap:8px;align-items:center;font-size:14px}
+.audit ul li{display:flex;gap:8px;align-items:center;font-size:15px;font-weight:500}
 .audit ul svg{color:var(--mint-dark);width:18px;height:18px}
 .field{position:relative;margin-bottom:10px}
 .field svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:17px;height:17px;color:var(--ink-soft)}
@@ -258,5 +258,6 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
 @media (max-width:560px){
   .svc-grid,.finds{grid-template-columns:1fr}
   .audit{padding:22px}
+  .audit h2{font-size:24px}
   .hero .lede{font-size:17px}
 }
