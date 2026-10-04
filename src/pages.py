@@ -16,7 +16,7 @@ def audit_form(eyebrow="Free for electricians &amp; plumbers"):
     return f"""
 <div class="audit" id="audit">
   <p class="eyebrow">{eyebrow}</p>
-  <h2>We'll find at least 5 ways you're losing jobs online, and show you how to fix them in 15 minutes, for free.</h2>
+  <h2>We'll find <mark>at least 5 ways you're losing jobs</mark> online, and show you how to fix them in 15 minutes, for free.</h2>
   <p class="small">We check everything your business has online, then walk you through your biggest opportunities to win more jobs on a 15-minute video call.</p>
   <ul>{ticks}</ul>
   <form class="enquiry" action="/api/enquiry" method="post" novalidate>
