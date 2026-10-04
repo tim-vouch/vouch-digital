@@ -75,11 +75,21 @@ def home():
         revs += f"""<figure class="rev">{stars(r['stars'])}{quote}
           <figcaption class="who">{escape(r['name'])}<small>Google review · {r['date']}</small></figcaption></figure>"""
 
+    finds = "".join(f"""<li class="find"><span class="ic">{icon(i)}</span><div><h3>{t}</h3><p>{d}</p></div></li>"""
+                    for i, t, d in [
+                        ("star", "Your reviews", "How many you have, how recent they are, and whether you're replying, compared with the three businesses above you."),
+                        ("pin", "Your Google profile", "Missing services, categories, service areas, hours and photos that stop you showing in the map results."),
+                        ("search", "Where you rank", "Where you appear for searches like “electrician near me” and “emergency plumber” in your area."),
+                        ("monitor", "Your website", "How it looks and loads on a phone, and whether it makes calling you easy."),
+                        ("link", "Your listings", "Whether your name, address and number match on Yell, Checkatrade, Bing and Apple Maps."),
+                        ("ai", "ChatGPT", "Who ChatGPT recommends when someone asks for a trade like yours in your area, and whether it's you."),
+                    ])
+
     steps = "".join(f"""<li><div class="ring">{icon(i)}</div><h3>{n}. {t}</h3><p>{d}</p></li>"""
                     for n, (i, t, d) in enumerate([
                         ("clipboard", "Free audit", "We check your reviews, profile and website and show you at least 5 things to fix."),
                         ("target", "Your plan", "We agree what's worth doing for your business and your area."),
-                        ("cog", "We set it up", "Review requests, your Google profile, listings and website. You don't lift a finger."),
+                        ("cog", "20-minute setup", "One short call to connect your Google profile and customer list. We handle everything else."),
                         ("chart", "It keeps working", "Reviews and visibility build every month while you're out on jobs."),
                     ], 1))
 
@@ -142,7 +152,19 @@ def home():
   </div>
 </section>
 
-<section class="services">
+<section class="check">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Your free Missed Jobs Check</p>
+      <h2>What we'll show you in 15 minutes</h2>
+      <p>We look at your business the way a homeowner does when they search, then show you on screen exactly where jobs are slipping to competitors, and how to fix each one.</p>
+    </div>
+    <ul class="finds">{finds}</ul>
+    <p class="check-cta"><a class="btn btn-mint" href="#audit">Find My Missed Jobs {icon('arrow')}</a><span>Fix it yourself afterwards, or we can do it for you.</span></p>
+  </div>
+</section>
+
+<section class="services tint-soft">
   <div class="wrap">
     <div class="intro">
       <p class="eyebrow">Our services</p>

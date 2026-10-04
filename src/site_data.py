@@ -37,6 +37,10 @@ FAQ_HOME = [
      "We don't make promises about timescales. Reviews and visibility build over time as more "
      "genuine reviews come in and your profile stays active. We handle the setup and keep the "
      "work going month after month."),
+    ("How much of my time does this take?",
+     "About 35 minutes in total: the 15-minute check, then a 20-minute setup call where we connect "
+     "your Google profile and customer list. After that we run everything in the background while "
+     "you're out on jobs."),
     ("What areas do you work in?",
      "London and the South East. We know the local competition, and we're close enough to meet "
      "in person if you'd prefer."),
