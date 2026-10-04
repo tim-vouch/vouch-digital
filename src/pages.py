@@ -56,8 +56,23 @@ def home():
                    ["Last review 8 months ago", "Opening hours missing",
                     "No services listed", "Website buried below competitors"])
     win = "".join(f'<li><span class="dot yes">{icon("check")}</span>{t}</li>' for t in
-                  ["Fresh reviews every week", "Open 24 hours", "Every service listed",
+                  ["Fresh reviews every week", "Accurate opening hours", "Every service listed",
                    "In the local map pack", "Website answers customer questions"])
+
+    JOBS = {
+        "electrician": (["Socket swaps", "Small call-outs", "Cheapest-quote hunters"],
+                        ["Full rewires", "Consumer unit upgrades", "EV charger installs"]),
+        "plumber": (["Dripping taps", "Small call-outs", "Cheapest-quote hunters"],
+                    ["Boiler installs", "Bathroom installs", "Full heating systems"]),
+    }
+
+    def jobs(side, cls):
+        out = ""
+        for trade, lists in JOBS.items():
+            items = "".join(f"<li>{t}</li>" for t in lists[side])
+            hidden = "" if trade == "electrician" else " hidden"
+            out += f'<ul class="jobs {cls}" data-for="{trade}"{hidden}>{items}</ul>'
+        return out
 
     trades = "".join(f"<li>{icon(i)}{n}</li>" for i, n in
                      [("bolt", "Electricians"), ("drop", "Plumbers"), ("radiator", "Heating Engineers"),
@@ -121,7 +136,7 @@ def home():
       <button type="button" data-trade="electrician" aria-pressed="true">Electricians</button>
       <button type="button" data-trade="plumber" aria-pressed="false">Plumbers</button>
     </div>
-    <div class="searchbar">{icon('search')}<span data-swap="query">emergency electrician near me</span></div>
+    <div class="searchbar">{icon('search')}<span data-swap="query">electrician near me</span></div>
     <div class="vs">
       <div class="gbp">
         <p class="lbl">Your business</p>
@@ -130,6 +145,8 @@ def home():
         <div class="thumbs"><div>No photos</div><div></div><div></div><div></div></div>
         <ul class="checks">{lose}</ul>
         <div class="call quiet">Phone stays quiet</div>
+        <p class="jobs-lbl">Jobs that do come in</p>
+        {jobs(0, "small")}
       </div>
       <div class="vs-mid">VS</div>
       <div class="gbp win">
@@ -140,6 +157,8 @@ def home():
         <div class="thumbs"><div>{icon('tool')}</div><div>{icon('bolt')}</div><div>{icon('image')}</div><div>{icon('clock')}</div></div>
         <ul class="checks">{win}</ul>
         <div class="call ring">{icon('phone')} Gets the call</div>
+        <p class="jobs-lbl">Jobs they're winning</p>
+        {jobs(1, "big")}
       </div>
     </div>
   </div>
