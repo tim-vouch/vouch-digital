@@ -11,12 +11,12 @@ def stars(n, total=5):
 
 def audit_form(eyebrow="Free for electricians &amp; plumbers"):
     ticks = "".join(f"<li>{icon('check')} {t}</li>" for t in
-                    ["Free", "15-minute video call", "No obligation",
+                    ["Video call, no hard sell", "No obligation",
                      "Fix it yourself, or we can do it for you"])
     return f"""
 <div class="audit" id="audit">
   <p class="eyebrow">{eyebrow}</p>
-  <h2>We'll find at least 5 ways you're losing jobs online, and show you how to fix them.</h2>
+  <h2>We'll find at least 5 ways you're losing jobs online, and show you how to fix them in 15 minutes, for free.</h2>
   <p class="small">We check your Google reviews, Business Profile and website, then walk you through the biggest opportunities on a free 15-minute video call.</p>
   <ul>{ticks}</ul>
   <form class="enquiry" action="/api/enquiry" method="post" novalidate>
@@ -55,7 +55,7 @@ def home():
     hero_ticks = "".join(
         f'<li><span class="tick">{icon("check")}</span>{t}</li>' for t in
         ["Genuine Google reviews", "A complete Google profile",
-         "A website that converts", "Found in AI search"])
+         "A website that converts", "Set up for ChatGPT &amp; AI search"])
 
     lose = "".join(f'<li><span class="dot no">{icon("x")}</span>{t}</li>' for t in
                    ["Last review 8 months ago", "Opening hours missing",
@@ -96,8 +96,8 @@ def home():
 <section class="hero dark">
   <div class="wrap">
     <div>
-      <p class="eyebrow">More calls. More jobs. Less hassle.</p>
-      <h1>Get found when local customers are <span class="accent">ready to hire.</span></h1>
+      <p class="eyebrow">Be the name everyone vouches for</p>
+      <h1>Win bigger, better-paying jobs from <span class="accent">Google and ChatGPT.</span></h1>
       <p class="lede">Reviews, Google profile, websites and AI search, done for you. <strong>Built only for electricians and plumbers in London &amp; the South East.</strong></p>
       <ul class="ticks">{hero_ticks}</ul>
     </div>
