@@ -38,7 +38,8 @@ h1,h2,h3{font-family:var(--head);line-height:1.1;letter-spacing:-.02em}
 /* Header */
 .site-head{position:absolute;inset:0 0 auto 0;z-index:20}
 .site-head .wrap{display:flex;align-items:center;justify-content:space-between;height:84px;gap:24px}
-.logo{display:flex;flex-direction:column;line-height:1;text-decoration:none;color:#fff}
+.logo{display:block;line-height:0}
+.logo img{height:54px;width:auto}
 .logo b{font-family:var(--head);font-weight:800;font-size:30px;letter-spacing:-.03em}
 .logo span{font-family:var(--head);font-size:10px;letter-spacing:.42em;color:var(--mint);margin-top:2px;padding-left:2px}
 .nav{display:flex;gap:30px}

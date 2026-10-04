@@ -23,6 +23,7 @@ def head(title, desc, path):
         "legalName": SITE["legal_name"],
         "url": SITE["domain"],
         "telephone": SITE["phone_intl"],
+        "logo": SITE["domain"] + "/assets/img/logo.png",
         "email": SITE["email"],
         "areaServed": SITE["area"],
         "address": {
@@ -48,6 +49,10 @@ def head(title, desc, path):
 <meta property="og:description" content="{desc}">
 <meta property="og:url" content="{url}">
 <meta name="theme-color" content="#04201b">
+<meta property="og:image" content="{SITE['domain']}/assets/img/icon-512.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
@@ -68,7 +73,7 @@ def header(path):
     return f"""
 <header class="site-head">
   <div class="wrap">
-    <a class="logo" href="/" aria-label="Vouch Digital home"><b>Vouch</b><span>DIGITAL</span></a>
+    <a class="logo" href="/"><img src="/assets/img/logo.webp" alt="Vouch Digital" width="112" height="48"></a>
     <nav class="nav" id="nav">{links}</nav>
     <div class="head-cta">
       <a class="head-phone" href="tel:{SITE['phone_intl']}">{icon('phone')} {SITE['phone']}</a>
@@ -85,7 +90,7 @@ def footer():
 <footer class="site-foot">
   <div class="wrap">
     <div class="foot-top">
-      <a class="logo" href="/"><b>Vouch</b><span>DIGITAL</span></a>
+      <a class="logo" href="/"><img src="/assets/img/logo.webp" alt="Vouch Digital" width="112" height="48" loading="lazy"></a>
       <nav class="foot-nav">{links}<a href="/faq">FAQ</a></nav>
       <a class="btn btn-mint" href="/#audit">Find My Missed Jobs {icon('arrow')}</a>
     </div>
