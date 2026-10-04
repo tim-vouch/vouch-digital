@@ -66,6 +66,8 @@ if (booking) {
     params.set('phone', /^0\d{10}$/.test(digits) ? '+44' + digits.slice(1) : digits);
   }
   const qs = params.toString();
+  // GHL's resize script expects the id format <calendarId>_<timestamp>
+  booking.id = booking.dataset.src.split('/').pop() + '_' + Date.now();
   booking.src = booking.dataset.src + (qs ? '?' + qs : '');
   const hi = document.querySelector('[data-first]');
   if (hi && first) hi.textContent = 'Nice one, ' + first + '.';

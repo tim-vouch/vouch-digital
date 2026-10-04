@@ -227,9 +227,10 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
 .book-hero{padding:140px 0 56px;text-align:center}
 .book-hero h1{font-size:clamp(30px,4vw,46px);font-weight:800;margin:12px auto 12px;max-width:18em}
 .book-hero .muted{max-width:34em;margin:0 auto}
-.book{padding:40px 0 80px;background:var(--mint-tint)}
-.book-frame{max-width:900px;margin:0 auto;background:#fff;border-radius:20px;box-shadow:var(--shadow);padding:12px;min-height:640px}
-.book-frame iframe{width:100%;border:0;overflow:hidden;min-height:640px;display:block}
+.book{padding:32px 0 64px;background:var(--mint-tint)}
+.book-frame{max-width:900px;margin:0 auto;background:#fff;border-radius:20px;box-shadow:var(--shadow);padding:12px}
+.book-frame iframe{width:100%;border:0;display:block;height:820px}
+@media (max-width:700px){.book-frame{padding:4px;border-radius:14px}.book-frame iframe{height:1150px}}
 .book-alt{text-align:center;margin-top:20px;color:var(--ink-soft)}
 .book-alt a{color:var(--mint-dark);font-weight:600}
 
