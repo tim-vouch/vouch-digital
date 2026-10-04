@@ -98,7 +98,7 @@ def home():
 
     return f"""
 <main>
-<section class="hero dark">
+<section class="hero dark has-img">
   <div class="wrap">
     <div>
       <p class="eyebrow">Be the local trade everyone vouches for</p>
