@@ -54,10 +54,10 @@ def home():
 
     lose = "".join(f'<li><span class="dot no">{icon("x")}</span>{t}</li>' for t in
                    ["Last review 8 months ago", "Opening hours missing",
-                    "No services listed", "Website buried below competitors"])
+                    "No services listed", "Website buried below competitors", "Not mentioned by ChatGPT"])
     win = "".join(f'<li><span class="dot yes">{icon("check")}</span>{t}</li>' for t in
                   ["Fresh reviews every week", "Accurate opening hours", "Every service listed",
-                   "In the local map pack", "Website answers customer questions"])
+                   "Top 3 on Google Maps", "Website answers customer questions", "Recommended by ChatGPT"])
 
     JOBS = {
         "electrician": (["Socket swaps", "Small call-outs", "Cheapest-quote hunters"],
@@ -129,8 +129,8 @@ def home():
   <div class="wrap">
     <div class="sec-head">
       <p class="eyebrow">Why it matters</p>
-      <h2>Most customers choose a business from the top of Google.</h2>
-      <p>If your profile or website isn't working for you, the call goes to a competitor.</p>
+      <h2>Customers pick from the top of Google, and now ChatGPT.</h2>
+      <p>More homeowners now ask ChatGPT who to call. It recommends the businesses with the strongest reviews and clearest information online. If that isn't you, the job goes to a competitor.</p>
     </div>
     <div class="trade-toggle" role="group" aria-label="Show example for">
       <button type="button" data-trade="electrician" aria-pressed="true">Electricians</button>
