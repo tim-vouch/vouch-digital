@@ -17,20 +17,15 @@ def audit_form(eyebrow="Free for electricians &amp; plumbers"):
 <div class="audit" id="audit">
   <p class="eyebrow">{eyebrow}</p>
   <h2>We'll find at least 5 ways you're losing jobs online, and show you how to fix them in 15 minutes, for free.</h2>
-  <p class="small">We check your Google reviews, Business Profile and website, then walk you through the biggest opportunities on a free 15-minute video call.</p>
+  <p class="small">We check your Google reviews, Business Profile and website, then walk you through the biggest opportunities on a video call.</p>
   <ul>{ticks}</ul>
   <form class="enquiry" action="/api/enquiry" method="post" novalidate>
     <div class="field">{icon('user')}<input name="name" placeholder="Your name" autocomplete="name" required aria-label="Your name"></div>
     <div class="field">{icon('building')}<input name="business" placeholder="Business name" autocomplete="organization" required aria-label="Business name"></div>
-    <div class="field">{icon('tool')}<select name="trade" required aria-label="Your trade">
-      <option value="" disabled selected>Your trade</option>
-      <option>Electrician</option><option>Plumber</option><option>Heating engineer</option><option>Other trade</option>
-    </select></div>
-    <div class="field">{icon('link')}<input name="website" placeholder="Website or Google Business Profile link" aria-label="Website or Google Business Profile link"></div>
-    <div class="field">{icon('phone')}<input name="contact" placeholder="Phone number or email" autocomplete="tel" required aria-label="Phone number or email"></div>
+    <div class="field">{icon('phone')}<input name="phone" type="tel" placeholder="Mobile number" autocomplete="tel" required aria-label="Mobile number"></div>
     <div class="hp" aria-hidden="true"><label>Leave this empty <input name="company_url" tabindex="-1" autocomplete="off"></label></div>
     <input type="hidden" name="t">
-    <button class="btn btn-mint btn-block" type="submit">Get My Free Audit {icon('arrow')}</button>
+    <button class="btn btn-mint btn-block" type="submit">Find My Missed Jobs {icon('arrow')}</button>
     <p class="form-msg" role="status"></p>
     <p class="form-note">No obligation, just honest advice. We'll only use your details to arrange your call. <a href="/privacy">Privacy Policy</a>.</p>
   </form>
@@ -96,7 +91,7 @@ def home():
 <section class="hero dark">
   <div class="wrap">
     <div>
-      <p class="eyebrow">Be the name everyone vouches for</p>
+      <p class="eyebrow">Be the local trade everyone vouches for</p>
       <h1>Win bigger, better-paying jobs from <span class="accent">Google and ChatGPT.</span></h1>
       <p class="lede">Reviews, Google profile, websites and AI search, done for you. <strong>Built only for electricians and plumbers in London &amp; the South East.</strong></p>
       <ul class="ticks">{hero_ticks}</ul>
@@ -153,7 +148,7 @@ def home():
       <p class="eyebrow">Our services</p>
       <h2>Everything you need to win more local jobs</h2>
       <p>We help electricians and plumbers get found on Google and in AI search, turn clicks into calls, and look like the obvious choice. We handle all of it for you.</p>
-      <a class="btn btn-mint" href="#audit">Get a Free Audit {icon('arrow')}</a>
+      <a class="btn btn-mint" href="#audit">Find My Missed Jobs {icon('arrow')}</a>
     </div>
     <div class="svc-grid">{svc}</div>
   </div>
@@ -192,7 +187,7 @@ def home():
     <p class="eyebrow">Free, 15 minutes, no hard sell</p>
     <h2>Be the electrician or plumber everyone vouches for.</h2>
     <p class="muted">We'll find at least 5 ways you're losing jobs to competitors on Google, and show you how to fix them.</p>
-    <div class="row"><a class="btn btn-mint" href="#audit">Get My Free Audit {icon('arrow')}</a>
+    <div class="row"><a class="btn btn-mint" href="#audit">Find My Missed Jobs {icon('arrow')}</a>
     <a class="btn btn-ghost" href="tel:{SITE['phone_intl']}">{icon('phone')} Call {SITE['phone']}</a></div>
   </div>
 </section>

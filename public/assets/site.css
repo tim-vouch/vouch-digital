@@ -60,13 +60,13 @@ h1,h2,h3{font-family:var(--head);line-height:1.1;letter-spacing:-.02em}
 .hero h1{font-size:clamp(38px,5.4vw,62px);font-weight:800;margin:14px 0 20px}
 .hero .lede{font-size:19px;color:rgba(255,255,255,.88);max-width:34em}
 .hero .lede strong{color:#fff}
-.ticks{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:36px;list-style:none}
-.ticks li{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.35;color:rgba(255,255,255,.9)}
+.ticks{display:grid;gap:12px;margin-top:30px;list-style:none}
+.ticks li{display:flex;gap:12px;align-items:center;font-size:17px;font-weight:500;color:#fff}
 .tick{width:26px;height:26px;border-radius:50%;background:var(--mint);color:var(--deep);display:grid;place-items:center;flex:none}
 .tick svg{width:15px;height:15px}
 
 /* Audit form card */
-.audit{background:linear-gradient(180deg,#f1fcf7,#fff 30%);color:var(--ink);border-radius:20px;padding:28px;border:2px solid var(--mint);box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.audit{background:linear-gradient(180deg,#f1fcf7,#fff 30%);color:var(--ink);border-radius:20px;padding:28px;max-width:440px;justify-self:end;border:2px solid var(--mint);box-shadow:0 24px 60px rgba(0,0,0,.35)}
 .audit .eyebrow{font-size:11.5px;color:var(--ink-soft)}
 .audit h2{font-size:24px;margin:8px 0 10px;line-height:1.2}
 .audit p.small{font-size:14px;color:var(--ink-soft)}
@@ -207,7 +207,7 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
   .head-cta .btn{display:none}
   .hero{padding:110px 0 56px}
   .hero .wrap,.services .wrap,.faq .wrap{grid-template-columns:1fr;gap:36px}
-  .ticks{grid-template-columns:1fr 1fr}
+  .audit{justify-self:stretch;max-width:none}
   .vs{grid-template-columns:1fr;gap:16px}
   .vs-mid{margin:0 auto}
   .trades ul{grid-template-columns:repeat(3,1fr);row-gap:24px}

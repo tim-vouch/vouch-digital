@@ -32,17 +32,11 @@ async function handleEnquiry(request, env) {
   const lead = {
     name: get('name'),
     business_name: get('business'),
-    trade: get('trade'),
-    website_or_gbp: get('website'),
-    contact: get('contact'),
+    phone: get('phone'),
     source: 'vouchdigital.co.uk audit form',
     page: request.headers.get('Referer') || '',
   };
-  if (!lead.name || !lead.business_name || !lead.contact) return json({ ok: false, error: 'missing_fields' }, 400);
-
-  // Split contact into email or phone so GHL matches it to the right field
-  if (lead.contact.includes('@')) lead.email = lead.contact;
-  else lead.phone = lead.contact;
+  if (!lead.name || !lead.business_name || !lead.phone) return json({ ok: false, error: 'missing_fields' }, 400);
 
   if (!env.GHL_WEBHOOK_URL) return json({ ok: false, error: 'not_configured' }, 503);
 
