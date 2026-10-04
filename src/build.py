@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "public"
 
 
-def head(title, desc, path):
+def head(title, desc, path, noindex=False):
     url = SITE["domain"] + path
     org = {
         "@context": "https://schema.org",
@@ -34,7 +34,7 @@ def head(title, desc, path):
             "addressCountry": "GB",
         },
     }
-    robots = '<meta name="robots" content="noindex, nofollow">' if SITE["noindex"] else ""
+    robots = '<meta name="robots" content="noindex, nofollow">' if (SITE["noindex"] or noindex) else ""
     return f"""<!doctype html>
 <html lang="en-GB">
 <head>
@@ -107,8 +107,8 @@ def footer():
 </body></html>"""
 
 
-def render(path, title, desc, body):
-    return head(title, desc, path) + header(path) + body + footer()
+def render(path, title, desc, body, noindex=False):
+    return head(title, desc, path, noindex) + header(path) + body + footer()
 
 
 def write(path, html):
@@ -120,7 +120,7 @@ def write(path, html):
 
 def main():
     for p in pages.ALL:
-        write(p["path"], render(p["path"], p["title"], p["desc"], p["body"]()))
+        write(p["path"], render(p["path"], p["title"], p["desc"], p["body"](), p.get("noindex", False)))
 
 
 if __name__ == "__main__":

@@ -223,6 +223,16 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
 .final p{max-width:36em;margin:0 auto 28px}
 .final .row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
 
+/* Booking page */
+.book-hero{padding:140px 0 56px;text-align:center}
+.book-hero h1{font-size:clamp(30px,4vw,46px);font-weight:800;margin:12px auto 12px;max-width:18em}
+.book-hero .muted{max-width:34em;margin:0 auto}
+.book{padding:40px 0 80px;background:var(--mint-tint)}
+.book-frame{max-width:900px;margin:0 auto;background:#fff;border-radius:20px;box-shadow:var(--shadow);padding:12px;min-height:640px}
+.book-frame iframe{width:100%;border:0;overflow:hidden;min-height:640px;display:block}
+.book-alt{text-align:center;margin-top:20px;color:var(--ink-soft)}
+.book-alt a{color:var(--mint-dark);font-weight:600}
+
 /* Footer */
 .site-foot{background:#021713;color:rgba(255,255,255,.75);padding:48px 0 32px;font-size:14px}
 .foot-top{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;padding-bottom:28px;border-bottom:1px solid rgba(255,255,255,.1)}

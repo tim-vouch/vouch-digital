@@ -33,10 +33,11 @@ async function handleEnquiry(request, env) {
     name: get('name'),
     business_name: get('business'),
     phone: get('phone'),
+    email: get('email'),
     source: 'vouchdigital.co.uk audit form',
     page: request.headers.get('Referer') || '',
   };
-  if (!lead.name || !lead.business_name || !lead.phone) return json({ ok: false, error: 'missing_fields' }, 400);
+  if (!lead.name || !lead.business_name || !lead.phone || !lead.email) return json({ ok: false, error: 'missing_fields' }, 400);
 
   if (!env.GHL_WEBHOOK_URL) return json({ ok: false, error: 'not_configured' }, 503);
 

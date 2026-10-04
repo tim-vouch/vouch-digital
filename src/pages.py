@@ -23,11 +23,12 @@ def audit_form(eyebrow="Free for electricians &amp; plumbers"):
     <div class="field">{icon('user')}<input name="name" placeholder="Your name" autocomplete="name" required aria-label="Your name"></div>
     <div class="field">{icon('building')}<input name="business" placeholder="Business name" autocomplete="organization" required aria-label="Business name"></div>
     <div class="field">{icon('phone')}<input name="phone" type="tel" placeholder="Mobile number" autocomplete="tel" required aria-label="Mobile number"></div>
+    <div class="field">{icon('mail')}<input name="email" type="email" placeholder="Email address" autocomplete="email" required aria-label="Email address"></div>
     <div class="hp" aria-hidden="true"><label>Leave this empty <input name="company_url" tabindex="-1" autocomplete="off"></label></div>
     <input type="hidden" name="t">
     <button class="btn btn-mint btn-block" type="submit">Find My Missed Jobs {icon('arrow')}</button>
     <p class="form-msg" role="status"></p>
-    <p class="form-note">We'll only use your details to arrange your call. <a href="/privacy">Privacy Policy</a>.</p>
+    <p class="form-note">Next, you'll pick a time that suits you. We'll only use your details to arrange your call. <a href="/privacy">Privacy Policy</a>.</p>
   </form>
 </div>"""
 
@@ -235,9 +236,34 @@ def home():
 </main>"""
 
 
+def book():
+    return f"""
+<main>
+<section class="dark book-hero">
+  <div class="wrap">
+    <p class="eyebrow">Step 2 of 2</p>
+    <h1><span data-first>Nice one.</span> Now pick a time for your free check.</h1>
+    <p class="muted">15 minutes on Google Meet. Your details are already filled in, so just choose a slot.</p>
+  </div>
+</section>
+<section class="book">
+  <div class="wrap">
+    <div class="book-frame">
+      <iframe id="xbAVu7ah9p5NXexCdiO8_booking" class="booking" title="Book your free Missed Jobs Check" data-src="{SITE['booking_url']}" scrolling="no"></iframe>
+    </div>
+    <p class="book-alt">Can't find a time that works? Call or text <a href="tel:{SITE['phone_intl']}">{SITE['phone']}</a> and we'll sort one out.</p>
+  </div>
+</section>
+</main>
+<script src="https://link.msgsndr.com/js/form_embed.js" defer></script>"""
+
+
 ALL = [
     {"path": "/", "body": home,
      "title": "Marketing for Electricians & Plumbers in London | Vouch Digital",
      "desc": "We find at least 5 ways London and South East electricians and plumbers are losing jobs "
              "on Google, and fix them. Reviews, Google profile, websites, local SEO and AI search, done for you."},
+    {"path": "/book", "body": book, "noindex": True,
+     "title": "Pick a time | Vouch Digital",
+     "desc": "Book your free 15-minute Missed Jobs Check with Vouch Digital."},
 ]

@@ -28,6 +28,7 @@ PATHS = {
     "cog": '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9L7 7M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/>',
     "chart": '<path d="M4 20h16M7 16v-4M12 16V8M17 16v-7"/>',
     "image": '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="M21 16l-5-5-8 8"/>',
+    "mail": '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
     "clock": '<circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/>',
 }
 
