@@ -79,10 +79,11 @@ def home():
                      [("bolt", "Electricians"), ("drop", "Plumbers"), ("radiator", "Heating Engineers"),
                       ("flame", "Boiler Installers"), ("plug", "EV Charger Installers"), ("bath", "Bathroom Fitters")])
 
-    svc = "".join(f"""<a class="svc" href="{h}"><span class="ic">{icon(i)}</span>
-      <span><h3>{n}</h3><p>{d}</p></span></a>""" for i, n, h, d in SERVICES)
-    svc += f"""<a class="svc all" href="/services"><span class="ic">{icon('arrow')}</span>
-      <span><h3>All five, working together</h3><p>Stronger as one system than as separate jobs. See how they fit.</p></span></a>"""
+    # Lean launch: service pages aren't built yet, so cards don't link anywhere.
+    svc = "".join(f"""<div class="svc"><span class="ic">{icon(i)}</span>
+      <span><h3>{n}</h3><p>{d}</p></span></div>""" for i, n, h, d in SERVICES)
+    svc += f"""<a class="svc all" href="#audit"><span class="ic">{icon('arrow')}</span>
+      <span><h3>All five, working together</h3><p>Stronger as one system than as separate jobs. We'll show you how on your free check.</p></span></a>"""
 
     revs = ""
     for r in REVIEWS:
@@ -167,7 +168,7 @@ def home():
 
 <section class="trades">
   <div class="wrap">
-    <h2>Trusted by electricians and plumbers across London &amp; the South East</h2>
+    <h2>Built for trade businesses across London &amp; the South East</h2>
     <ul>{trades}</ul>
   </div>
 </section>
@@ -184,7 +185,7 @@ def home():
   </div>
 </section>
 
-<section class="services tint-soft">
+<section class="services tint-soft" id="services">
   <div class="wrap">
     <div class="intro">
       <p class="eyebrow">Our services</p>
@@ -196,7 +197,7 @@ def home():
   </div>
 </section>
 
-<section class="tint reviews">
+<section class="tint reviews" id="reviews">
   <div class="wrap">
     <div class="rev-top">
       <div><p class="eyebrow">What our clients say</p><h2>Trade businesses who vouch for us</h2></div>
@@ -206,19 +207,19 @@ def home():
   </div>
 </section>
 
-<section class="dark process">
+<section class="dark process" id="how">
   <div class="wrap">
     <div class="sec-head"><p class="eyebrow">How it works</p><h2>A simple process, with nothing for you to learn</h2></div>
     <ol class="steps">{steps}</ol>
   </div>
 </section>
 
-<section class="faq">
+<section class="faq" id="faq">
   <div class="wrap">
     <div class="intro">
       <p class="eyebrow">Frequently asked questions</p>
       <h2>Got questions? We've got straight answers.</h2>
-      <p>No jargon, no promises we can't keep. More on our <a href="/faq">full FAQ page</a>, or call <a href="tel:{SITE['phone_intl']}">{SITE['phone']}</a>.</p>
+      <p>No jargon, no promises we can't keep. Anything else, call <a href="tel:{SITE['phone_intl']}">{SITE['phone']}</a>.</p>
     </div>
     <div>{faq}</div>
   </div>
@@ -258,6 +259,20 @@ def book():
 <script src="https://link.msgsndr.com/js/form_embed.js" defer></script>"""
 
 
+LEGAL_DIR = __import__("pathlib").Path(__file__).parent / "legal"
+
+
+def legal(name, heading):
+    def body():
+        content = (LEGAL_DIR / f"{name}.html").read_text(encoding="utf-8")
+        return f"""
+<main>
+<section class="dark legal-hero"><div class="wrap"><h1>{heading}</h1></div></section>
+<section class="legal"><div class="wrap">{content}</div></section>
+</main>"""
+    return body
+
+
 ALL = [
     {"path": "/", "body": home,
      "title": "Marketing for Electricians & Plumbers in London | Vouch Digital",
@@ -266,4 +281,10 @@ ALL = [
     {"path": "/book", "body": book, "noindex": True,
      "title": "Pick a time | Vouch Digital",
      "desc": "Book your free 15-minute Missed Jobs Check with Vouch Digital."},
+    {"path": "/privacy", "body": legal("privacy", "Privacy Policy"),
+     "title": "Privacy Policy | Vouch Digital",
+     "desc": "How Vouch Digital (Bolotin Ltd) collects, uses and protects personal data."},
+    {"path": "/terms", "body": legal("terms", "Terms of Service"),
+     "title": "Terms of Service | Vouch Digital",
+     "desc": "The terms on which Vouch Digital (Bolotin Ltd) provides its services."},
 ]

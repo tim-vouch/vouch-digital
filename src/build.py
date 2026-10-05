@@ -62,8 +62,9 @@ def head(title, desc, path, noindex=False):
 <body>"""
 
 
-NAV = [("Home", "/"), ("Services", "/services"), ("Plumbers", "/plumbers"),
-       ("Electricians", "/electricians"), ("About", "/about"), ("Contact", "/contact")]
+# Lean launch: only link to sections that exist. Restore page links as each page is built.
+NAV = [("Services", "/#services"), ("How it works", "/#how"), ("Reviews", "/#reviews"),
+       ("FAQ", "/#faq")]
 
 
 def header(path):
@@ -91,7 +92,7 @@ def footer():
   <div class="wrap">
     <div class="foot-top">
       <a class="logo" href="/"><img src="/assets/img/logo.webp" alt="Vouch Digital" width="112" height="48" loading="lazy"></a>
-      <nav class="foot-nav">{links}<a href="/faq">FAQ</a></nav>
+      <nav class="foot-nav">{links}</nav>
       <a class="btn btn-mint" href="/#audit">Find My Missed Jobs {icon('arrow')}</a>
     </div>
     <div class="foot-legal">

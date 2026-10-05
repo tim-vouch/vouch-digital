@@ -13,6 +13,11 @@ export default {
       return handleEnquiry(request, env);
     }
 
+    // Old site (GHL) used /services/*-for-plumbers style URLs: send them to the services section.
+    if (url.pathname.startsWith('/services')) {
+      return Response.redirect(url.origin + '/#services', 301);
+    }
+
     return env.ASSETS.fetch(request);
   },
 };

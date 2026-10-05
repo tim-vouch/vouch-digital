@@ -273,3 +273,13 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
   .audit h2{font-size:24px}
   .hero .lede{font-size:17px}
 }
+
+/* Legal pages */
+.legal-hero{padding:56px 0 40px}
+.legal-hero h1{margin:0}
+.legal .wrap{max-width:780px;padding-top:40px;padding-bottom:64px}
+.legal h2{font-size:1.35rem;margin:2em 0 .5em}
+.legal h3{font-size:1.1rem;margin:1.5em 0 .4em}
+.legal p,.legal li{line-height:1.65;color:var(--ink-soft)}
+.legal table{width:100%;border-collapse:collapse;margin:1em 0;font-size:.95rem}
+.legal th,.legal td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
