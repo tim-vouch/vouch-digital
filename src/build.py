@@ -50,6 +50,7 @@ def head(title, desc, path, noindex=False):
 <meta property="og:description" content="{desc}">
 <meta property="og:url" content="{url}">
 <meta name="theme-color" content="#04201b">
+<meta name="facebook-domain-verification" content="3t84q3i49854mqyiuc8ebzmlia4rfv" />
 <meta property="og:image" content="{SITE['domain']}/assets/img/icon-512.png">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
