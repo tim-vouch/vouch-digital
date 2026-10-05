@@ -2,7 +2,16 @@
 // The GHL inbound webhook URL is a secret: set GHL_WEBHOOK_URL in Cloudflare
 // (Worker → Settings → Variables and Secrets). It is never stored in this repository.
 
-const MIN_FILL_MS = 3000; // faster than this is almost certainly a bot
+const MIN_FILL_MS = 3000;
+
+const SERVICES = ['google-reviews', 'google-business-profile', 'websites', 'local-seo', 'ai-search'];
+const OLD_SERVICES = Object.fromEntries(SERVICES.map((s) => [s, s]));
+Object.assign(OLD_SERVICES, {
+  'reviews': 'google-reviews', 'review-management': 'google-reviews', 'google-review-management': 'google-reviews',
+  'gbp': 'google-business-profile', 'google-business-profile-optimisation': 'google-business-profile',
+  'gbp-optimisation': 'google-business-profile', 'website-design': 'websites', 'web-design': 'websites',
+  'website': 'websites', 'seo': 'local-seo', 'ai-seo': 'ai-search', 'ai-search-optimisation': 'ai-search',
+}); // faster than this is almost certainly a bot
 
 export default {
   async fetch(request, env) {
@@ -13,10 +22,9 @@ export default {
       return handleEnquiry(request, env);
     }
 
-    // Old site (GHL) used /services/*-for-plumbers style URLs: send them to the services section.
-    if (url.pathname.startsWith('/services')) {
-      return Response.redirect(url.origin + '/#services', 301);
-    }
+    // Old site (GHL) used /services/*-for-plumbers style URLs: send them to the matching new page.
+    const old = url.pathname.match(/^\/services\/(.+?)-for-(plumbers|electricians)\/?$/);
+    if (old) return Response.redirect(url.origin + (OLD_SERVICES[old[1]] ? '/services/' + OLD_SERVICES[old[1]] : '/services'), 301);
 
     return env.ASSETS.fetch(request);
   },

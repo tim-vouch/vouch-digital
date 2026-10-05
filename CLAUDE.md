@@ -25,9 +25,9 @@ Based on the mockup Tim approved on 4 Oct 2026.
 - Show prices on the site.
 
 ## Launch checklist (before pointing vouchdigital.co.uk here)
-- [ ] Set `noindex` to False in `src/site_data.py`
+- [x] Set `noindex` to False in `src/site_data.py`
 - [ ] Real logo file and hero photo
-- [ ] All pages built: services + 5 service pages, /plumbers, /electricians, about, faq, contact, privacy, terms
-- [ ] 301 redirects from old `/services/*-for-plumbers` URLs
+- [x] All pages built: services + 5 service pages, /plumbers, /electricians, about, faq, contact, privacy, terms (inner pages in `src/pages_more.py`, legal text in `src/legal/`)
+- [x] 301 redirects from old `/services/*-for-plumbers` URLs (in `src/worker.js`)
 - [ ] `GHL_WEBHOOK_URL` secret set and a test lead received in GHL
 - [ ] DNS moved with all records kept: Google Workspace MX, `link.`, `mail.`, `email.` (GHL)

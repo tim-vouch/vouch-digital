@@ -14,7 +14,7 @@ SITE = {
     # GHL calendar: Free Missed Jobs Check (permanent link, survives slug changes)
     "booking_url": "https://link.vouchdigital.co.uk/widget/booking/xbAVu7ah9p5NXexCdiO8",
     # Keep True until the site is live on vouchdigital.co.uk
-    "noindex": True,
+    "noindex": False,
 }
 
 # Real Google reviews of Vouch Digital only. Never add invented reviews.

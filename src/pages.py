@@ -79,11 +79,10 @@ def home():
                      [("bolt", "Electricians"), ("drop", "Plumbers"), ("radiator", "Heating Engineers"),
                       ("flame", "Boiler Installers"), ("plug", "EV Charger Installers"), ("bath", "Bathroom Fitters")])
 
-    # Lean launch: service pages aren't built yet, so cards don't link anywhere.
-    svc = "".join(f"""<div class="svc"><span class="ic">{icon(i)}</span>
-      <span><h3>{n}</h3><p>{d}</p></span></div>""" for i, n, h, d in SERVICES)
-    svc += f"""<a class="svc all" href="#audit"><span class="ic">{icon('arrow')}</span>
-      <span><h3>All five, working together</h3><p>Stronger as one system than as separate jobs. We'll show you how on your free check.</p></span></a>"""
+    svc = "".join(f"""<a class="svc" href="{h}"><span class="ic">{icon(i)}</span>
+      <span><h3>{n}</h3><p>{d}</p></span></a>""" for i, n, h, d in SERVICES)
+    svc += f"""<a class="svc all" href="/services"><span class="ic">{icon('arrow')}</span>
+      <span><h3>All five, working together</h3><p>Stronger as one system than as separate jobs. See how they fit.</p></span></a>"""
 
     revs = ""
     for r in REVIEWS:
@@ -219,7 +218,7 @@ def home():
     <div class="intro">
       <p class="eyebrow">Frequently asked questions</p>
       <h2>Got questions? We've got straight answers.</h2>
-      <p>No jargon, no promises we can't keep. Anything else, call <a href="tel:{SITE['phone_intl']}">{SITE['phone']}</a>.</p>
+      <p>No jargon, no promises we can't keep. More on our <a href="/faq">full FAQ page</a>, or call <a href="tel:{SITE['phone_intl']}">{SITE['phone']}</a>.</p>
     </div>
     <div>{faq}</div>
   </div>
@@ -267,7 +266,7 @@ def legal(name, heading):
         content = (LEGAL_DIR / f"{name}.html").read_text(encoding="utf-8")
         return f"""
 <main>
-<section class="dark legal-hero"><div class="wrap"><h1>{heading}</h1></div></section>
+<section class="dark page-hero"><div class="wrap"><p class="eyebrow">Vouch Digital</p><h1>{heading}</h1></div></section>
 <section class="legal"><div class="wrap">{content}</div></section>
 </main>"""
     return body

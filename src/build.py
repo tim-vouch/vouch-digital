@@ -9,6 +9,7 @@ from pathlib import Path
 from icons import icon
 from site_data import SITE, REVIEWS, FAQ_HOME
 import pages
+import pages_more
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "public"
@@ -62,14 +63,13 @@ def head(title, desc, path, noindex=False):
 <body>"""
 
 
-# Lean launch: only link to sections that exist. Restore page links as each page is built.
-NAV = [("Services", "/#services"), ("How it works", "/#how"), ("Reviews", "/#reviews"),
-       ("FAQ", "/#faq")]
+NAV = [("Services", "/services"), ("Electricians", "/electricians"), ("Plumbers", "/plumbers"),
+       ("About", "/about"), ("FAQ", "/faq"), ("Contact", "/contact")]
 
 
 def header(path):
     links = "".join(
-        f'<a href="{href}"{" aria-current=page" if href == path else ""}>{name}</a>'
+        f'<a href="{href}"{" aria-current=page" if href == path or path.startswith(href + "/") else ""}>{name}</a>'
         for name, href in NAV)
     return f"""
 <header class="site-head">
@@ -120,7 +120,7 @@ def write(path, html):
 
 
 def main():
-    for p in pages.ALL:
+    for p in pages.ALL + pages_more.ALL_MORE:
         write(p["path"], render(p["path"], p["title"], p["desc"], p["body"](), p.get("noindex", False)))
 
 
