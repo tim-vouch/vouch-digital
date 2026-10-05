@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /book
+
+Sitemap: https://vouchdigital.co.uk/sitemap.xml

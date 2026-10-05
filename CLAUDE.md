@@ -24,10 +24,10 @@ Based on the mockup Tim approved on 4 Oct 2026.
 - Say "UK" or "England" for the service area: it's London & the South East.
 - Show prices on the site.
 
-## Launch checklist (before pointing vouchdigital.co.uk here)
+## Launch checklist
 - [x] Set `noindex` to False in `src/site_data.py`
 - [ ] Real logo file and hero photo
 - [x] All pages built: services + 5 service pages, /plumbers, /electricians, about, faq, contact, privacy, terms (inner pages in `src/pages_more.py`, legal text in `src/legal/`)
 - [x] 301 redirects from old `/services/*-for-plumbers` URLs (in `src/worker.js`)
 - [ ] `GHL_WEBHOOK_URL` secret set and a test lead received in GHL
-- [ ] DNS moved with all records kept: Google Workspace MX, `link.`, `mail.`, `email.` (GHL)
+- [x] DNS moved to Cloudflare with all records kept (5 Oct 2026); site live on vouchdigital.co.uk and www

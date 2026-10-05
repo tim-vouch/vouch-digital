@@ -120,8 +120,19 @@ def write(path, html):
 
 
 def main():
-    for p in pages.ALL + pages_more.ALL_MORE:
+    all_pages = pages.ALL + pages_more.ALL_MORE
+    for p in all_pages:
         write(p["path"], render(p["path"], p["title"], p["desc"], p["body"](), p.get("noindex", False)))
+
+    # sitemap.xml and robots.txt (indexable pages only)
+    urls = "".join(f"<url><loc>{SITE['domain']}{p['path']}</loc></url>"
+                   for p in all_pages if not p.get("noindex"))
+    (OUT / "sitemap.xml").write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>\n', encoding="utf-8")
+    (OUT / "robots.txt").write_text(
+        "User-agent: *\nAllow: /\nDisallow: /book\n\n" f"Sitemap: {SITE['domain']}/sitemap.xml\n", encoding="utf-8")
+    print("built sitemap.xml, robots.txt")
 
 
 if __name__ == "__main__":
