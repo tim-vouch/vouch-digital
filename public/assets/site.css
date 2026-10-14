@@ -475,26 +475,17 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
 @media (max-width:480px){.rating-row{gap:14px;flex-wrap:wrap}.rating-row a{gap:8px}.rating-row a + a{padding-left:14px}.rating-row em{font-size:18px;margin-left:0}.rating-row .stars{font-size:12px}.rating-row .g-logo,.rating-row .fb-logo{width:24px;height:24px}}
 .prod-groups{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch}
 .prod-group{border-radius:24px;padding:32px 28px;display:grid;gap:24px;align-content:start;background:var(--mint-tint);border:1px solid #cdeedd}
-.prod-group.pg-2{background:var(--deep);border-color:var(--deep);color:#fff}
+.prod-group.pg-2{background:#f1f6f4;border-color:#dfe9e5}
 .pg-head{display:flex;gap:16px;align-items:flex-start;padding-bottom:22px;border-bottom:1px solid rgba(4,32,27,.12)}
-.pg-2 .pg-head{border-bottom-color:rgba(255,255,255,.14)}
 .pg-num{flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--deep);color:var(--mint);font-family:var(--head);font-weight:800;font-size:19px}
-.pg-2 .pg-num{background:var(--mint);color:var(--deep)}
 .pg-tag{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mint-dark)}
-.pg-2 .pg-tag{color:var(--mint)}
 .pg-head h3{font-size:24px;margin:2px 0 6px}
-.pg-2 .pg-head h3{color:#fff}
 .pg-head p:last-child{color:var(--ink-soft);font-size:15.5px}
-.pg-2 .pg-head p:last-child{color:rgba(255,255,255,.72)}
 .prod-list{list-style:none;display:grid;gap:14px}
 .prod-list li{display:flex;gap:16px;align-items:flex-start;background:#fff;border-radius:16px;padding:20px}
-.pg-2 .prod-list li{background:var(--deep-2)}
 .prod-list .ic{flex:none;display:grid;place-items:center;width:46px;height:46px;border-radius:13px;background:var(--mint-tint);color:var(--mint-dark)}
-.pg-2 .prod-list .ic{background:rgba(20,211,138,.14);color:var(--mint)}
 .prod-list .ic svg{width:23px;height:23px}
 .prod-list h3{font-size:18px;margin-bottom:4px}
-.pg-2 .prod-list h3{color:#fff}
 .prod-list p{font-size:15px;color:var(--ink-soft)}
-.pg-2 .prod-list p{color:rgba(255,255,255,.72)}
 @media (max-width:900px){.prod-groups{grid-template-columns:1fr}}
 @media (max-width:480px){.prod-group{padding:24px 18px}.prod-list li{padding:16px}}
