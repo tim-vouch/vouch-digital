@@ -24,7 +24,8 @@ Based on the mockup Tim approved on 4 Oct 2026.
 - Promise rankings, results timescales, review counts or AI recommendations. (Delivery times we control
   are fine: the website build is "roughly 3–5 days" in the 3-step process.)
 - Mention electricians, or limit the service area to London & the South East: it's the whole UK.
-- Show prices on the site.
+- Show a crossed-out price that isn't a real price we charge (website £1,499 and GBP setup £299 are real).
+  Plans live in `PLANS` in `src/site_data.py` and show on /pricing.
 
 ## Launch checklist
 - [x] Set `noindex` to False in `src/site_data.py`

@@ -64,7 +64,7 @@ def head(title, desc, path, noindex=False):
 <body>"""
 
 
-NAV = [("Services", "/services"),
+NAV = [("Services", "/services"), ("Pricing", "/pricing"),
        ("About", "/about"), ("FAQ", "/faq"), ("Contact", "/contact")]
 
 

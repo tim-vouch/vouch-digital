@@ -4,7 +4,7 @@ House rules (see CLAUDE.md): no invented results or reviews, no promises of rank
 results timescales or AI recommendations, no prices. Domestic plumbers only, UK-wide.
 """
 from icons import icon
-from site_data import SITE, FAQ_HOME
+from site_data import SITE, FAQ_HOME, PLANS, EXTRAS
 from pages import audit_form, process_steps
 
 
@@ -439,8 +439,8 @@ FAQ_MORE = [
      "tools say about you. On the call we show you at least 5 things that are costing you jobs, and how to fix them. "
      "You can fix them yourself afterwards, or ask us to."),
     ("How much does it cost?",
-     "Pricing depends on what your business actually needs, so we talk about it on the call once we've seen your "
-     "business. There's no lock-in: it's month to month."),
+     "Plans are £97, £197 or £997 a month, and every plan comes with a free website. Full details are on our "
+     "<a href=\"/pricing\">pricing page</a>. There's no lock-in: it's month to month."),
     ("Do you work with plumbers outside London?",
      "Yes. We work with domestic plumbers and heating engineers anywhere in the UK. Everything is done remotely, "
      "over video call and phone."),
@@ -462,6 +462,47 @@ def faq_page():
              "If your question isn't here, call or text us. We'd rather answer it properly than have you guess.",
              form=False),
         faq(FAQ_HOME + FAQ_MORE, h2="Everything you might want to ask"),
+        final(),
+    )
+
+
+def pricing_section():
+    plans = ""
+    for p in PLANS:
+        items = "".join(f"<li>{icon('check')}<span>{t}<small>{d}</small></span></li>" for t, d in p["items"])
+        extras = "".join(
+            f'<div class="pr-extra">{icon(EXTRAS[k][0])}<span>{EXTRAS[k][1]}</span>'
+            f'<span class="val"><s>{EXTRAS[k][2]}</s><b>FREE</b></span></div>' for k in p["extras"])
+        feat = " feat" if p["featured"] else ""
+        badge = '<span class="pr-badge">Most popular</span>' if p["featured"] else ""
+        plans += f"""<div class="pr-plan">
+  <div class="pr-card{feat}">{badge}
+    <div><h3>{p['name']}</h3><p class="pr-tag">{p['tag']}</p></div>
+    <p class="pr-price"><b>£{p['price']}</b><span>/month</span></p>
+    <a class="pr-btn" href="/#audit">Book a call</a>
+    <p class="pr-lead">{p['lead']}</p>
+    <ul>{items}</ul>
+  </div>
+  <div class="pr-extras">{extras}</div>
+</div>"""
+    return f"""
+<section class="tint pricing" id="pricing">
+  <div class="wrap">
+    <div class="sec-head"><p class="eyebrow">Pricing</p><h2>Simple monthly plans for domestic plumbers</h2>
+    <p>Every plan comes with a free website. No contract, cancel anytime.</p></div>
+    <div class="pr-plans">{plans}</div>
+    <p class="pr-foot">Want just the website? It's £1,499 as a one-off, yours to keep.</p>
+  </div>
+</section>"""
+
+
+def pricing_page():
+    return page(
+        hero("Pricing", "One simple price. <span class=\"accent\">A free website with every plan.</span>",
+             "Pick the plan that fits your business. No contract, cancel anytime.", form=False),
+        pricing_section(),
+        steps(),
+        faq(FAQ_HOME[-1:] + FAQ_MORE[1:2] + FAQ_HOME[2:3], h2="Questions about pricing"),
         final(),
     )
 
@@ -494,6 +535,9 @@ ALL_MORE = (
         "title": "About Vouch Digital | Marketing for Domestic Plumbers",
         "desc": "Vouch Digital helps domestic plumbers and heating engineers across the UK get the "
                 "online reputation they've earned. Genuine reviews, honest advice."},
+       {"path": "/pricing", "body": pricing_page,
+        "title": "Pricing | Vouch Digital",
+        "desc": "Plans for domestic plumbers from £97 a month, each with a free SEO-optimised website. No contract."},
        {"path": "/faq", "body": faq_page,
         "title": "FAQ | Vouch Digital",
         "desc": "Answers to common questions about Vouch Digital's services for domestic plumbers and heating engineers."},

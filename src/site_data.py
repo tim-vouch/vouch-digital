@@ -54,6 +54,36 @@ FAQ_HOME = [
      "unhappy ones. We never write, buy, incentivise or remove reviews. That's how the Digital "
      "Markets, Competition and Consumers Act 2024 says it should be done."),
     ("Am I locked into a contract?",
-     "No. It's month to month, with no lock-in. Pricing is discussed on the call once we've seen "
-     "your business."),
+     "No. It's month to month, with no lock-in. Plans start at £97 a month, and every plan comes "
+     "with a free website. See our <a href=\"/pricing\">pricing</a>."),
 ]
+
+
+# Pricing plans (shown on /pricing). Crossed-out prices must be real prices we charge.
+PLANS = [
+    {"name": "Minimum", "price": 97, "tag": "Never miss an enquiry.", "featured": False,
+     "lead": "What's included",
+     "items": [("All-in-one inbox", "Calls, texts, emails and Facebook messages in one app"),
+               ("Business phone number", "Keep work and personal separate"),
+               ("Missed-call text-back", "An instant text when you can't pick up"),
+               ("Automated lead follow-up", "Quotes and enquiries chased for you")],
+     "extras": ["website"]},
+    {"name": "Growth", "price": 197, "tag": "Get chosen over the plumber down the road.", "featured": True,
+     "lead": "Everything in Minimum, plus",
+     "items": [("Review requests", "Every new and past customer asked for a genuine Google review"),
+               ("Google Business Profile management", "Ongoing optimisation, photos and posts"),
+               ("One-click marketing campaigns", "Win repeat work from past customers"),
+               ("Local SEO &amp; AI search", "Listings, area pages and ChatGPT visibility, every month")],
+     "extras": ["website", "gbp"]},
+    {"name": "Exclusive", "price": 997, "tag": "For plumbers ready to grow fast.", "featured": False,
+     "lead": "Everything in Growth, plus",
+     "items": [("Advanced SEO", "Backlinks, directories, press releases, keyword research and regular new content"),
+               ("Google Ads management", "Ad spend paid separately"),
+               ("Custom AI automations", "e.g. an AI receptionist, AI website chat, quote follow-ups"),
+               ("Monthly strategy call", "Plan the next month with Tim")],
+     "extras": ["website", "gbp"]},
+]
+EXTRAS = {
+    "website": ("monitor", "SEO-optimised website, live in 3–5 days", "£1,499"),
+    "gbp": ("pin", "Google Business Profile setup", "£299"),
+}
