@@ -136,7 +136,7 @@ def product_groups(current=None):
                       f'<span class="txt"><b>{d["name"]}</b><span>{PRODUCT_SHORT[slug]}</span></span>{end}</a></li>')
         groups += f"""
     <div class="prod-group pg-{n}">
-      <div class="pg-head"><span class="pg-num">{n}</span><div><h3>{title}</h3><p>{blurb}</p></div></div>
+      <div class="pg-head"><p class="pg-sys">System {n}</p><h3>{title}</h3><p>{blurb}</p></div>
       <ul class="prod-list">{cards}</ul>
     </div>"""
     return f'<div class="prod-groups">{groups}\n    </div>'
