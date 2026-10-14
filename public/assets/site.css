@@ -567,4 +567,5 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
   .hero-k .rating-row a + a{border-left:0;padding-left:0}
   .hero-k .hero-mascot{position:absolute;right:max(calc(50vw - 166px),8px);bottom:10px;width:142px;margin:0}
   .hero-k .rating-row span{min-width:78px}
+  .hero-k .rating-row{min-height:94px}
 }
