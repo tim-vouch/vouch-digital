@@ -490,7 +490,7 @@ def pricing_section():
     <div class="sec-head"><p class="eyebrow">Pricing</p><h2>Our pricing</h2>
     <p>One plan, everything included. Pay monthly with no contract, or pay upfront and save.</p></div>
     <div class="bill-tabs" role="tablist" aria-label="Billing period">{tabs}</div>
-    <div class="pk-stage">{mascot("mascot pk-mascot")}
+    <div class="pk-stage"><img class="pk-lean" src="/assets/img/mascot-lean.webp" width="320" height="475" loading="lazy" alt="Vouch Digital mascot leaning on the pricing card, giving a thumbs up">
     <div class="pk" data-base="{p['price']}">{data}
       <p class="pk-label">Everything included</p>
       <h3>{p['name']}</h3>
