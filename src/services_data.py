@@ -12,8 +12,8 @@ only shows once a video exists.
 GROUPS = {
     1: ("Stop losing jobs", "Every missed call or unanswered quote is a boiler install for your competition. "
                             "These make sure every enquiry gets a reply."),
-    2: ("Win more jobs", "Homeowners choose from the top of Google and ChatGPT. "
-                         "These help you show up there, backed by real reviews."),
+    2: ("Win more jobs", "Get found on Google and ChatGPT, backed by real reviews, "
+                         "and bring past customers back for more."),
 }
 
 # Order matters: this is the order on the homepage and the services page.
@@ -65,23 +65,23 @@ SERVICE_PAGES = {
         ],
     },
     "lead-follow-up": {
-        "group": 1, "icon": "clock", "name": "Lead follow-up & campaigns",
+        "group": 1, "icon": "clock", "name": "Automated lead follow-up",
         "title": "Automated Lead Follow-Up for Plumbers | Vouch Digital",
-        "desc": "Every enquiry gets an instant reply, quotes are chased automatically, and one-click campaigns bring "
-                "past customers back. For domestic plumbers across the UK.",
-        "h1": "Quotes chased for you. <span class=\"accent\">Past customers brought back.</span>",
+        "desc": "Every enquiry gets an instant reply and every quote is chased automatically, so fewer jobs slip away. "
+                "For domestic plumbers across the UK.",
+        "h1": "Every enquiry answered. <span class=\"accent\">Every quote chased.</span>",
         "lede": "Most quotes aren't lost to a cheaper plumber. They're lost because nobody followed up. We reply to every "
-                "enquiry instantly, chase quotes politely, and help you win repeat work from customers you already have.",
-        "tagline": "You know it, we know it: repeat customers and referrals are the best jobs. Let's get you both.",
+                "enquiry instantly and chase your quotes politely, so you don't have to.",
+        "tagline": "Sent a quote and heard nothing? You're not alone. Let the system do the chasing.",
         "benefits": [
             ("Every enquiry answered instantly",
              "Website form, chat or Facebook message: they get a text straight away saying you've got it."),
             ("Quotes chased automatically",
              "A friendly nudge a few days after you quote, then another. You stop chasing, the system does it."),
-            ("Repeat work on tap",
-             "Annual boiler service reminders and seasonal offers sent to past customers in one click."),
-            ("Referrals made easy",
-             "Happy customers reminded to recommend you to friends and neighbours. No awkward asking."),
+            ("Stops the moment they reply",
+             "No awkward double messages. As soon as the customer gets back to you, the follow-ups stop."),
+            ("Sounds like you, not a robot",
+             "Short, friendly messages written in your words and signed off as your business."),
         ],
         "explain_h2": "What's in the follow-up system",
         "explain": [
@@ -91,24 +91,22 @@ SERVICE_PAGES = {
             ("clipboard", "Quote follow-ups",
              "Sent a quote and heard nothing? A short series of polite texts and emails follows it up, and stops as "
              "soon as they reply."),
-            ("flame", "Boiler service reminders",
-             "Customers reminded when their annual service is due, so the work comes back to you every year."),
-            ("target", "One-click campaigns",
-             "Ready-made campaigns for past customers, like a winter boiler check or a referral reminder. "
-             "Pick one, press send."),
+            ("mail", "Facebook and Instagram replies",
+             "Message you on Facebook or Instagram and they get a quick reply saying you'll be in touch soon."),
+            ("chart", "Nothing left hanging",
+             "Every open enquiry and quote is tracked in the app, so you can see at a glance who still needs an answer."),
         ],
-        "split": (["Mark a quote as sent in the app", "Pick a campaign when you want more work"],
-                  ["Build the follow-up messages with you", "Set up the service reminders",
-                   "Write the campaigns", "Check everything follows UK marketing rules"]),
+        "split": (["Mark a quote as sent in the app", "Reply when customers get back to you"],
+                  ["Write the follow-up messages with you", "Set up the instant replies",
+                   "Connect your website, Facebook and Instagram", "Tweak the timings whenever you want"]),
         "faq": [
-            ("Am I allowed to text my old customers?",
-             "Usually yes, if they're past customers who were given the chance to opt out and haven't. Every message "
-             "includes an easy way to stop. We check this with you before anything is sent."),
             ("Won't customers find it annoying?",
              "The messages are short, spaced out and written like you'd write them. Follow-ups stop the moment someone "
              "replies."),
-            ("Do I have to use the campaigns?",
-             "No. They're there when you want more work, like a quiet week in summer. You decide when to press send."),
+            ("How many follow-ups are sent?",
+             "Usually two or three, spread over a couple of weeks. We'll agree the timing with you."),
+            ("Can I turn it off for a customer?",
+             "Yes. One tap in the app stops the follow-ups for anyone."),
         ],
     },
     "all-in-one-inbox": {
@@ -304,6 +302,50 @@ SERVICE_PAGES = {
             ("I work from home. Can I still show on Google Maps?",
              "Yes. Most plumbers are set up as a “service-area business”, which hides your home address and "
              "shows the areas you cover instead."),
+        ],
+    },
+    "marketing-campaigns": {
+        "group": 2, "icon": "target", "name": "Marketing campaigns",
+        "title": "Marketing Campaigns for Plumbers | Vouch Digital",
+        "desc": "Automatic boiler service reminders, seasonal offers and referral campaigns to your past customers. "
+                "Repeat work from people who already trust you. For domestic plumbers across the UK.",
+        "h1": "Win more work from customers <span class=\"accent\">who already trust you.</span>",
+        "lede": "Your past customers already like you. Automatic campaigns remind them when their boiler service is due, "
+                "send seasonal offers, and nudge them to recommend you to friends and neighbours.",
+        "tagline": "You know it, we know it: repeat customers and referrals are the best jobs. Let's get you both.",
+        "benefits": [
+            ("Done for you",
+             "Ready-made campaigns written for plumbers. Pick one in the app and press send."),
+            ("Boiler service reminders",
+             "Customers reminded every year when their service is due, so the work comes back to you."),
+            ("Referrals without the awkward ask",
+             "Happy customers gently reminded to recommend you to friends, family and neighbours."),
+            ("Fill quiet weeks",
+             "Summer slow? Send a seasonal offer to past customers in one click when you want more work."),
+        ],
+        "explain_h2": "Campaigns ready to go",
+        "explain": [
+            ("flame", "Annual boiler service reminders",
+             "Sent automatically a year after each service or install, with an easy way to book in."),
+            ("user", "Referral campaigns",
+             "A friendly message to happy customers asking them to pass your name on to anyone who needs a plumber."),
+            ("clock", "Seasonal offers",
+             "Winter boiler checks, pre-summer bathroom refits, landlord safety checks. Ready to send when you are."),
+            ("mail", "Old enquiry revival",
+             "A polite check-in with people who asked for a quote but never went ahead, in case they still need you."),
+        ],
+        "split": (["Pick a campaign when you want more work", "Answer the replies that come in"],
+                  ["Write every campaign with you", "Load your past customers in (where you're allowed to contact them)",
+                   "Set up the annual service reminders", "Check everything follows UK marketing rules"]),
+        "faq": [
+            ("Am I allowed to text my old customers?",
+             "Usually yes, if they're past customers who were given the chance to opt out and haven't. Every message "
+             "includes an easy way to stop. We check this with you before anything is sent."),
+            ("Do I have to use the campaigns?",
+             "No. The service reminders run on their own, and the other campaigns are there when you want more work. "
+             "You decide when to press send."),
+            ("How many past customers do I need?",
+             "There's no minimum. Even a few dozen past customers is enough to make a campaign worthwhile."),
         ],
     },
 }

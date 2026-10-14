@@ -5,7 +5,7 @@
 const MIN_FILL_MS = 3000;
 
 const SERVICES = ['missed-call-text-back', 'lead-follow-up', 'all-in-one-inbox', 'websites', 'google-reviews',
-  'google-business-profile'];
+  'google-business-profile', 'marketing-campaigns'];
 // Service pages merged in Oct 2026: local SEO and AI search now live on the Google profile page.
 const MOVED = { 'local-seo': 'google-business-profile', 'ai-search': 'google-business-profile' };
 const OLD_SERVICES = Object.fromEntries(SERVICES.map((s) => [s, s]));

@@ -141,7 +141,7 @@ def more_services(slug):
 <section class="products svc-more">
   <div class="wrap">
     <div class="sec-head"><p class="eyebrow">The full system</p><h2>Everything that's included</h2>
-    <p>All six services come with the same plan, and we set it all up for you.</p></div>
+    <p>Every service comes with the same plan, and we set it all up for you.</p></div>
     {product_groups(current=slug)}
   </div>
 </section>"""
@@ -180,7 +180,7 @@ FLOW = [
     ("star", "Job done, review asked", "Every customer is automatically asked for a review and followed up, which "
      "helps the next homeowner find you.", [("Reviews", "google-reviews")]),
     ("target", "Campaigns bring them back", "Automatic marketing campaigns go out to past customers: boiler service "
-     "reminders, seasonal offers and referral nudges.", [("Marketing campaigns", "lead-follow-up")]),
+     "reminders, seasonal offers and referral nudges.", [("Marketing campaigns", "marketing-campaigns")]),
 ]
 
 
@@ -205,7 +205,7 @@ def services():
     return page(
         hero("Our services", "Two simple systems that <span class=\"accent\">win plumbers more jobs.</span>",
              "First we stop you losing the work you already get. Then we help more homeowners find you. "
-             "Six services, one plan, all set up for you."),
+             "Seven services, one plan, all set up for you."),
         f"""
 <section class="products">
   <div class="wrap">

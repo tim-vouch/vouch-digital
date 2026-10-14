@@ -112,10 +112,11 @@ def pricing_section():
 # come from SERVICE_PAGES in services_data.py.
 PRODUCT_SHORT = {
     "missed-call-text-back": "Callers get a text back, so they don't ring the next plumber.",
-    "lead-follow-up": "Quotes chased for you, and old customers brought back for more work.",
+    "lead-follow-up": "Every enquiry answered instantly and every quote chased for you.",
     "all-in-one-inbox": "Every enquiry in one place, so you save time and nothing gets forgotten.",
     "websites": "Free, live in 3–5 days, and built to turn visitors into enquiries.",
     "google-reviews": "Gives homeowners a reason to pick you over the plumber next door.",
+    "marketing-campaigns": "Service reminders, offers and referrals sent to past customers automatically.",
     "google-business-profile": "Helps you show up when locals search \u201cplumber near me\u201d in Google and ChatGPT.",
 }
 
