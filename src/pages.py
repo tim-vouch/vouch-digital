@@ -137,18 +137,20 @@ def products_section(cls="products"):
     by_icon = {i: (i, t, d) for i, t, d in PRODUCTS}
     groups = ""
     for n, (tag, title, blurb, keys) in enumerate(PRODUCT_GROUPS, 1):
-        cards = "".join(f'<li><span class="ic">{icon(i)}</span><h3>{t}</h3><p>{d}</p></li>'
+        cards = "".join(f'<li><span class="ic">{icon(i)}</span><div><h3>{t}</h3><p>{d}</p></div></li>'
                         for i, t, d in (by_icon[k] for k in keys))
         groups += f"""
-    <div class="prod-group">
+    <div class="prod-group pg-{n}">
       <div class="pg-head"><span class="pg-num">{n}</span><div><p class="pg-tag">{tag}</p><h3>{title}</h3><p>{blurb}</p></div></div>
-      <ul class="prod-grid">{cards}</ul>
+      <ul class="prod-list">{cards}</ul>
     </div>"""
     return f"""
 <section class="{cls}" id="system">
   <div class="wrap">
     <div class="sec-head"><p class="eyebrow">What you get</p><h2>One system that wins you more jobs</h2>
-    <p>Everything below is included, and we set it all up for you.</p></div>{groups}
+    <p>Everything below is included, and we set it all up for you.</p></div>
+    <div class="prod-groups">{groups}
+    </div>
   </div>
 </section>"""
 
