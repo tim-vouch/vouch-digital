@@ -48,18 +48,18 @@ BOOK = "/book"
 
 # What's in the system: one line each, in the order a plumber cares about them.
 PRODUCTS = [
-    ("monitor", "Lead-generating website",
-     "Built free in 3–5 days. Every enquiry becomes a text conversation on your phone."),
     ("phone", "Missed-call text-back",
      "Under a boiler and can't pick up? The caller gets an instant text, so the job doesn't go to the next plumber."),
-    ("mail", "All-in-one inbox &amp; business phone",
-     "Calls, texts, emails and Facebook messages in one app, on a separate business number."),
-    ("clock", "Lead follow-up &amp; campaigns",
-     "Quotes chased automatically, and one-click offers to past customers when you want more work."),
     ("star", "Genuine Google reviews",
      "Every new and past customer asked for a review by text and email. Real reviews only, never fake ones."),
     ("pin", "Google profile, local SEO &amp; AI search",
      "Your Google Business Profile, listings and ChatGPT visibility kept working for you every month."),
+    ("monitor", "Lead-generating website",
+     "Built free in 3–5 days. Every enquiry becomes a text conversation on your phone."),
+    ("clock", "Lead follow-up &amp; campaigns",
+     "Quotes chased automatically, and one-click offers to past customers when you want more work."),
+    ("mail", "All-in-one inbox &amp; business phone",
+     "Calls, texts, emails and Facebook messages in one app, on a separate business number."),
 ]
 
 
@@ -128,7 +128,7 @@ def products_section(cls="products"):
 <section class="{cls}" id="system">
   <div class="wrap">
     <div class="sec-head"><p class="eyebrow">What you get</p><h2>One system that wins you more jobs</h2>
-    <p>Everything below is included for £197 a month, and we set it all up for you.</p></div>
+    <p>Everything below is included, and we set it all up for you.</p></div>
     <ul class="prod-grid">{cards}</ul>
   </div>
 </section>"""
