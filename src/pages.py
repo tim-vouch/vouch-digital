@@ -2,7 +2,7 @@
 from html import escape
 
 from icons import icon
-from site_data import SITE, REVIEWS, FAQ_HOME
+from site_data import SITE, REVIEWS, FAQ_HOME, PLANS, EXTRAS, BILLING
 
 
 def stars(n, total=5):
@@ -40,50 +40,97 @@ def process_steps(cls="dark process"):
 </section>"""
 
 
-def audit_form(eyebrow="Free for domestic plumbers"):
-    ticks = "".join(f"<li>{icon('check')} {t}</li>" for t in
-                    ["Honest advice, not a sales pitch", "Useful even if you never work with us",
-                     "Fix it yourself, or we can do it for you"])
-    return f"""
-<div class="audit" id="audit">
-  <p class="eyebrow">{eyebrow}</p>
-  <h2>We'll find <mark>at least 5 ways you're losing jobs</mark> online, and show you how to fix them in 15 minutes, for free.</h2>
-  <p class="small">We check everything your business has online, then walk you through your biggest opportunities to win more jobs on a 15-minute video call.</p>
-  <ul>{ticks}</ul>
-  <form class="enquiry" action="/api/enquiry" method="post" novalidate>
-    <div class="field">{icon('user')}<input name="name" placeholder="Your name" autocomplete="name" required aria-label="Your name"></div>
-    <div class="field">{icon('building')}<input name="business" placeholder="Business name" autocomplete="organization" required aria-label="Business name"></div>
-    <div class="field">{icon('phone')}<input name="phone" type="tel" placeholder="Mobile number" autocomplete="tel" required aria-label="Mobile number"></div>
-    <div class="field">{icon('mail')}<input name="email" type="email" placeholder="Email address" autocomplete="email" required aria-label="Email address"></div>
-    <div class="hp" aria-hidden="true"><label>Leave this empty <input name="company_url" tabindex="-1" autocomplete="off"></label></div>
-    <input type="hidden" name="t">
-    <button class="btn btn-mint btn-block" type="submit">Find My Missed Jobs {icon('arrow')}</button>
-    <p class="form-msg" role="status"></p>
-    <p class="form-note">Next, you'll pick a time that suits you. We'll only use your details to arrange your call. <a href="/privacy">Privacy Policy</a>.</p>
-  </form>
-</div>"""
+BOOK = "/book"
 
-
-SERVICES = [
-    ("star", "Google Reviews", "/services/google-reviews",
-     "Automatic review requests by text and email after every job, and a reply to every review."),
-    ("pin", "Google Business Profile", "/services/google-business-profile",
-     "Categories, services, areas, photos and posts set up so you show in the Google Maps results."),
-    ("monitor", "Websites", "/services/websites",
-     "Fast, mobile-friendly websites built to turn visitors into calls and enquiries."),
-    ("trend", "Local SEO", "/services/local-seo",
-     "Consistent listings on Bing, Apple Maps, Yell and Checkatrade, built for “near me” searches."),
-    ("ai", "AI Search", "/services/ai-search",
-     "Clear, trusted content so ChatGPT, Gemini and Google AI Overviews can find and understand you."),
+# What's in the system: one line each, in the order a plumber cares about them.
+PRODUCTS = [
+    ("monitor", "Lead-generating website",
+     "Built free in 3–5 days. Every enquiry becomes a text conversation on your phone."),
+    ("phone", "Missed-call text-back",
+     "Under a boiler and can't pick up? The caller gets an instant text, so the job doesn't go to the next plumber."),
+    ("mail", "All-in-one inbox &amp; business phone",
+     "Calls, texts, emails and Facebook messages in one app, on a separate business number."),
+    ("clock", "Lead follow-up &amp; campaigns",
+     "Quotes chased automatically, and one-click offers to past customers when you want more work."),
+    ("star", "Genuine Google reviews",
+     "Every new and past customer asked for a review by text and email. Real reviews only, never fake ones."),
+    ("pin", "Google profile, local SEO &amp; AI search",
+     "Your Google Business Profile, listings and ChatGPT visibility kept working for you every month."),
 ]
 
 
-def home():
-    hero_ticks = "".join(
-        f'<li><span class="tick">{icon("check")}</span>{t}</li>' for t in
-        ["Genuine Google reviews", "A complete Google profile",
-         "A website that converts", "Set up for ChatGPT &amp; AI search"])
+def book_buttons(second=("See pricing", "/pricing")):
+    return (f'<div class="row"><a class="btn btn-mint" href="{BOOK}">Book a call {icon("arrow")}</a>'
+            f'<a class="btn btn-ghost" href="{second[1]}">{second[0]}</a></div>')
 
+
+def final_cta(h2="Be the plumber everyone vouches for.",
+              text="Book a free 15-minute call. We'll show you how it works and get your free website started."):
+    return f"""
+<section class="dark final has-mascot">
+  <div class="wrap">
+    <div class="final-copy">
+    <p class="eyebrow">Free, 15 minutes, no hard sell</p>
+    <h2>{h2}</h2>
+    <p class="muted">{text}</p>
+    <div class="row"><a class="btn btn-mint" href="{BOOK}">Book a call {icon('arrow')}</a>
+    <a class="btn btn-ghost" href="tel:{SITE['phone_intl']}">{icon('phone')} Call {SITE['phone']}</a></div>
+    </div>
+    {mascot()}
+  </div>
+</section>"""
+
+
+def pricing_section():
+    """Single-plan card, centred list with dividers, with monthly/quarterly/annual toggle."""
+    p = PLANS[0]
+    free = "".join(f'<li class="free">{EXTRAS[k][1]} <b>FREE</b> <small>(save {EXTRAS[k][3]})</small></li>'
+                   for k in p["extras"])
+    items = "".join(f"<li>{t}</li>" for t, _ in p["items"])
+    tabs = ""
+    for i, b in enumerate(BILLING):
+        pill = f"<span>{b['pill']}</span>" if b["pill"] else ""
+        selected = "true" if i == 0 else "false"
+        tabs += (f'<button type="button" role="tab" id="bill-{b["id"]}" data-bill="{b["id"]}" '
+                 f'aria-selected="{selected}">{b["label"]}{pill}</button>')
+    data = "".join(
+        f'<template data-bill-opt="{b["id"]}" data-per="{b["per_month"]}" data-billed="{b["billed"] or ""}" '
+        f'data-save="{b["save"] or ""}"></template>' for b in BILLING)
+    return f"""
+<section class="tint pricing" id="pricing">
+  <div class="wrap">
+    <div class="sec-head"><p class="eyebrow">Pricing</p><h2>Our pricing</h2>
+    <p>One plan, everything included. Pay monthly with no contract, or pay upfront and save.</p></div>
+    <div class="bill-tabs" role="tablist" aria-label="Billing period">{tabs}</div>
+    <div class="pk-stage"><img class="pk-lean" src="/assets/img/mascot-lean.webp" width="320" height="475" loading="lazy" alt="Vouch Digital mascot leaning on the pricing card, giving a thumbs up">
+    <div class="pk" data-base="{p['price']}">{data}
+      <p class="pk-label">Everything included</p>
+      <h3>{p['name']}</h3>
+      <p class="pk-price"><s class="pk-was" hidden>£{p['price']}</s><b class="pk-num">£{p['price']}</b><span>/month</span></p>
+      <p class="pk-billed">Billed monthly. No contract, cancel anytime.</p>
+      <p class="pk-save" hidden>You save <b></b></p>
+      <ul>{free}{items}</ul>
+      <a class="pk-btn" href="{BOOK}">Book a call</a>
+    </div>
+    </div>
+    <p class="pr-foot">Want just the website? It's £1,499 as a one-off, yours to keep.</p>
+  </div>
+</section>"""
+
+
+def products_section(cls="products"):
+    cards = "".join(f'<li><span class="ic">{icon(i)}</span><h3>{t}</h3><p>{d}</p></li>' for i, t, d in PRODUCTS)
+    return f"""
+<section class="{cls}" id="system">
+  <div class="wrap">
+    <div class="sec-head"><p class="eyebrow">What you get</p><h2>One system that wins you more jobs</h2>
+    <p>Everything below is included for £197 a month, and we set it all up for you.</p></div>
+    <ul class="prod-grid">{cards}</ul>
+  </div>
+</section>"""
+
+
+def home():
     lose = "".join(f'<li><span class="dot no">{icon("x")}</span>{t}</li>' for t in
                    ["Infrequent reviews", "Not in the top 3 on Google Maps",
                     "Website buried below competitors", "Not mentioned by ChatGPT"])
@@ -98,15 +145,6 @@ def home():
         items = "".join(f"<li>{t}</li>" for t in JOBS[side])
         return f'<ul class="jobs {cls}">{items}</ul>'
 
-    trades = "".join(f"<li>{icon(i)}{n}</li>" for i, n in
-                     [("drop", "Domestic Plumbers"), ("radiator", "Heating Engineers"), ("flame", "Boiler Installers"),
-                      ("cog", "Gas Safe Engineers"), ("bath", "Bathroom Fitters"), ("clock", "Emergency Plumbers")])
-
-    svc = "".join(f"""<a class="svc" href="{h}"><span class="ic">{icon(i)}</span>
-      <span><h3>{n}</h3><p>{d}</p></span></a>""" for i, n, h, d in SERVICES)
-    svc += f"""<a class="svc all" href="/services"><span class="ic">{icon('arrow')}</span>
-      <span><h3>All five, working together</h3><p>Stronger as one system than as separate jobs. See how they fit.</p></span></a>"""
-
     revs = ""
     for r in REVIEWS:
         quote = f"<blockquote>“{escape(r['text'])}”</blockquote>" if r["text"] else \
@@ -114,32 +152,30 @@ def home():
         revs += f"""<figure class="rev">{stars(r['stars'])}{quote}
           <figcaption class="who">{escape(r['name'])}<small>Google review · {r['date']}</small></figcaption></figure>"""
 
-    finds = "".join(f"""<li class="find"><span class="ic">{icon(i)}</span><div><h3>{t}</h3><p>{d}</p></div></li>"""
-                    for i, t, d in [
-                        ("star", "Your reviews", "How many you have, how recent they are, and whether you're replying, compared with the three businesses above you."),
-                        ("pin", "Your Google profile", "Missing services, categories, service areas, hours and photos that stop you showing in the map results."),
-                        ("search", "Where you rank", "Where you appear for searches like “plumber near me” and “boiler installation” in your area."),
-                        ("monitor", "Your website", "How it looks and loads on a phone, and whether it makes calling you easy."),
-                        ("link", "Your listings", "Whether your name, address and number match on Yell, Checkatrade, Bing and Apple Maps."),
-                        ("ai", "ChatGPT", "Who ChatGPT recommends when someone asks for a trade like yours in your area, and whether it's you."),
-                    ])
-
     faq = "".join(f"<details><summary>{q}{icon('chevron')}</summary><p>{a}</p></details>"
                   for q, a in FAQ_HOME)
 
+    hero_ticks = "".join(f'<li><span class="tick">{icon("check")}</span>{t}</li>' for t in
+                         ["Free website, live in 3–5 days", "£197 a month, everything included",
+                          "No contract, cancel anytime"])
+
     return f"""
 <main>
-<section class="hero dark has-img">
+<section class="hero dark hero-v2">
   <div class="wrap">
-    <div>
-      <p class="eyebrow">Be the local trade everyone vouches for</p>
-      <h1>Win bigger, better-paying jobs from <span class="accent">Google and ChatGPT.</span></h1>
-      <p class="lede">Reviews, Google profile, websites and AI search, done for you. <strong>Built only for domestic Gas Safe plumbers and heating engineers across the UK.</strong></p>
+    <div class="hero-copy">
+      <p class="eyebrow">For domestic Gas Safe plumbers</p>
+      <h1>A free website, plus the system that <span class="accent">wins you more jobs.</span></h1>
+      <p class="lede">Missed-call text-back, genuine Google reviews, your Google profile and local SEO. All done for you, so you can stay on the tools.</p>
       <ul class="ticks">{hero_ticks}</ul>
+      {book_buttons()}
+      <p class="hero-proof">{stars(5)} <b>5.0</b> on Google</p>
     </div>
-    {audit_form()}
+    {mascot("mascot hero-mascot", lazy=False)}
   </div>
 </section>
+
+{products_section()}
 
 <section class="tint why">
   <div class="wrap">
@@ -176,38 +212,9 @@ def home():
   </div>
 </section>
 
-<section class="trades">
-  <div class="wrap">
-    <h2>Built for domestic plumbing &amp; heating businesses across the UK</h2>
-    <ul>{trades}</ul>
-  </div>
-</section>
+{process_steps()}
 
-<section class="check">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow">Your free Missed Jobs Check</p>
-      <h2>What we'll show you in 15 minutes</h2>
-      <p>We look at your business the way a homeowner does when they search, then show you on screen exactly where jobs are slipping to competitors, and how to fix each one.</p>
-    </div>
-    <ul class="finds">{finds}</ul>
-    <p class="check-cta"><a class="btn btn-mint" href="#audit">Find My Missed Jobs {icon('arrow')}</a><span>Fix it yourself afterwards, or we can do it for you.</span></p>
-  </div>
-</section>
-
-<section class="services tint-soft" id="services">
-  <div class="wrap">
-    <div class="intro">
-      <p class="eyebrow">Our services</p>
-      <h2>Everything you need to win more local jobs</h2>
-      <p>We help domestic plumbers and heating engineers get found on Google and in AI search, turn clicks into calls, and look like the obvious choice. We handle all of it for you.</p>
-      <a class="btn btn-mint" href="#audit">Find My Missed Jobs {icon('arrow')}</a>
-    </div>
-    <div class="svc-grid">{svc}</div>
-  </div>
-</section>
-
-<section class="tint reviews" id="reviews">
+<section class="reviews" id="reviews">
   <div class="wrap">
     <div class="rev-top">
       <div><p class="eyebrow">What our clients say</p><h2>Businesses who vouch for us</h2></div>
@@ -217,7 +224,7 @@ def home():
   </div>
 </section>
 
-{process_steps()}
+{pricing_section()}
 
 <section class="faq" id="faq">
   <div class="wrap">
@@ -230,18 +237,7 @@ def home():
   </div>
 </section>
 
-<section class="dark final has-mascot">
-  <div class="wrap">
-    <div class="final-copy">
-    <p class="eyebrow">Free, 15 minutes, no hard sell</p>
-    <h2>Be the plumber everyone vouches for.</h2>
-    <p class="muted">We'll find at least 5 ways you're losing jobs to competitors on Google, and show you how to fix them.</p>
-    <div class="row"><a class="btn btn-mint" href="#audit">Find My Missed Jobs {icon('arrow')}</a>
-    <a class="btn btn-ghost" href="tel:{SITE['phone_intl']}">{icon('phone')} Call {SITE['phone']}</a></div>
-    </div>
-    {mascot()}
-  </div>
-</section>
+{final_cta()}
 </main>"""
 
 
@@ -250,15 +246,15 @@ def book():
 <main>
 <section class="dark book-hero">
   <div class="wrap">
-    <p class="eyebrow">Step 2 of 2</p>
-    <h1><span data-first>Nice one.</span> Now pick a time for your free check.</h1>
-    <p class="muted">15 minutes on Google Meet. Your details are already filled in, so just choose a slot.</p>
+    <p class="eyebrow">Free 15-minute call</p>
+    <h1><span data-first>Nice one.</span> Pick a time that suits you.</h1>
+    <p class="muted">15 minutes on Google Meet. We'll show you how the system works, answer your questions and get your free website started.</p>
   </div>
 </section>
 <section class="book">
   <div class="wrap">
     <div class="book-frame">
-      <iframe class="booking" title="Book your free Missed Jobs Check" data-src="{SITE['booking_url']}" scrolling="no"></iframe>
+      <iframe class="booking" title="Book your free 15-minute call" data-src="{SITE['booking_url']}" scrolling="no"></iframe>
     </div>
     <p class="book-alt">Can't find a time that works? Call or text <a href="tel:{SITE['phone_intl']}">{SITE['phone']}</a> and we'll sort one out.</p>
   </div>
@@ -284,11 +280,11 @@ def legal(name, heading):
 ALL = [
     {"path": "/", "body": home,
      "title": "Marketing for Domestic Plumbers & Heating Engineers | Vouch Digital",
-     "desc": "We find at least 5 ways UK plumbers and heating engineers are losing jobs on Google, "
-             "and fix them. Reviews, Google profile, websites, local SEO and AI search, done for you."},
+     "desc": "A free website plus missed-call text-back, Google reviews, your Google profile and local SEO "
+             "for domestic plumbers. £197 a month, everything included, no contract."},
     {"path": "/book", "body": book, "noindex": True,
-     "title": "Pick a time | Vouch Digital",
-     "desc": "Book your free 15-minute Missed Jobs Check with Vouch Digital."},
+     "title": "Book a call | Vouch Digital",
+     "desc": "Book a free 15-minute call with Vouch Digital."},
     {"path": "/privacy", "body": legal("privacy", "Privacy Policy"),
      "title": "Privacy Policy | Vouch Digital",
      "desc": "How Vouch Digital (Bolotin Ltd) collects, uses and protects personal data."},

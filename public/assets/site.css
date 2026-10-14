@@ -410,3 +410,28 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
   .final.has-mascot .row{justify-content:center}
   .final.has-mascot .mascot{width:200px;margin:20px auto 0}
 }
+
+/* Homepage v2: offer-led hero with mascot */
+.hero.hero-v2{padding-bottom:0}
+.hero-v2 .wrap{grid-template-columns:minmax(0,1fr) 380px;align-items:end;gap:40px}
+.hero-v2 .hero-copy{padding-bottom:72px;align-self:center}
+.hero-v2 .row,.page-hero .row{display:flex;gap:14px;flex-wrap:wrap;margin-top:32px}
+.page-hero .row{justify-content:center}
+.hero-proof{display:flex;align-items:center;gap:8px;margin-top:22px;font-size:14px;color:rgba(255,255,255,.75)}
+.hero-proof b{color:#fff}
+.hero-mascot{width:380px;justify-self:end}
+@media (max-width:980px){
+  .hero-v2 .wrap{grid-template-columns:1fr;gap:0}
+  .hero-v2 .hero-copy{padding-bottom:12px}
+  .hero-mascot{width:220px;justify-self:center;margin-top:12px}
+}
+
+/* What you get */
+.prod-grid{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.prod-grid li{border:1px solid var(--line);border-radius:18px;padding:26px 24px;background:#fff;display:grid;gap:10px;align-content:start}
+.prod-grid .ic{display:grid;place-items:center;width:48px;height:48px;border-radius:14px;background:var(--mint-tint);color:var(--mint-dark)}
+.prod-grid .ic svg{width:24px;height:24px}
+.prod-grid h3{font-size:19px;margin-top:4px}
+.prod-grid p{font-size:15px;color:var(--ink-soft)}
+@media (max-width:980px){.prod-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:620px){.prod-grid{grid-template-columns:1fr}}

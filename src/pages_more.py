@@ -5,30 +5,21 @@ results timescales or AI recommendations, no prices. Domestic plumbers only, UK-
 """
 from icons import icon
 from site_data import SITE, FAQ_HOME, PLANS, EXTRAS, BILLING
-from pages import audit_form, process_steps, mascot
+from pages import process_steps, mascot, pricing_section, products_section, final_cta, book_buttons
 
 
 # ---------- building blocks ----------
 
-def hero(eyebrow, h1, lede, form=True, form_eyebrow="Free for domestic plumbers"):
-    if form:
-        return f"""
-<section class="hero">
-  <div class="wrap">
-    <div>
-      <p class="eyebrow">{eyebrow}</p>
-      <h1>{h1}</h1>
-      <p class="lede">{lede}</p>
-    </div>
-    {audit_form(form_eyebrow)}
-  </div>
-</section>"""
+def hero(eyebrow, h1, lede, form=True, form_eyebrow=None):
+    """Dark page hero. form=True adds the Book a call buttons (the old audit form is retired)."""
+    buttons = book_buttons() if form else ""
     return f"""
 <section class="dark page-hero">
   <div class="wrap">
     <p class="eyebrow">{eyebrow}</p>
     <h1>{h1}</h1>
     <p class="muted">{lede}</p>
+    {buttons}
   </div>
 </section>"""
 
@@ -97,21 +88,8 @@ def faq(items, h2="Got questions? We've got straight answers.", intro=None):
 </section>"""
 
 
-def final(h2="Be the business locals vouch for.",
-          text="We'll find at least 5 ways you're losing jobs to competitors online, and show you how to fix them."):
-    return f"""
-<section class="dark final has-mascot">
-  <div class="wrap">
-    <div class="final-copy">
-    <p class="eyebrow">Free, 15 minutes, no hard sell</p>
-    <h2>{h2}</h2>
-    <p class="muted">{text}</p>
-    <div class="row"><a class="btn btn-mint" href="#audit">Find My Missed Jobs {icon('arrow')}</a>
-    <a class="btn btn-ghost" href="tel:{SITE['phone_intl']}">{icon('phone')} Call {SITE['phone']}</a></div>
-    </div>
-    {mascot()}
-  </div>
-</section>"""
+def final(h2="Be the plumber everyone vouches for.", text=None):
+    return final_cta(h2) if text is None else final_cta(h2, text)
 
 
 def page(*sections):
@@ -262,7 +240,7 @@ SERVICE_PAGES = {
              "the consistency between them, which all feed into whether you show up."),
             ("I already pay someone for SEO. Do I need this?",
              "Maybe not. Many SEO packages only work on the website and ignore listings and your Google profile. On the "
-             "free check we'll show you what's actually been done, and you can decide."),
+             "free call we'll show you what's actually been done, and you can decide."),
             ("How quickly will I see results?",
              "We don't make promises about timescales. Local SEO builds over time, which is why we keep working on it "
              "month after month rather than doing it once."),
@@ -301,7 +279,7 @@ SERVICE_PAGES = {
              "difference is that we write and structure things so AI tools can read and repeat them easily."),
             ("Which AI tools do you check?",
              "ChatGPT, Gemini, Google's AI answers, and others where relevant. We'll show you the actual answers on your "
-             "free check."),
+             "free call."),
         ],
     },
 }
@@ -335,7 +313,7 @@ def services():
             "Reviews build trust. Your Google profile gets you seen on the map. Your website turns that interest into a "
             "phone call. Local listings and AI search make sure every place a customer looks tells the same, "
             "convincing story.",
-            "You can start with one, and many of our clients start with reviews. On the free check we'll show you which "
+            "They all come together in one plan for £197 a month. On the free call we'll show you which "
             "will make the biggest difference for your business first.",
         ], cls="tint-soft"),
         steps(),
@@ -349,7 +327,7 @@ TRADES = {
     "plumbers": {
         "title": "Marketing for Domestic Plumbers & Heating Engineers | Vouch Digital",
         "desc": "Google reviews, Google profile, websites, local SEO and AI search for domestic plumbers and heating engineers "
-                "across the UK. Find out how many jobs you're missing with a free check.",
+                "across the UK. A free website and everything else included for £197 a month.",
         "eyebrow": "For domestic plumbers &amp; heating engineers",
         "h1": "More boiler installs and better-paid jobs <span class=\"accent\">from Google and ChatGPT.</span>",
         "lede": "Boiler installs, bathrooms, full heating systems and emergency call-outs. "
@@ -437,13 +415,9 @@ def about():
 
 
 FAQ_MORE = [
-    ("What does the free check involve?",
-     "A 15-minute Google Meet. Before the call we look at your reviews, Google profile, website, listings and what AI "
-     "tools say about you. On the call we show you at least 5 things that are costing you jobs, and how to fix them. "
-     "You can fix them yourself afterwards, or ask us to."),
-    ("How much does it cost?",
-     "It's £197 a month, and you get a free website and Google Business Profile setup when you join. Full details are on our "
-     "<a href=\"/pricing\">pricing page</a>. There's no lock-in: it's month to month."),
+    ("What happens on the call?",
+     "A 15-minute Google Meet. We look at your business online beforehand, show you what's costing you jobs, explain "
+     "how the system works and answer your questions. If it's a good fit, we get your free website started."),
     ("Do you work with plumbers outside London?",
      "Yes. We work with domestic plumbers and heating engineers anywhere in the UK. Everything is done remotely, "
      "over video call and phone."),
@@ -469,50 +443,13 @@ def faq_page():
     )
 
 
-def pricing_section():
-    """Single-plan card, centred list with dividers (layout modelled on Stone Systems)."""
-    p = PLANS[0]
-    free = "".join(f'<li class="free">{EXTRAS[k][1]} <b>FREE</b> <small>(save {EXTRAS[k][3]})</small></li>'
-                   for k in p["extras"])
-    items = "".join(f"<li>{t}</li>" for t, _ in p["items"])
-    tabs = ""
-    for i, b in enumerate(BILLING):
-        pill = f"<span>{b['pill']}</span>" if b["pill"] else ""
-        selected = "true" if i == 0 else "false"
-        tabs += (f'<button type="button" role="tab" id="bill-{b["id"]}" data-bill="{b["id"]}" '
-                 f'aria-selected="{selected}">{b["label"]}{pill}</button>')
-    data = "".join(
-        f'<template data-bill-opt="{b["id"]}" data-per="{b["per_month"]}" data-billed="{b["billed"] or ""}" '
-        f'data-save="{b["save"] or ""}"></template>' for b in BILLING)
-    return f"""
-<section class="tint pricing" id="pricing">
-  <div class="wrap">
-    <div class="sec-head"><p class="eyebrow">Pricing</p><h2>Our pricing</h2>
-    <p>One plan, everything included. Pay monthly with no contract, or pay upfront and save.</p></div>
-    <div class="bill-tabs" role="tablist" aria-label="Billing period">{tabs}</div>
-    <div class="pk-stage"><img class="pk-lean" src="/assets/img/mascot-lean.webp" width="320" height="475" loading="lazy" alt="Vouch Digital mascot leaning on the pricing card, giving a thumbs up">
-    <div class="pk" data-base="{p['price']}">{data}
-      <p class="pk-label">Everything included</p>
-      <h3>{p['name']}</h3>
-      <p class="pk-price"><s class="pk-was" hidden>£{p['price']}</s><b class="pk-num">£{p['price']}</b><span>/month</span></p>
-      <p class="pk-billed">Billed monthly. No contract, cancel anytime.</p>
-      <p class="pk-save" hidden>You save <b></b></p>
-      <ul>{free}{items}</ul>
-      <a class="pk-btn" href="/#audit">Book a call</a>
-    </div>
-    </div>
-    <p class="pr-foot">Want just the website? It's £1,499 as a one-off, yours to keep.</p>
-  </div>
-</section>"""
-
-
 def pricing_page():
     return page(
         hero("Pricing", "One simple price. <span class=\"accent\">A free website when you join.</span>",
              "£197 a month, everything included. No contract, cancel anytime.", form=False),
         pricing_section(),
         steps(),
-        faq(FAQ_HOME[-1:] + FAQ_MORE[1:2] + FAQ_HOME[2:3], h2="Questions about pricing"),
+        faq(FAQ_HOME[:5], h2="Questions about pricing"),
         final(),
     )
 
@@ -521,13 +458,13 @@ def contact():
     ways = [
         ("phone", "Call or text", f'<a href="tel:{SITE["phone_intl"]}">{SITE["phone"]}</a>'),
         ("mail", "Email", f'<a href="mailto:{SITE["email"]}">{SITE["email"]}</a>'),
-        ("clipboard", "Book a free check", '<a href="#audit">Fill in the form</a> and pick a time that suits you.'),
+        ("clipboard", "Book a free call", '<a href="/book">Pick a time</a> that suits you for a 15-minute call.'),
         ("building", "Registered office", f"{SITE['address']}. This is our registered address, not a walk-in office."),
     ]
     return page(
-        hero("Contact", "Let's find the jobs <span class=\"accent\">you're missing.</span>",
-             "The quickest way to get started is the free 15-minute check. Fill in the form and pick a time, "
-             f"or call or text {SITE['phone']}.", form_eyebrow="Free 15-minute check"),
+        hero("Contact", "Let's get your <span class=\"accent\">free website started.</span>",
+             "The quickest way to get started is a free 15-minute call. Pick a time that suits you, "
+             f"or call or text {SITE['phone']}."),
         cards(ways, "Get in touch", "Other ways to reach us", cls="tint-soft"),
     )
 
@@ -552,6 +489,6 @@ ALL_MORE = (
         "title": "FAQ | Vouch Digital",
         "desc": "Answers to common questions about Vouch Digital's services for domestic plumbers and heating engineers."},
        {"path": "/contact", "body": contact,
-        "title": "Contact Vouch Digital | Free Missed Jobs Check",
-        "desc": f"Call or text {SITE['phone']}, email {SITE['email']}, or book a free 15-minute Missed Jobs Check."}]
+        "title": "Contact Vouch Digital | Book a Free Call",
+        "desc": f"Call or text {SITE['phone']}, email {SITE['email']}, or book a free 15-minute call."}]
 )

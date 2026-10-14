@@ -11,7 +11,7 @@ SITE = {
     "email": "info@vouchdigital.co.uk",
     "domain": "https://vouchdigital.co.uk",
     "area": "the UK",
-    # GHL calendar: Free Missed Jobs Check (permanent link, survives slug changes)
+    # GHL booking calendar for the free 15-minute call (permanent link, survives slug changes)
     "booking_url": "https://link.vouchdigital.co.uk/widget/booking/xbAVu7ah9p5NXexCdiO8",
     # Keep True until the site is live on vouchdigital.co.uk
     "noindex": False,
@@ -31,31 +31,30 @@ REVIEWS = [
 ]
 
 FAQ_HOME = [
-    ("Do you only work with plumbers?",
-     "Yes. We only work with domestic plumbers and heating engineers. Everything we build, from the "
-     "review request wording to the website pages, is shaped around how a plumbing business actually "
-     "wins work from homeowners."),
-    ("How long does it take to see results?",
-     "We don't make promises about timescales. Reviews and visibility build over time as more "
-     "genuine reviews come in and your profile stays active. We handle the setup and keep the "
-     "work going month after month."),
+    ("Why is the website free?",
+     "Because it's part of the system. When you join the monthly plan, we build your website for free so it works "
+     "hand in hand with your reviews, Google profile and lead follow-up. If you only want a website on its own, "
+     "it's £1,499 as a one-off."),
+    ("How much does it cost?",
+     "£197 a month, everything included. You can also pay quarterly and save 10%, or yearly and save 25%. "
+     "See our <a href=\"/pricing\">pricing</a>."),
+    ("Am I locked into a contract?",
+     "No. The monthly plan has no contract, so you can cancel anytime."),
+    ("Do I own my domain?",
+     "Yes. Your domain is registered in your business's name, not ours."),
+    ("How long does it take to get set up?",
+     "Your website is usually live within 3–5 days of us receiving your onboarding form. Then we walk you through "
+     "everything on a 25-minute launch call."),
     ("How much of my time does this take?",
-     "Very little: a short first call, a quick onboarding form, then a launch call where we walk "
-     "you through everything. After that we run it in the background while you're out on jobs."),
-    ("What areas do you work in?",
-     "Anywhere in the UK. Everything is done remotely over video call and phone, so it doesn't "
-     "matter where you're based."),
-    ("Do I need a new website?",
-     "Not always. If your current website works, we'll work with it. If it's slow, hard to use on "
-     "a phone or not turning visitors into calls, a new one will do a better job. We'll tell you "
-     "honestly on the call."),
+     "Very little: a 15-minute first call, a short onboarding form, then the launch call. After that we run it in "
+     "the background while you're out on jobs."),
     ("Are the reviews genuine?",
      "Yes. We only ask your real customers, every customer is asked, and we never filter out "
      "unhappy ones. We never write, buy, incentivise or remove reviews. That's how the Digital "
      "Markets, Competition and Consumers Act 2024 says it should be done."),
-    ("Am I locked into a contract?",
-     "No. It's month to month, with no lock-in. It's £197 a month, and you get a free website "
-     "when you join. See our <a href=\"/pricing\">pricing</a>."),
+    ("Do you only work with plumbers?",
+     "Yes. We only work with domestic plumbers and heating engineers, anywhere in the UK. Everything is done "
+     "remotely over video call and phone."),
 ]
 
 

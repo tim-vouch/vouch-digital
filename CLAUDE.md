@@ -6,6 +6,10 @@ Business Profile, websites, local SEO and AI search for **domestic (Gas Safe) pl
 engineers across the UK**. Plumbers only since 14 Oct 2026 (electricians removed; /electricians 301s to
 /plumbers in `src/worker.js`). Ads run nationwide, so never limit the service area to London.
 
+**The pitch (since 14 Oct 2026, matches the Meta ads):** a free lead-generating website plus the system that
+wins plumbers more jobs, £197/month, everything included, no contract. Every button is "Book a call" → /book
+(GHL calendar). The old "Find My Missed Jobs" free-audit pitch is retired; don't bring it back.
+
 ## How it's built
 - `src/site_data.py` — business facts, real reviews, homepage FAQ. Single source of truth.
 - `src/pages.py` — page bodies. `src/build.py` — shared head/header/footer. Run `python3 src/build.py`.
