@@ -571,5 +571,10 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
 /* Desktop hero: tighter bottom, mascot a touch smaller so the banner ends closer to the ratings */
 @media (min-width:981px){
   .hero-k.hero-v2 .hero-copy{padding-bottom:40px}
-  .hero-k .hero-mascot{width:392px;max-width:none;margin-top:-90px}
+  .hero-k .hero-mascot{width:470px;max-width:none;margin-top:-200px}
+}
+/* Desktop hero: Book a call sits under the description, above the ratings */
+@media (min-width:981px){
+  .hero-k .hero-row{grid-template-columns:1fr;gap:26px;max-width:620px}
+  .hero-k .hero-cta{justify-self:start;justify-items:center;width:max-content}
 }
