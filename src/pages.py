@@ -133,11 +133,18 @@ PRODUCT_GROUPS = [
 ]
 
 
+# Where each product card links (by icon). Missed-call, follow-up and inbox get their own pages later.
+PRODUCT_LINKS = {"phone": "/services", "clock": "/services", "mail": "/services",
+                 "star": "/services/google-reviews", "pin": "/services/google-business-profile",
+                 "monitor": "/services/websites"}
+
+
 def products_section(cls="products"):
     by_icon = {i: (i, t, d) for i, t, d in PRODUCTS}
     groups = ""
     for n, (tag, title, blurb, keys) in enumerate(PRODUCT_GROUPS, 1):
-        cards = "".join(f'<li><span class="ic">{icon(i)}</span><div><h3>{t}</h3><p>{d}</p></div></li>'
+        cards = "".join(f'<li><a href="{PRODUCT_LINKS[i]}"><span class="ic">{icon(i)}</span><div><h3>{t}</h3><p>{d}</p>'
+                        f'<span class="more">See how it works {icon("arrow")}</span></div></a></li>'
                         for i, t, d in (by_icon[k] for k in keys))
         groups += f"""
     <div class="prod-group pg-{n}">
@@ -147,8 +154,8 @@ def products_section(cls="products"):
     return f"""
 <section class="{cls}" id="system">
   <div class="wrap">
-    <div class="sec-head"><p class="eyebrow">What you get</p><h2>One system that wins you more jobs</h2>
-    <p>Everything below is included, and we set it all up for you.</p></div>
+    <div class="sec-head"><p class="eyebrow">Our services</p><h2>Two systems that grow your business</h2>
+    <p>Everything is included, and we set it all up for you. Tap any service to see how it works.</p></div>
     <div class="prod-groups">{groups}
     </div>
   </div>
