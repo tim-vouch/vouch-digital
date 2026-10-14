@@ -493,4 +493,3 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
 .prod-list li a:hover .go{background:var(--mint);color:var(--deep)}
 @media (max-width:900px){.prod-groups{grid-template-columns:1fr}}
 @media (max-width:480px){.prod-group{padding:22px 16px}.prod-list li a{padding:14px;gap:12px}.pg-head{font-size:22px}}
-.pk-save.is-note{background:transparent;color:var(--mint);box-shadow:inset 0 0 0 1.5px var(--mint)}
