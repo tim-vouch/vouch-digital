@@ -565,5 +565,6 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
   .hero-k .hero-cta{justify-self:start;width:max-content;justify-items:center}
   .hero-k .rating-row{flex-direction:column;align-items:flex-start;gap:14px;margin-top:22px;padding-top:0;border-top:0}
   .hero-k .rating-row a + a{border-left:0;padding-left:0}
-  .hero-k .hero-mascot{position:absolute;right:max(6px,env(safe-area-inset-right,0px));bottom:28px;width:142px;margin:0}
+  .hero-k .hero-mascot{position:absolute;right:max(calc(50vw - 166px),8px);bottom:10px;width:142px;margin:0}
+  .hero-k .rating-row span{min-width:78px}
 }
