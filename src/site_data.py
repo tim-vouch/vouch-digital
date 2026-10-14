@@ -74,13 +74,13 @@ PLANS = [
      "extras": ["website", "gbp"]},
 ]
 # Billing options for the single plan. Monthly is the default (matches the ads).
-# Quarterly: 10% off, paid upfront. Annual: 2 months free, paid upfront.
+# Quarterly: 10% off, paid upfront. Annual: ~17% off (2 months free), paid upfront.
 BILLING = [
     {"id": "monthly", "label": "Monthly", "per_month": 197, "billed": None, "save": None, "pill": None},
     {"id": "quarterly", "label": "Quarterly", "per_month": 177, "billed": "£531 every 3 months",
      "save": "£60 a quarter", "pill": "Save 10%"},
     {"id": "annual", "label": "Annually", "per_month": 164, "billed": "£1,970 once a year",
-     "save": "£394 a year", "pill": "2 months free"},
+     "save": "£394 a year", "pill": "Save 17%"},
 ]
 
 # (icon, title, description, normal price)
