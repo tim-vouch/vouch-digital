@@ -187,7 +187,6 @@ def home():
   <div class="wrap">
     <div class="rev-top">
       <div><p class="eyebrow">What our clients say</p><h2>Plumbers who vouch for us</h2></div>
-      <div class="g-score"><b>{RATING}</b> {stars(5)} <span>on Google</span></div>
     </div>
     <div class="rev-grid rev-carousel" tabindex="0" aria-label="Google reviews">{revs}</div>
   </div>
