@@ -39,7 +39,7 @@ REVIEWS = GOOGLE["reviews"]
 RATING = GOOGLE["rating"]
 
 # Facebook rating: Facebook has no simple reviews API, so this is set by hand. Keep it true to the page.
-FACEBOOK = {"rating": "5.0", "url": ""}  # url: the Vouch Digital Facebook page, e.g. https://www.facebook.com/...
+FACEBOOK = {"rating": None, "url": "https://www.facebook.com/profile.php?id=61595114371482"}  # rating None = hidden (0 reviews as of 14 Oct 2026)  # url: the Vouch Digital Facebook page, e.g. https://www.facebook.com/...
 
 FAQ_HOME = [
     ("Why is the website free?",

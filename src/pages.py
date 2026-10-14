@@ -163,6 +163,14 @@ def products_section(cls="products", eyebrow="What we do", h2="Our services",
 </section>"""
 
 
+def fb_rating():
+    """Facebook rating in the hero. Hidden until the page has real recommendations (FACEBOOK['rating'])."""
+    if not FACEBOOK["rating"]:
+        return ""
+    return (f'<a href="{FACEBOOK["url"]}" target="_blank" rel="noopener">{FB_LOGO}<span><b>Facebook</b>{stars(5)}</span>'
+            f'<em>{FACEBOOK["rating"]}</em></a>')
+
+
 def home():
     lose = "".join(f'<li><span class="dot no">{icon("x")}</span>{t}</li>' for t in
                    ["Infrequent reviews", "Not in the top 3 on Google Maps",
@@ -206,7 +214,7 @@ def home():
         </div>
       </div>
       <div class="rating-row"><a href="#reviews">{G_LOGO}<span><b>Google</b>{stars(5)}</span><em>{RATING}</em></a>
-      <a href="{FACEBOOK['url'] or '#reviews'}"{' target="_blank" rel="noopener"' if FACEBOOK['url'] else ''}>{FB_LOGO}<span><b>Facebook</b>{stars(5)}</span><em>{FACEBOOK['rating']}</em></a></div>
+      {fb_rating()}</div>
     </div>
     {mascot("mascot hero-mascot", lazy=False)}
   </div>
