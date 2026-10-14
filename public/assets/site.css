@@ -480,7 +480,7 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
 .prod-group.pg-2{background:#f1f6f4;border-color:#dfe9e5}
 .pg-head{display:flex;align-items:flex-start;gap:14px}
 .pg-head h3{font-size:26px;line-height:42px}
-.pg-head p{font-size:15.5px;color:var(--ink-soft);margin-top:2px;max-width:46ch}
+.pg-head p{font-size:15.5px;color:var(--ink-soft);margin-top:2px}
 .pg-num{flex:none;display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:var(--deep);color:var(--mint);font-family:var(--head);font-weight:800;font-size:19px}
 .prod-list{list-style:none;display:grid;gap:12px}
 .prod-list li a{display:flex;gap:16px;align-items:center;background:#fff;border-radius:16px;padding:18px 20px;color:inherit;text-decoration:none;border:1px solid transparent;transition:border-color .15s,box-shadow .15s,transform .15s}
@@ -495,3 +495,5 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
 .prod-list li a:hover .go{background:var(--mint);color:var(--deep)}
 @media (max-width:900px){.prod-groups{grid-template-columns:1fr}}
 @media (max-width:480px){.prod-group{padding:22px 16px}.prod-list li a{padding:14px;gap:12px}.pg-head h3{font-size:22px}}
+/* Line the service cards up across both groups, even when one description runs longer */
+@media (min-width:901px){.prod-groups{grid-template-rows:auto auto}.prod-group{grid-row:span 2;grid-template-rows:subgrid}}

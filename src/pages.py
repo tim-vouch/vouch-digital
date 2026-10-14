@@ -124,7 +124,7 @@ def pricing_section():
 
 # Two groups: keep the work you already get, then win more of it. Keys are icon names in PRODUCTS.
 PRODUCT_GROUPS = [
-    ("Stop losing jobs", "Every missed call or unanswered quote is a job for someone else. "
+    ("Stop losing jobs", "Every missed call or unanswered quote is a boiler install for your competition. "
      "These make sure every enquiry gets a reply.", ["phone", "clock", "mail"]),
     ("Win more jobs", "Homeowners choose from the top of Google and ChatGPT. "
      "These help you show up there, backed by real reviews.", ["star", "pin", "monitor"]),
@@ -133,9 +133,9 @@ PRODUCT_GROUPS = [
 PRODUCT_SHORT = {
     "phone": "Callers get a text back, so they don't ring the next plumber.",
     "clock": "Quotes chased for you, and old customers brought back for more work.",
-    "mail": "Every enquiry in one place, so nothing gets forgotten.",
+    "mail": "Every enquiry in one place, so you save time and nothing gets forgotten.",
     "star": "Gives homeowners a reason to pick you over the plumber next door.",
-    "pin": "Helps you show up when locals search \u201cplumber near me\u201d.",
+    "pin": "Helps you show up when locals search \u201cplumber near me\u201d in Google and ChatGPT.",
     "monitor": "Free, live in 3–5 days, and built to turn visitors into enquiries.",
 }
 # Where each product card links (by icon). Missed-call, follow-up and inbox get their own pages later.
@@ -159,8 +159,8 @@ def products_section(cls="products"):
     return f"""
 <section class="{cls}" id="system">
   <div class="wrap">
-    <div class="sec-head"><h2>Our services</h2>
-    <p>Two simple systems. We set them up, you get on with the job.</p></div>
+    <div class="sec-head"><p class="eyebrow">What we do</p><h2>Our services</h2>
+    <p>Two simple systems that help plumbers make more money.</p></div>
     <div class="prod-groups">{groups}
     </div>
   </div>
