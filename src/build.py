@@ -58,11 +58,16 @@ def head(title, desc, path, noindex=False):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/site.css?v={ASSET_V}">
 <script type="application/ld+json">{json.dumps(org, ensure_ascii=False)}</script>
 </head>
 <body>"""
 
+
+import hashlib as _h
+_root = Path(__file__).resolve().parent.parent / "public" / "assets"
+# Cache-busting: changes whenever site.css or site.js changes, so browsers fetch the new files.
+ASSET_V = _h.md5((_root / "site.css").read_bytes() + (_root / "site.js").read_bytes()).hexdigest()[:8]
 
 NAV = [("Services", "/services"), ("Pricing", "/pricing"),
        ("About", "/about"), ("FAQ", "/faq"), ("Contact", "/contact")]
@@ -104,7 +109,7 @@ def footer():
     </div>
   </div>
 </footer>
-<script src="/assets/site.js" defer></script>
+<script src="/assets/site.js?v={ASSET_V}" defer></script>
 </body></html>"""
 
 

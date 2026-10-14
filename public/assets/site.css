@@ -580,7 +580,6 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
 }
 /* Desktop: header stays fixed at the top while scrolling */
 @media (min-width:981px){
-  .site-head{position:fixed;transition:background .2s,box-shadow .2s}
-  .site-head.scrolled{background:var(--deep);box-shadow:0 4px 18px rgba(0,0,0,.18)}
+  .site-head{position:fixed;background:var(--deep);box-shadow:0 4px 18px rgba(0,0,0,.18)}
   [id]{scroll-margin-top:96px}
 }
