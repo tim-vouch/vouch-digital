@@ -179,8 +179,8 @@ FLOW = [
      "your phone.", [("All-in-one inbox", "all-in-one-inbox")]),
     ("star", "Job done, review asked", "Every customer is automatically asked for a review and followed up, which "
      "helps the next homeowner find you.", [("Reviews", "google-reviews")]),
-    ("target", "They come back for more", "Boiler service reminders, seasonal offers and referral nudges turn happy "
-     "customers into repeat work and recommendations.", [("Campaigns", "lead-follow-up")]),
+    ("target", "Campaigns bring them back", "Automatic marketing campaigns go out to past customers: boiler service "
+     "reminders, seasonal offers and referral nudges.", [("Marketing campaigns", "lead-follow-up")]),
 ]
 
 
