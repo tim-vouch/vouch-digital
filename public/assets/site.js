@@ -81,3 +81,11 @@ if (pk) {
   };
   document.querySelectorAll('[data-bill]').forEach((b) => b.addEventListener('click', () => show(b.dataset.bill)));
 }
+
+// Header turns solid once the page scrolls (it stays fixed at the top)
+{
+  const head = document.querySelector('.site-head');
+  const onScroll = () => head && head.classList.toggle('scrolled', window.scrollY > 10);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+}
