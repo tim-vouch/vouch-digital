@@ -435,3 +435,24 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
 .prod-grid p{font-size:15px;color:var(--ink-soft)}
 @media (max-width:980px){.prod-grid{grid-template-columns:1fr 1fr}}
 @media (max-width:620px){.prod-grid{grid-template-columns:1fr}}
+
+/* Hero, Stone-Systems style: big headline with rule, blurb + CTA side by side, rating row */
+.hero-k h1{font-size:clamp(38px,5vw,64px);line-height:1.04;border-left:3px solid rgba(255,255,255,.18);padding-left:28px;margin:0 0 36px}
+.hero-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:32px;align-items:center}
+.hero-blurb{font-size:16.5px;font-weight:500;color:rgba(255,255,255,.85);max-width:34em}
+.hero-cta{display:grid;justify-items:center;gap:10px}
+.hero-cta small{font-size:12.5px;color:rgba(255,255,255,.6)}
+.faces{display:flex}
+.faces span{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--deep-2);border:2px solid var(--mint);color:#fff;font-family:var(--head);font-weight:700;font-size:14px;margin-left:-8px}
+.faces span:first-child{margin-left:0}
+.rating-row{margin-top:36px;padding-top:24px;border-top:1px solid rgba(255,255,255,.1);display:flex;gap:28px}
+.rating-row a{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none}
+.rating-row .g-logo{width:30px;height:30px}
+.rating-row span{display:grid;line-height:1.1;font-size:14px}
+.rating-row .stars{font-size:15px}
+.rating-row em{font-style:normal;font-family:var(--head);font-weight:800;font-size:22px;color:#fff;margin-left:4px}
+@media (max-width:760px){
+  .hero-k h1{padding-left:18px}
+  .hero-row{grid-template-columns:1fr;gap:22px}
+  .hero-cta{justify-items:start}
+}

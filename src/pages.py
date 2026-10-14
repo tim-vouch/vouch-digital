@@ -161,15 +161,19 @@ def home():
 
     return f"""
 <main>
-<section class="hero dark hero-v2">
+<section class="hero dark hero-v2 hero-k">
   <div class="wrap">
     <div class="hero-copy">
-      <p class="eyebrow">For domestic Gas Safe plumbers</p>
-      <h1>A free website, plus the system that <span class="accent">wins you more jobs.</span></h1>
-      <p class="lede">Missed-call text-back, genuine Google reviews, your Google profile and local SEO. All done for you, so you can stay on the tools.</p>
-      <ul class="ticks">{hero_ticks}</ul>
-      {book_buttons()}
-      <p class="hero-proof">{stars(5)} <b>5.0</b> on Google</p>
+      <h1>Free Websites &amp; Marketing Systems <span class="accent">For Domestic Plumbers</span></h1>
+      <div class="hero-row">
+        <p class="hero-blurb">No jargon, no long contracts, no magic tricks. We build you a free website and give you the system to win more jobs: missed-call text-back, genuine Google reviews and local SEO. £197 a month. You do the plumbing, we keep it running.</p>
+        <div class="hero-cta">
+          <div class="faces" aria-hidden="true">{"".join(f'<span>{escape(r["name"][0])}</span>' for r in REVIEWS)}</div>
+          <a class="btn btn-mint" href="{BOOK}">Book a call {icon('arrow')}</a>
+          <small>Free 15-minute call</small>
+        </div>
+      </div>
+      <div class="rating-row"><a href="#reviews"><svg class="g-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.6 5.4 2.6 13.3l7.9 6.2C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.1 5.5c4.2-3.9 6.6-9.6 6.6-16.9z"/><path fill="#FBBC05" d="M10.5 28.6c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.9-6.2C.9 16.5 0 20.1 0 24s.9 7.5 2.6 10.8l7.9-6.2z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.1-5.5c-2.2 1.5-5 2.3-8.8 2.3-6.3 0-11.6-4.2-13.5-9.9l-7.9 6.2C6.6 42.6 14.6 48 24 48z"/></svg><span><b>Google</b>{stars(5)}</span><em>5.0</em></a></div>
     </div>
     {mascot("mascot hero-mascot", lazy=False)}
   </div>
