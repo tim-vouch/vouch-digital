@@ -142,14 +142,23 @@ def product_groups(current=None):
     return f'<div class="prod-groups">{groups}\n    </div>'
 
 
+SYS_JOIN = """
+    <div class="sys-join">
+      <svg class="sj-lines" viewBox="0 0 1000 70" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M250 0 C250 45 500 25 500 64" /><path d="M750 0 C750 45 500 25 500 64" /></svg>
+      <a class="btn btn-mint" href="/services#how">See how both systems work together {arrow}</a>
+    </div>"""
+
+
 def products_section(cls="products", eyebrow="What we do", h2="Our services",
-                     intro="Two simple systems that help plumbers make more money."):
+                     intro="Two simple systems that help plumbers make more money.", join=False):
+    joiner = SYS_JOIN.format(arrow=icon("arrow")) if join else ""
     return f"""
 <section class="{cls}" id="system">
   <div class="wrap">
     <div class="sec-head"><p class="eyebrow">{eyebrow}</p><h2>{h2}</h2>
     <p>{intro}</p></div>
-    {product_groups()}
+    {product_groups()}{joiner}
   </div>
 </section>"""
 
@@ -212,7 +221,7 @@ def home():
   </div>
 </section>
 
-{products_section()}
+{products_section(join=True)}
 
 <section class="tint why">
   <div class="wrap">

@@ -191,7 +191,7 @@ def flow():
         steps_html += (f'<li><span class="fl-num">Step {n}</span><span class="fl-ic">{icon(i)}</span><h3>{t}</h3><p>{d}</p>'
                        f'<span class="fl-tags">{tags}</span></li>')
     return f"""
-<section class="tint-soft flow">
+<section class="tint-soft flow" id="how">
   <div class="wrap">
     <div class="sec-head"><p class="eyebrow">How they fit together</p><h2>Stronger together than on their own</h2>
     <p>Here's how one homeowner becomes a job, a review, and repeat work.</p></div>

@@ -550,3 +550,9 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
 @media (max-width:1180px){.fl-return{display:none}.flow .fl-loop{margin-top:30px;border:1.5px dashed var(--mint-dark);padding:14px 20px}}
 @media (max-width:980px){[id]{scroll-margin-top:76px}}
 .pg-head .pg-sys{justify-self:start;font-family:var(--head);font-weight:800;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mint);background:var(--deep);padding:5px 12px;border-radius:999px;margin:0 0 6px}
+/* Homepage: two system boxes joining into one link to the /services flow */
+.sys-join{display:grid;justify-items:center}
+.sj-lines{width:100%;height:70px;display:block}
+.sj-lines path{fill:none;stroke:var(--mint-dark);stroke-width:2;stroke-dasharray:6 6;vector-effect:non-scaling-stroke}
+.sys-join .btn{margin-top:-2px}
+@media (max-width:900px){.sj-lines{display:none}.sys-join{margin-top:24px}}
