@@ -140,9 +140,9 @@ def more_services(slug):
     return f"""
 <section class="products svc-more">
   <div class="wrap">
-    <div class="sec-head"><p class="eyebrow">The full system</p><h2>Everything else that's included</h2>
-    <p>Every service below comes with the same plan, and we set it all up for you.</p></div>
-    {product_groups(exclude=slug)}
+    <div class="sec-head"><p class="eyebrow">The full system</p><h2>Everything that's included</h2>
+    <p>All six services come with the same plan, and we set it all up for you.</p></div>
+    {product_groups(current=slug)}
   </div>
 </section>"""
 
@@ -165,6 +165,39 @@ def service_page(slug):
     return body
 
 
+FLOW = [
+    ("search", "They find you", "Someone searches \u201cplumber near me\u201d on Google or ChatGPT and sees your complete "
+     "profile and strong reviews.", ["google-business-profile", "google-reviews"]),
+    ("monitor", "They check you out", "Your website shows what you do, your real reviews, and makes getting in touch easy.",
+     ["websites"]),
+    ("phone", "They get in touch", "Missed their call? They get a text back. Asked for a quote? It gets followed up.",
+     ["missed-call-text-back", "lead-follow-up"]),
+    ("mail", "You reply from one app", "Every call, text, email and message lands in one inbox on your phone.",
+     ["all-in-one-inbox"]),
+    ("star", "Job done, review asked", "Every customer is asked for a review, which helps the next homeowner find you.",
+     ["google-reviews"]),
+]
+SHORT_NAMES = {"missed-call-text-back": "Text-back", "lead-follow-up": "Follow-up", "all-in-one-inbox": "Inbox",
+               "websites": "Website", "google-reviews": "Reviews", "google-business-profile": "Google profile"}
+
+
+def flow():
+    steps_html = ""
+    for n, (i, t, d, slugs) in enumerate(FLOW, 1):
+        tags = "".join(f'<a href="/services/{x}">{SHORT_NAMES[x]}</a>' for x in slugs)
+        steps_html += (f'<li><span class="fl-ic">{icon(i)}<em>{n}</em></span><h3>{t}</h3><p>{d}</p>'
+                       f'<span class="fl-tags">{tags}</span></li>')
+    return f"""
+<section class="tint-soft flow">
+  <div class="wrap">
+    <div class="sec-head"><p class="eyebrow">How they fit together</p><h2>Stronger together than on their own</h2>
+    <p>Here's how one homeowner becomes a job, then a review that brings in the next one.</p></div>
+    <ol class="fl-steps">{steps_html}</ol>
+    <p class="fl-loop">{icon("trend")} Each new review helps the next homeowner find you, and it starts again.</p>
+  </div>
+</section>"""
+
+
 def services():
     return page(
         hero("Our services", "Two simple systems that <span class=\"accent\">win plumbers more jobs.</span>",
@@ -178,13 +211,7 @@ def services():
     {product_groups()}
   </div>
 </section>""",
-        prose("How they fit together", "Stronger together than on their own", [
-            "A homeowner finds you on Google or ChatGPT because your profile is complete and your reviews are strong. "
-            "They check your website, and it makes enquiring easy. If they ring while you're under a boiler, they get "
-            "a text back. If they ask for a quote, it gets followed up.",
-            "Each part does its job, and they all feed into one inbox on your phone. On the free call we'll show you "
-            "where the biggest gaps are for your business.",
-        ], cls="tint-soft"),
+        flow(),
         steps(),
         final(),
     )

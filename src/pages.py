@@ -120,15 +120,19 @@ PRODUCT_SHORT = {
 }
 
 
-def product_groups(exclude=None):
-    """The two systems as side-by-side panels of linked service cards."""
+def product_groups(current=None):
+    """The two systems as side-by-side panels of linked service cards. current = slug of the page you're on."""
     groups = ""
     for n, (title, blurb) in GROUPS.items():
-        cards = "".join(
-            f'<li><a href="/services/{slug}"><span class="ic">{icon(d["icon"])}</span>'
-            f'<span class="txt"><b>{d["name"]}</b><span>{PRODUCT_SHORT[slug]}</span></span>'
-            f'<span class="go">{icon("arrow")}</span></a></li>'
-            for slug, d in SERVICE_PAGES.items() if d["group"] == n and slug != exclude)
+        cards = ""
+        for slug, d in SERVICE_PAGES.items():
+            if d["group"] != n:
+                continue
+            here = slug == current
+            end = '<span class="here">You\'re here</span>' if here else f'<span class="go">{icon("arrow")}</span>'
+            attrs = ' class="is-current" aria-current="page"' if here else ""
+            cards += (f'<li><a href="/services/{slug}"{attrs}><span class="ic">{icon(d["icon"])}</span>'
+                      f'<span class="txt"><b>{d["name"]}</b><span>{PRODUCT_SHORT[slug]}</span></span>{end}</a></li>')
         groups += f"""
     <div class="prod-group pg-{n}">
       <div class="pg-head"><span class="pg-num">{n}</span><div><h3>{title}</h3><p>{blurb}</p></div></div>
