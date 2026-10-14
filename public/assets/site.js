@@ -60,3 +60,22 @@ if (booking) {
   const hi = document.querySelector('[data-first]');
   if (hi && first) hi.textContent = 'Nice one, ' + first + '.';
 }
+
+// Pricing: monthly / quarterly / annual toggle
+const pk = document.querySelector('.pk[data-base]');
+if (pk) {
+  const base = Number(pk.dataset.base);
+  const opts = Object.fromEntries([...pk.querySelectorAll('template[data-bill-opt]')].map((t) => [t.dataset.billOpt, t.dataset]));
+  const show = (id) => {
+    const o = opts[id];
+    document.querySelectorAll('[data-bill]').forEach((b) => b.setAttribute('aria-selected', b.dataset.bill === id));
+    pk.querySelector('.pk-num').textContent = '£' + o.per;
+    const was = pk.querySelector('.pk-was');
+    was.hidden = Number(o.per) === base;
+    pk.querySelector('.pk-billed').textContent = o.billed ? 'Billed ' + o.billed + '.' : 'Billed monthly. No contract, cancel anytime.';
+    const save = pk.querySelector('.pk-save');
+    save.hidden = !o.save;
+    save.querySelector('b').textContent = o.save;
+  };
+  document.querySelectorAll('[data-bill]').forEach((b) => b.addEventListener('click', () => show(b.dataset.bill)));
+}

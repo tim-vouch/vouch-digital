@@ -4,7 +4,7 @@ House rules (see CLAUDE.md): no invented results or reviews, no promises of rank
 results timescales or AI recommendations, no prices. Domestic plumbers only, UK-wide.
 """
 from icons import icon
-from site_data import SITE, FAQ_HOME, PLANS, EXTRAS
+from site_data import SITE, FAQ_HOME, PLANS, EXTRAS, BILLING
 from pages import audit_form, process_steps
 
 
@@ -472,15 +472,27 @@ def pricing_section():
     free = "".join(f'<li class="free">{EXTRAS[k][1]} <b>FREE</b> <small>(save {EXTRAS[k][3]})</small></li>'
                    for k in p["extras"])
     items = "".join(f"<li>{t}</li>" for t, _ in p["items"])
+    tabs = ""
+    for i, b in enumerate(BILLING):
+        pill = f"<span>{b['pill']}</span>" if b["pill"] else ""
+        selected = "true" if i == 0 else "false"
+        tabs += (f'<button type="button" role="tab" id="bill-{b["id"]}" data-bill="{b["id"]}" '
+                 f'aria-selected="{selected}">{b["label"]}{pill}</button>')
+    data = "".join(
+        f'<template data-bill-opt="{b["id"]}" data-per="{b["per_month"]}" data-billed="{b["billed"] or ""}" '
+        f'data-save="{b["save"] or ""}"></template>' for b in BILLING)
     return f"""
 <section class="tint pricing" id="pricing">
   <div class="wrap">
     <div class="sec-head"><p class="eyebrow">Pricing</p><h2>Our pricing</h2>
-    <p>One plan, everything included. No contract, cancel anytime.</p></div>
-    <div class="pk">
+    <p>One plan, everything included. Pay monthly with no contract, or pay upfront and save.</p></div>
+    <div class="bill-tabs" role="tablist" aria-label="Billing period">{tabs}</div>
+    <div class="pk" data-base="{p['price']}">{data}
       <p class="pk-label">Everything included</p>
       <h3>{p['name']}</h3>
-      <p class="pk-price">£{p['price']}<span>/month</span></p>
+      <p class="pk-price"><s class="pk-was" hidden>£{p['price']}</s><b class="pk-num">£{p['price']}</b><span>/month</span></p>
+      <p class="pk-billed">Billed monthly. No contract, cancel anytime.</p>
+      <p class="pk-save" hidden>You save <b></b></p>
       <ul>{free}{items}</ul>
       <a class="pk-btn" href="/#audit">Book a call</a>
     </div>

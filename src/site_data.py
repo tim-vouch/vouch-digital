@@ -73,6 +73,16 @@ PLANS = [
                ("Local SEO &amp; AI search", "Listings, area pages and ChatGPT visibility, every month")],
      "extras": ["website", "gbp"]},
 ]
+# Billing options for the single plan. Monthly is the default (matches the ads).
+# Quarterly: 10% off, paid upfront. Annual: 2 months free, paid upfront.
+BILLING = [
+    {"id": "monthly", "label": "Monthly", "per_month": 197, "billed": None, "save": None, "pill": None},
+    {"id": "quarterly", "label": "Quarterly", "per_month": 177, "billed": "£531 every 3 months",
+     "save": "£60 a quarter", "pill": "Save 10%"},
+    {"id": "annual", "label": "Annually", "per_month": 164, "billed": "£1,970 once a year",
+     "save": "£394 a year", "pill": "2 months free"},
+]
+
 # (icon, title, description, normal price)
 EXTRAS = {
     "website": ("monitor", "Lead-generating website",
