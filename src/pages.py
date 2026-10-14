@@ -79,7 +79,6 @@ def pricing_section():
     # Included services listed by system, named and linked exactly like the service pages.
     items = ""
     for n, (title, _) in GROUPS.items():
-        items += f'<li class="pk-sys">System {n}: {title}</li>'
         items += "".join(f'<li><a href="/services/{slug}">{d["name"]}</a></li>'
                          for slug, d in SERVICE_PAGES.items() if d["group"] == n and slug != "websites")
     tabs = ""
@@ -104,7 +103,7 @@ def pricing_section():
       <p class="pk-price"><s class="pk-was" hidden>£{p['price']}</s><b class="pk-num">£{p['price']}</b><span>/month</span></p>
       <p class="pk-billed">Billed monthly.</p>
       <p class="pk-save is-note">No contract, cancel anytime</p>
-      <ul><li class="pk-sys">Free with the plan</li>{free}{items}</ul>
+      <ul>{free}{items}</ul>
       <a class="pk-btn" href="{BOOK}">Book a call</a>
     </div>
     </div>
