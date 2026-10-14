@@ -123,16 +123,17 @@ def pricing_section():
 
 
 # Two groups: keep the work you already get, then win more of it. Keys are icon names in PRODUCTS.
-PRODUCT_GROUPS = [
-    ("Catch every job", "Stop losing the work you already get",
-     "Enquiries slip through when you're on a job. These make sure every caller and every quote gets an answer.",
-     ["phone", "clock", "mail"]),
-    ("Win more jobs", "Get found by more customers",
-     "Homeowners pick from the top of Google and ChatGPT. These put you there, without paying for leads.",
-     ["star", "pin", "monitor"]),
-]
-
-
+PRODUCT_GROUPS = [("Catch every job", ["phone", "clock", "mail"]),
+                  ("Win more jobs", ["star", "pin", "monitor"])]
+# One short line per card on the homepage (the longer PRODUCTS text is for service pages).
+PRODUCT_SHORT = {
+    "phone": "Can't pick up? They get an instant text.",
+    "clock": "Quotes chased and past customers brought back.",
+    "mail": "Calls, texts, emails and Facebook in one app.",
+    "star": "Every customer asked for a review, automatically.",
+    "pin": "Your Google profile and SEO looked after monthly.",
+    "monitor": "Free, live in 3–5 days, built to get enquiries.",
+}
 # Where each product card links (by icon). Missed-call, follow-up and inbox get their own pages later.
 PRODUCT_LINKS = {"phone": "/services", "clock": "/services", "mail": "/services",
                  "star": "/services/google-reviews", "pin": "/services/google-business-profile",
@@ -140,22 +141,22 @@ PRODUCT_LINKS = {"phone": "/services", "clock": "/services", "mail": "/services"
 
 
 def products_section(cls="products"):
-    by_icon = {i: (i, t, d) for i, t, d in PRODUCTS}
+    titles = {i: t for i, t, _ in PRODUCTS}
     groups = ""
-    for n, (tag, title, blurb, keys) in enumerate(PRODUCT_GROUPS, 1):
-        cards = "".join(f'<li><a href="{PRODUCT_LINKS[i]}"><span class="ic">{icon(i)}</span><div><h3>{t}</h3><p>{d}</p>'
-                        f'<span class="more">See how it works {icon("arrow")}</span></div></a></li>'
-                        for i, t, d in (by_icon[k] for k in keys))
+    for n, (title, keys) in enumerate(PRODUCT_GROUPS, 1):
+        cards = "".join(f'<li><a href="{PRODUCT_LINKS[k]}"><span class="ic">{icon(k)}</span>'
+                        f'<span class="txt"><b>{titles[k]}</b><span>{PRODUCT_SHORT[k]}</span></span>'
+                        f'<span class="go">{icon("arrow")}</span></a></li>' for k in keys)
         groups += f"""
     <div class="prod-group pg-{n}">
-      <div class="pg-head"><span class="pg-num">{n}</span><div><p class="pg-tag">{tag}</p><h3>{title}</h3><p>{blurb}</p></div></div>
+      <h3 class="pg-head"><span class="pg-num">{n}</span>{title}</h3>
       <ul class="prod-list">{cards}</ul>
     </div>"""
     return f"""
 <section class="{cls}" id="system">
   <div class="wrap">
-    <div class="sec-head"><p class="eyebrow">Our services</p><h2>Two systems that grow your business</h2>
-    <p>Everything is included, and we set it all up for you. Tap any service to see how it works.</p></div>
+    <div class="sec-head"><h2>Our services</h2>
+    <p>Two simple systems. We set them up, you get on with the job.</p></div>
     <div class="prod-groups">{groups}
     </div>
   </div>
