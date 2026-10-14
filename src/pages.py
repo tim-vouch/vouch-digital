@@ -124,19 +124,19 @@ def pricing_section():
 
 # Two groups: keep the work you already get, then win more of it. Keys are icon names in PRODUCTS.
 PRODUCT_GROUPS = [
-    ("Stop losing jobs", "Every missed call and unanswered quote is work going to another plumber. "
-     "These make sure every enquiry gets a reply, even when you're on a job.", ["phone", "clock", "mail"]),
+    ("Stop losing jobs", "Every missed call or unanswered quote is a job for someone else. "
+     "These make sure every enquiry gets a reply.", ["phone", "clock", "mail"]),
     ("Win more jobs", "Homeowners choose from the top of Google and ChatGPT. "
      "These help you show up there, backed by real reviews.", ["star", "pin", "monitor"]),
 ]
 # One short line per card on the homepage (the longer PRODUCTS text is for service pages).
 PRODUCT_SHORT = {
-    "phone": "Can't pick up? They get an instant text.",
-    "clock": "Quotes chased and past customers brought back.",
-    "mail": "Calls, texts, emails and Facebook in one app.",
-    "star": "Every customer asked for a review, automatically.",
-    "pin": "Your Google profile and SEO looked after monthly.",
-    "monitor": "Free, live in 3–5 days, built to get enquiries.",
+    "phone": "Callers get a text back, so they don't ring the next plumber.",
+    "clock": "Quotes chased for you, and old customers brought back for more work.",
+    "mail": "Every enquiry in one place, so nothing gets forgotten.",
+    "star": "Gives homeowners a reason to pick you over the plumber next door.",
+    "pin": "Helps you show up when locals search \u201cplumber near me\u201d.",
+    "monitor": "Free, live in 3–5 days, and built to turn visitors into enquiries.",
 }
 # Where each product card links (by icon). Missed-call, follow-up and inbox get their own pages later.
 PRODUCT_LINKS = {"phone": "/services", "clock": "/services", "mail": "/services",
