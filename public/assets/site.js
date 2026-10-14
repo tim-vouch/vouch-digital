@@ -72,10 +72,12 @@ if (pk) {
     pk.querySelector('.pk-num').textContent = '£' + o.per;
     const was = pk.querySelector('.pk-was');
     was.hidden = Number(o.per) === base;
-    pk.querySelector('.pk-billed').textContent = o.billed ? 'Billed ' + o.billed + '.' : 'Billed monthly. No contract, cancel anytime.';
+    pk.querySelector('.pk-billed').textContent = o.billed ? 'Billed ' + o.billed + '.' : 'Billed monthly.';
+    // The pill is always shown (keeps the card the same height): savings upfront, "no contract" monthly.
     const save = pk.querySelector('.pk-save');
-    save.hidden = !o.save;
-    save.querySelector('b').textContent = o.save;
+    save.classList.toggle('is-note', !o.save);
+    save.innerHTML = o.save ? 'You save <b></b>' : 'No contract, cancel anytime';
+    if (o.save) save.querySelector('b').textContent = o.save;
   };
   document.querySelectorAll('[data-bill]').forEach((b) => b.addEventListener('click', () => show(b.dataset.bill)));
 }

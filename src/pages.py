@@ -111,8 +111,8 @@ def pricing_section():
       <p class="pk-label">Everything included</p>
       <h3>{p['name']}</h3>
       <p class="pk-price"><s class="pk-was" hidden>£{p['price']}</s><b class="pk-num">£{p['price']}</b><span>/month</span></p>
-      <p class="pk-billed">Billed monthly. No contract, cancel anytime.</p>
-      <p class="pk-save" hidden>You save <b></b></p>
+      <p class="pk-billed">Billed monthly.</p>
+      <p class="pk-save is-note">No contract, cancel anytime</p>
       <ul>{free}{items}</ul>
       <a class="pk-btn" href="{BOOK}">Book a call</a>
     </div>
