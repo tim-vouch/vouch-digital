@@ -456,3 +456,10 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
   .hero-row{grid-template-columns:1fr;gap:22px}
   .hero-cta{justify-items:start}
 }
+
+/* Reviews carousel directly under the hero */
+.rev-band{padding:56px 0}
+.rev-carousel{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(300px,1fr);grid-template-columns:none;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px;scrollbar-width:thin}
+.rev-carousel .rev{scroll-snap-align:start}
+.rev-carousel:focus-visible{outline:2px solid var(--mint-dark);outline-offset:4px;border-radius:12px}
+@media (max-width:980px){.rev-carousel{grid-template-columns:none!important;grid-auto-columns:82%}}
