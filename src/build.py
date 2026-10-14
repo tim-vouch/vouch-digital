@@ -26,7 +26,7 @@ def head(title, desc, path, noindex=False):
         "telephone": SITE["phone_intl"],
         "logo": SITE["domain"] + "/assets/img/logo.png",
         "email": SITE["email"],
-        "areaServed": SITE["area"],
+        "areaServed": "GB",
         "address": {
             "@type": "PostalAddress",
             "streetAddress": "167–169 Great Portland Street, 5th Floor",
@@ -64,7 +64,7 @@ def head(title, desc, path, noindex=False):
 <body>"""
 
 
-NAV = [("Services", "/services"), ("Electricians", "/electricians"), ("Plumbers", "/plumbers"),
+NAV = [("Services", "/services"), ("Plumbers", "/plumbers"),
        ("About", "/about"), ("FAQ", "/faq"), ("Contact", "/contact")]
 
 

@@ -1,16 +1,16 @@
 """Inner pages: services, trades, about, FAQ, contact.
 
 House rules (see CLAUDE.md): no invented results or reviews, no promises of rankings,
-timescales or AI recommendations, no prices, service area is London & the South East.
+results timescales or AI recommendations, no prices. Domestic plumbers only, UK-wide.
 """
 from icons import icon
 from site_data import SITE, FAQ_HOME
-from pages import audit_form
+from pages import audit_form, process_steps
 
 
 # ---------- building blocks ----------
 
-def hero(eyebrow, h1, lede, form=True, form_eyebrow="Free for electricians &amp; plumbers"):
+def hero(eyebrow, h1, lede, form=True, form_eyebrow="Free for domestic plumbers"):
     if form:
         return f"""
 <section class="hero">
@@ -78,21 +78,7 @@ def split(h2, left_title, left, right_title, right, cls="tint"):
 </section>"""
 
 
-def steps(cls="dark process"):
-    s = "".join(f"""<li><div class="ring">{icon(i)}</div><h3>{n}. {t}</h3><p>{d}</p></li>"""
-                for n, (i, t, d) in enumerate([
-                    ("clipboard", "Free check", "We look at your reviews, Google profile, website and listings, and show you at least 5 things to fix."),
-                    ("target", "Your plan", "We agree what's worth doing for your business and your area. Nothing you don't need."),
-                    ("cog", "20-minute setup", "One short call to connect your Google profile and customer list. We handle the rest."),
-                    ("chart", "It keeps working", "We run it month after month in the background while you're out on jobs."),
-                ], 1))
-    return f"""
-<section class="{cls}">
-  <div class="wrap">
-    <div class="sec-head"><p class="eyebrow">How it works</p><h2>A simple process, with nothing for you to learn</h2></div>
-    <ol class="steps">{s}</ol>
-  </div>
-</section>"""
+steps = process_steps
 
 
 def faq(items, h2="Got questions? We've got straight answers.", intro=None):
@@ -134,9 +120,9 @@ def page(*sections):
 SERVICE_PAGES = {
     "google-reviews": {
         "icon": "star", "name": "Google Reviews",
-        "title": "Google Reviews for Electricians & Plumbers | Vouch Digital",
+        "title": "Google Reviews for Plumbers & Heating Engineers | Vouch Digital",
         "desc": "Automatic, compliant Google review requests after every job, and a reply to every review. "
-                "For electricians and plumbers in London and the South East.",
+                "For domestic plumbers and heating engineers across the UK.",
         "h1": "Turn happy customers into <span class=\"accent\">a steady stream of Google reviews.</span>",
         "lede": "Every customer gets a friendly text and email after the job, asking for a review. "
                 "We reply to every review for you. Genuine, compliant, and fully done for you.",
@@ -175,19 +161,19 @@ SERVICE_PAGES = {
     },
     "google-business-profile": {
         "icon": "pin", "name": "Google Business Profile",
-        "title": "Google Business Profile for Electricians & Plumbers | Vouch Digital",
+        "title": "Google Business Profile for Plumbers & Heating Engineers | Vouch Digital",
         "desc": "We set up and manage your Google Business Profile: services, categories, areas, photos and posts. "
-                "For electricians and plumbers in London and the South East.",
+                "For domestic plumbers and heating engineers across the UK.",
         "h1": "Make your Google profile <span class=\"accent\">work as hard as you do.</span>",
         "lede": "Your Google profile is often the first thing a customer sees, before your website. "
                 "We fill in every section properly and keep it active, so Google understands exactly what you do and where.",
-        "why": ["When someone searches “electrician near me” or “emergency plumber”, the businesses that show on the map "
+        "why": ["When someone searches “plumber near me” or “emergency plumber”, the businesses that show on the map "
                 "are chosen partly by how complete, accurate and active their Google profile is.",
                 "Most trade profiles are half-finished: missing services, the wrong categories, no service areas, "
                 "a handful of old photos. Each gap is a search you could be showing up for but aren't."],
         "includes": [
             ("pin", "Categories and service areas", "The right primary and extra categories, and the areas you actually want work from."),
-            ("clipboard", "Every service listed", "Rewires, consumer units, boiler installs, leak repairs: each with a clear description."),
+            ("clipboard", "Every service listed", "Boiler installs, servicing, leak repairs, bathrooms: each with a clear description."),
             ("image", "Photos that sell", "Your real job and van photos, added regularly, because customers want to see your work."),
             ("trend", "Regular posts", "Short updates about recent jobs and services, so your profile stays active."),
             ("building", "Details kept accurate", "Hours, phone number, website and description checked and kept up to date."),
@@ -210,9 +196,9 @@ SERVICE_PAGES = {
     },
     "websites": {
         "icon": "monitor", "name": "Websites",
-        "title": "Websites for Electricians & Plumbers | Vouch Digital",
-        "desc": "Fast, mobile-friendly websites for electricians and plumbers, built to turn visitors into calls. "
-                "London and the South East.",
+        "title": "Websites for Plumbers & Heating Engineers | Vouch Digital",
+        "desc": "Fast, mobile-friendly websites for domestic plumbers and heating engineers, built to turn visitors into calls."
+                "",
         "h1": "A website that <span class=\"accent\">turns visitors into calls.</span>",
         "lede": "Most of your customers will look at your site on a phone, often in a hurry. "
                 "We build fast, clear websites that make it easy to see what you do and ring you.",
@@ -224,7 +210,7 @@ SERVICE_PAGES = {
         "includes": [
             ("monitor", "Mobile-first design", "Built for phones first, with your number and a call button always in reach."),
             ("clock", "Fast to load", "Lightweight pages that open quickly, even on a weak signal."),
-            ("clipboard", "A page per service", "Rewires, EV chargers, boiler installs and more, each with its own clear page."),
+            ("clipboard", "A page per service", "Boiler installs, servicing, bathrooms and more, each with its own clear page."),
             ("pin", "Your areas covered", "Clear information about the towns and boroughs you work in."),
             ("star", "Your real reviews", "Genuine Google reviews shown on your site, never made-up testimonials."),
             ("mail", "Enquiries straight to you", "Forms that send leads to your phone and inbox, with spam filtering."),
@@ -240,15 +226,15 @@ SERVICE_PAGES = {
             ("Who owns the website?",
              "We'll explain exactly who owns what, and what's included, before you agree to anything."),
             ("How long does a new website take?",
-             "It depends on how quickly we get your details and photos. We'll give you a realistic timeline on the call "
-             "rather than a number that sounds good."),
+             "Usually 3–5 days once we have your details and photos from the onboarding form. We'll confirm the "
+             "timeline with you on the call."),
         ],
     },
     "local-seo": {
         "icon": "trend", "name": "Local SEO",
-        "title": "Local SEO for Electricians & Plumbers | Vouch Digital",
+        "title": "Local SEO for Plumbers & Heating Engineers | Vouch Digital",
         "desc": "Consistent listings on Bing, Apple Maps, Yell and trade directories, and a website built for local "
-                "searches. For electricians and plumbers in London and the South East.",
+                "searches. For domestic plumbers and heating engineers across the UK.",
         "h1": "Show up when locals search for <span class=\"accent\">a trade like yours.</span>",
         "lede": "Local SEO is everything that helps search engines trust where you work and what you do: "
                 "consistent listings across the web, and local pages on your website.",
@@ -281,9 +267,9 @@ SERVICE_PAGES = {
     },
     "ai-search": {
         "icon": "ai", "name": "AI Search",
-        "title": "AI Search (ChatGPT) for Electricians & Plumbers | Vouch Digital",
+        "title": "AI Search (ChatGPT) for Plumbers & Heating Engineers | Vouch Digital",
         "desc": "Clear, trusted information about your business so ChatGPT, Gemini and Google's AI answers can find "
-                "and understand you. For electricians and plumbers in London and the South East.",
+                "and understand you. For domestic plumbers and heating engineers across the UK.",
         "h1": "When someone asks ChatGPT for a tradesperson, <span class=\"accent\">be easy to find.</span>",
         "lede": "More homeowners are asking ChatGPT, Gemini and Google's AI answers who to call. "
                 "These tools pull from reviews, listings and websites. We make sure yours tell a clear, consistent story.",
@@ -357,37 +343,11 @@ def services():
 # ---------- trades ----------
 
 TRADES = {
-    "electricians": {
-        "title": "Marketing for Electricians in London & the South East | Vouch Digital",
-        "desc": "Google reviews, Google profile, websites, local SEO and AI search for electricians in London and the "
-                "South East. Find out how many jobs you're missing with a free check.",
-        "eyebrow": "For electricians",
-        "h1": "More of the jobs you actually want, <span class=\"accent\">from Google and ChatGPT.</span>",
-        "lede": "Rewires, consumer unit upgrades, EV chargers and landlord EICRs. Whether you want more call-outs or "
-                "more of the bigger jobs, it starts with how you look online.",
-        "jobs": [("bolt", "Rewires", "Homeowners compare reviews closely before trusting someone with a full rewire."),
-                 ("plug", "EV charger installs", "A fast-growing search, and customers often ask AI tools who to use."),
-                 ("cog", "Consumer unit upgrades", "A clear service listing helps you show up for “fuse box” searches."),
-                 ("clipboard", "EICRs for landlords", "Repeat work every few years, so a strong reputation keeps paying back."),
-                 ("clock", "Emergency call-outs", "Decided in minutes from the map results, mostly on reviews and distance."),
-                 ("search", "Fault finding", "“Electrician near me” searches where the top three on the map get the calls.")],
-        "faq": [
-            ("I'm busy already. Why would I need this?",
-             "Most electricians we speak to are busy. The point isn't just more work, it's more of the work you "
-             "want, at prices you're happy with, so you can be choosier about which jobs you take."),
-            ("I get most of my work from builders. Is this still worth it?",
-             "Only if you want more direct work from homeowners. If you're happy with the mix you have, we'll tell you so "
-             "on the call."),
-            ("Do you work with NICEIC and NAPIT registered electricians?",
-             "Yes. We make sure your registration is clearly shown on your Google profile and website, because "
-             "customers look for it."),
-        ],
-    },
     "plumbers": {
-        "title": "Marketing for Plumbers & Heating Engineers in London & the South East | Vouch Digital",
-        "desc": "Google reviews, Google profile, websites, local SEO and AI search for plumbers and heating engineers in "
-                "London and the South East. Find out how many jobs you're missing with a free check.",
-        "eyebrow": "For plumbers &amp; heating engineers",
+        "title": "Marketing for Domestic Plumbers & Heating Engineers | Vouch Digital",
+        "desc": "Google reviews, Google profile, websites, local SEO and AI search for domestic plumbers and heating engineers "
+                "across the UK. Find out how many jobs you're missing with a free check.",
+        "eyebrow": "For domestic plumbers &amp; heating engineers",
         "h1": "More boiler installs and better-paid jobs <span class=\"accent\">from Google and ChatGPT.</span>",
         "lede": "Boiler installs, bathrooms, full heating systems and emergency call-outs. "
                 "The plumbers who win the best jobs are usually the ones with the strongest reputation online.",
@@ -418,7 +378,7 @@ def trade_page(slug):
     def body():
         return page(
             hero(d["eyebrow"], d["h1"], d["lede"],
-                 form_eyebrow="Free for electricians" if slug == "electricians" else "Free for plumbers &amp; heating engineers"),
+                 form_eyebrow="Free for plumbers &amp; heating engineers"),
             cards(d["jobs"], "Where it makes a difference", "The jobs your online reputation wins you",
                   "Different jobs are won in different ways. Here's where reviews, your Google profile and your website "
                   "matter most."),
@@ -438,21 +398,22 @@ def about():
     values = [
         ("star", "Genuine reviews only", "We never write, buy, incentivise or filter reviews. Every customer is asked, "
                                           "and that's how UK law says it should be done."),
-        ("target", "Only the trades", "We only work with electricians, plumbers and heating engineers, so everything we do "
-                                       "is built around how trade businesses win work."),
+        ("target", "Only plumbers", "We only work with domestic plumbers and heating engineers, so everything we do "
+                                    "is built around how plumbing businesses win work."),
         ("check", "Honest advice", "If something won't help your business, we'll tell you, even if that means you don't "
                                     "need us."),
         ("clock", "No lock-in", "Month to month. We'd rather keep you because it's working than because of a contract."),
         ("building", "Your data, handled properly", f"Registered with the ICO ({SITE['ico']}) and careful with your "
                                                      "customers' details."),
-        ("pin", "Local", f"Based in London, working with trade businesses across {SITE['area']}."),
+        ("pin", "Anywhere in the UK", "Everything is done remotely over video call and phone, so it doesn't matter "
+                                         "where you're based."),
     ]
     return page(
-        hero("About us", "We help local trades <span class=\"accent\">get the reputation they've earned.</span>",
-             f"Vouch Digital is a small, London-based team run by Tim, working only with electricians, plumbers and "
-             f"heating engineers across {SITE['area']}.", form=False),
-        prose("Why we started", "Good tradespeople were losing jobs to busier-looking competitors", [
-            "Most of the electricians and plumbers we speak to do brilliant work. Their customers are happy. But online, "
+        hero("About us", "We help plumbers <span class=\"accent\">get the reputation they've earned.</span>",
+             f"Vouch Digital is a small team run by Tim, working only with domestic plumbers and heating engineers "
+             f"across {SITE['area']}.", form=False),
+        prose("Why we started", "Good plumbers were losing jobs to busier-looking competitors", [
+            "Most of the plumbers we speak to do brilliant work. Their customers are happy. But online, "
             "they look quieter than they are: a handful of old reviews, a half-finished Google profile, a website that's "
             "hard to use on a phone.",
             "Meanwhile, homeowners are deciding who to call in a couple of minutes, from Google Maps and increasingly from "
@@ -480,8 +441,9 @@ FAQ_MORE = [
     ("How much does it cost?",
      "Pricing depends on what your business actually needs, so we talk about it on the call once we've seen your "
      "business. There's no lock-in: it's month to month."),
-    ("Do you work outside London?",
-     "We work across London and the South East, including Surrey, Hertfordshire, Kent, Essex, Berkshire and Sussex."),
+    ("Do you work with plumbers outside London?",
+     "Yes. We work with domestic plumbers and heating engineers anywhere in the UK. Everything is done remotely, "
+     "over video call and phone."),
     ("Can you guarantee I'll get to the top of Google?",
      "No. Nobody can honestly promise rankings or AI recommendations. We fix what's holding you back and keep the work "
      "going month after month."),
@@ -521,20 +483,20 @@ def contact():
 
 ALL_MORE = (
     [{"path": "/services", "body": services,
-      "title": "Services for Electricians & Plumbers | Vouch Digital",
-      "desc": "Google reviews, Google Business Profile, websites, local SEO and AI search for electricians and plumbers "
-              "in London and the South East, all done for you."}]
+      "title": "Services for Plumbers & Heating Engineers | Vouch Digital",
+      "desc": "Google reviews, Google Business Profile, websites, local SEO and AI search for domestic plumbers "
+              "and heating engineers across the UK, all done for you."}]
     + [{"path": f"/services/{slug}", "body": service_page(slug), "title": d["title"], "desc": d["desc"]}
        for slug, d in SERVICE_PAGES.items()]
     + [{"path": f"/{slug}", "body": trade_page(slug), "title": d["title"], "desc": d["desc"]}
        for slug, d in TRADES.items()]
     + [{"path": "/about", "body": about,
-        "title": "About Vouch Digital | Marketing for Local Trades in London",
-        "desc": "Vouch Digital helps electricians, plumbers and heating engineers in London and the South East get the "
+        "title": "About Vouch Digital | Marketing for Domestic Plumbers",
+        "desc": "Vouch Digital helps domestic plumbers and heating engineers across the UK get the "
                 "online reputation they've earned. Genuine reviews, honest advice."},
        {"path": "/faq", "body": faq_page,
         "title": "FAQ | Vouch Digital",
-        "desc": "Answers to common questions about Vouch Digital's services for electricians and plumbers."},
+        "desc": "Answers to common questions about Vouch Digital's services for domestic plumbers and heating engineers."},
        {"path": "/contact", "body": contact,
         "title": "Contact Vouch Digital | Free Missed Jobs Check",
         "desc": f"Call or text {SITE['phone']}, email {SITE['email']}, or book a free 15-minute Missed Jobs Check."}]

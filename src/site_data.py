@@ -10,7 +10,7 @@ SITE = {
     "phone_intl": "+447984003845",
     "email": "info@vouchdigital.co.uk",
     "domain": "https://vouchdigital.co.uk",
-    "area": "London and the South East",
+    "area": "the UK",
     # GHL calendar: Free Missed Jobs Check (permanent link, survives slug changes)
     "booking_url": "https://link.vouchdigital.co.uk/widget/booking/xbAVu7ah9p5NXexCdiO8",
     # Keep True until the site is live on vouchdigital.co.uk
@@ -31,21 +31,20 @@ REVIEWS = [
 ]
 
 FAQ_HOME = [
-    ("Do you only work with electricians and plumbers?",
-     "Yes. We only work with electricians, plumbers and heating engineers in London and the South "
-     "East. Everything we build, from the review request wording to the website pages, is shaped "
-     "around how a local trade business actually wins work."),
+    ("Do you only work with plumbers?",
+     "Yes. We only work with domestic plumbers and heating engineers. Everything we build, from the "
+     "review request wording to the website pages, is shaped around how a plumbing business actually "
+     "wins work from homeowners."),
     ("How long does it take to see results?",
      "We don't make promises about timescales. Reviews and visibility build over time as more "
      "genuine reviews come in and your profile stays active. We handle the setup and keep the "
      "work going month after month."),
     ("How much of my time does this take?",
-     "About 35 minutes in total: the 15-minute check, then a 20-minute setup call where we connect "
-     "your Google profile and customer list. After that we run everything in the background while "
-     "you're out on jobs."),
+     "Very little: a short first call, a quick onboarding form, then a launch call where we walk "
+     "you through everything. After that we run it in the background while you're out on jobs."),
     ("What areas do you work in?",
-     "London and the South East. We know the local competition, and we're close enough to meet "
-     "in person if you'd prefer."),
+     "Anywhere in the UK. Everything is done remotely over video call and phone, so it doesn't "
+     "matter where you're based."),
     ("Do I need a new website?",
      "Not always. If your current website works, we'll work with it. If it's slow, hard to use on "
      "a phone or not turning visitors into calls, a new one will do a better job. We'll tell you "

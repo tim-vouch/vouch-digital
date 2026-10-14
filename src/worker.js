@@ -26,6 +26,9 @@ export default {
     const old = url.pathname.match(/^\/services\/(.+?)-for-(plumbers|electricians)\/?$/);
     if (old) return Response.redirect(url.origin + (OLD_SERVICES[old[1]] ? '/services/' + OLD_SERVICES[old[1]] : '/services'), 301);
 
+    // Electricians page retired (Oct 2026): the site is plumbers-only now.
+    if (/^\/electricians\/?$/.test(url.pathname)) return Response.redirect(url.origin + '/plumbers', 301);
+
     return env.ASSETS.fetch(request);
   },
 };

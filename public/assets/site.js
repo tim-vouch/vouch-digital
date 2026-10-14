@@ -8,20 +8,6 @@ if (menuBtn && nav) {
   });
 }
 
-// "Why it matters" trade toggle
-const SWAPS = {
-  electrician: { query: 'electrician near me', you: 'Your Electrical Co.', them: 'Other Electrical Ltd' },
-  plumber: { query: 'plumber near me', you: 'Your Plumbing Co.', them: 'Other Plumbing Ltd' },
-};
-document.querySelectorAll('[data-trade]').forEach((btn) => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('[data-trade]').forEach((b) => b.setAttribute('aria-pressed', b === btn));
-    const s = SWAPS[btn.dataset.trade];
-    document.querySelectorAll('[data-swap]').forEach((el) => { el.textContent = s[el.dataset.swap]; });
-    document.querySelectorAll('[data-for]').forEach((el) => { el.hidden = el.dataset.for !== btn.dataset.trade; });
-  });
-});
-
 // Enquiry forms: save the lead, then go to the booking page
 const started = Date.now();
 document.querySelectorAll('form.enquiry').forEach((form) => {

@@ -2,8 +2,9 @@
 
 ## What this is
 Marketing site for Vouch Digital (trading name of Bolotin Ltd): done-for-you Google reviews, Google
-Business Profile, websites, local SEO and AI search for **electricians and plumbers in London & the
-South East**. Dual-trade for now; may later become electricians-only.
+Business Profile, websites, local SEO and AI search for **domestic (Gas Safe) plumbers and heating
+engineers across the UK**. Plumbers only since 14 Oct 2026 (electricians removed; /electricians 301s to
+/plumbers in `src/worker.js`). Ads run nationwide, so never limit the service area to London.
 
 ## How it's built
 - `src/site_data.py` — business facts, real reviews, homepage FAQ. Single source of truth.
@@ -20,14 +21,15 @@ Based on the mockup Tim approved on 4 Oct 2026.
 ## Never
 - Invent reviews, testimonials, case studies or results. Only real Google reviews of Vouch Digital
   (DMCC Act 2024 — and it's the whole point of the business).
-- Promise rankings, timescales, review counts or AI recommendations.
-- Say "UK" or "England" for the service area: it's London & the South East.
+- Promise rankings, results timescales, review counts or AI recommendations. (Delivery times we control
+  are fine: the website build is "roughly 3–5 days" in the 3-step process.)
+- Mention electricians, or limit the service area to London & the South East: it's the whole UK.
 - Show prices on the site.
 
 ## Launch checklist
 - [x] Set `noindex` to False in `src/site_data.py`
 - [ ] Real logo file and hero photo
-- [x] All pages built: services + 5 service pages, /plumbers, /electricians, about, faq, contact, privacy, terms (inner pages in `src/pages_more.py`, legal text in `src/legal/`)
+- [x] All pages built: services + 5 service pages, /plumbers, about, faq, contact, privacy, terms (inner pages in `src/pages_more.py`, legal text in `src/legal/`)
 - [x] 301 redirects from old `/services/*-for-plumbers` URLs (in `src/worker.js`)
 - [ ] `GHL_WEBHOOK_URL` secret set and a test lead received in GHL
 - [x] DNS moved to Cloudflare with all records kept (5 Oct 2026); site live on vouchdigital.co.uk and www
