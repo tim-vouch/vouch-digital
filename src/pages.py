@@ -9,6 +9,14 @@ def stars(n, total=5):
     return f'<span class="stars" aria-label="{n} out of 5 stars">{"★" * n}<span class="off">{"★" * (total - n)}</span></span>'
 
 
+def mascot(cls="mascot", lazy=True):
+    """The Vouch mascot (transparent webp). Original artwork supplied by Tim, Oct 2026."""
+    lz = ' loading="lazy"' if lazy else ""
+    return (f'<img class="{cls}" src="/assets/img/mascot.webp" srcset="/assets/img/mascot-sm.webp 320w, '
+            f'/assets/img/mascot.webp 560w" sizes="(max-width:820px) 200px, 340px" width="560" height="755" '
+            f'alt="Vouch Digital mascot: a plumber giving a thumbs up"{lz}>')
+
+
 def process_steps(cls="dark process"):
     """'What working with us looks like': the 3-step journey shared by every page."""
     s = "".join(f"""<li><span class="j-num">{n}</span><h3>{t}</h3><p class="j-time">{tm}</p><p class="j-desc">{d}</p></li>"""
@@ -222,13 +230,16 @@ def home():
   </div>
 </section>
 
-<section class="dark final">
+<section class="dark final has-mascot">
   <div class="wrap">
+    <div class="final-copy">
     <p class="eyebrow">Free, 15 minutes, no hard sell</p>
     <h2>Be the plumber everyone vouches for.</h2>
     <p class="muted">We'll find at least 5 ways you're losing jobs to competitors on Google, and show you how to fix them.</p>
     <div class="row"><a class="btn btn-mint" href="#audit">Find My Missed Jobs {icon('arrow')}</a>
     <a class="btn btn-ghost" href="tel:{SITE['phone_intl']}">{icon('phone')} Call {SITE['phone']}</a></div>
+    </div>
+    {mascot()}
   </div>
 </section>
 </main>"""

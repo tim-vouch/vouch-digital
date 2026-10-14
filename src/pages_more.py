@@ -5,7 +5,7 @@ results timescales or AI recommendations, no prices. Domestic plumbers only, UK-
 """
 from icons import icon
 from site_data import SITE, FAQ_HOME, PLANS, EXTRAS, BILLING
-from pages import audit_form, process_steps
+from pages import audit_form, process_steps, mascot
 
 
 # ---------- building blocks ----------
@@ -100,13 +100,16 @@ def faq(items, h2="Got questions? We've got straight answers.", intro=None):
 def final(h2="Be the business locals vouch for.",
           text="We'll find at least 5 ways you're losing jobs to competitors online, and show you how to fix them."):
     return f"""
-<section class="dark final">
+<section class="dark final has-mascot">
   <div class="wrap">
+    <div class="final-copy">
     <p class="eyebrow">Free, 15 minutes, no hard sell</p>
     <h2>{h2}</h2>
     <p class="muted">{text}</p>
     <div class="row"><a class="btn btn-mint" href="#audit">Find My Missed Jobs {icon('arrow')}</a>
     <a class="btn btn-ghost" href="tel:{SITE['phone_intl']}">{icon('phone')} Call {SITE['phone']}</a></div>
+    </div>
+    {mascot()}
   </div>
 </section>"""
 
@@ -487,6 +490,7 @@ def pricing_section():
     <div class="sec-head"><p class="eyebrow">Pricing</p><h2>Our pricing</h2>
     <p>One plan, everything included. Pay monthly with no contract, or pay upfront and save.</p></div>
     <div class="bill-tabs" role="tablist" aria-label="Billing period">{tabs}</div>
+    <div class="pk-stage">{mascot("mascot pk-mascot")}
     <div class="pk" data-base="{p['price']}">{data}
       <p class="pk-label">Everything included</p>
       <h3>{p['name']}</h3>
@@ -495,6 +499,7 @@ def pricing_section():
       <p class="pk-save" hidden>You save <b></b></p>
       <ul>{free}{items}</ul>
       <a class="pk-btn" href="/#audit">Book a call</a>
+    </div>
     </div>
     <p class="pr-foot">Want just the website? It's £1,499 as a one-off, yours to keep.</p>
   </div>
