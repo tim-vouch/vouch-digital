@@ -154,7 +154,7 @@ def home():
         quote = f"<blockquote>“{escape(r['text'])}”</blockquote>" if r["text"] else \
             '<blockquote class="muted"><em>Left a 5-star rating.</em></blockquote>'
         revs += f"""<figure class="rev">{stars(r['stars'])}{quote}
-          <figcaption class="who"><span>{escape(r['name'])}<small>{r['date']}</small></span>{G_LOGO}</figcaption></figure>"""
+          <figcaption class="who"><span>{escape(r['name'])}</span>{G_LOGO}</figcaption></figure>"""
 
     faq = "".join(f"<details><summary>{q}{icon('chevron')}</summary><p>{a}</p></details>"
                   for q, a in FAQ_HOME)
