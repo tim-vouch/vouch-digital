@@ -2,7 +2,10 @@
 from html import escape
 
 from icons import icon
-from site_data import SITE, REVIEWS, FAQ_HOME, PLANS, EXTRAS, BILLING
+from site_data import SITE, REVIEWS, RATING, GOOGLE, FAQ_HOME, PLANS, EXTRAS, BILLING
+
+
+G_LOGO = '<svg class="g-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.6 5.4 2.6 13.3l7.9 6.2C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.1 5.5c4.2-3.9 6.6-9.6 6.6-16.9z"/><path fill="#FBBC05" d="M10.5 28.6c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.9-6.2C.9 16.5 0 20.1 0 24s.9 7.5 2.6 10.8l7.9-6.2z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.1-5.5c-2.2 1.5-5 2.3-8.8 2.3-6.3 0-11.6-4.2-13.5-9.9l-7.9 6.2C6.6 42.6 14.6 48 24 48z"/></svg>'
 
 
 def stars(n, total=5):
@@ -150,7 +153,7 @@ def home():
         quote = f"<blockquote>“{escape(r['text'])}”</blockquote>" if r["text"] else \
             '<blockquote class="muted"><em>Left a 5-star rating.</em></blockquote>'
         revs += f"""<figure class="rev">{stars(r['stars'])}{quote}
-          <figcaption class="who">{escape(r['name'])}<small>Google review · {r['date']}</small></figcaption></figure>"""
+          <figcaption class="who"><span>{escape(r['name'])}<small>{r['date']}</small></span>{G_LOGO}</figcaption></figure>"""
 
     faq = "".join(f"<details><summary>{q}{icon('chevron')}</summary><p>{a}</p></details>"
                   for q, a in FAQ_HOME)
@@ -166,13 +169,13 @@ def home():
     <div class="hero-copy">
       <h1>Website Design &amp; Marketing Systems <span class="accent">For Domestic Plumbers</span></h1>
       <div class="hero-row">
-        <p class="hero-blurb">No jargon, no magic tricks, no fake promises.<br>No agency... (including ours) has the miracle solution to all your problems. We'll give you the tools to win but you need to commit to using them!</p>
+        <p class="hero-blurb"><span>No jargon, no magic tricks, no fake promises.</span><span>No agency... (including ours) has the miracle solution to all your problems. We'll give you the tools to win but you need to commit to using them!</span></p>
         <div class="hero-cta">
           <a class="btn btn-mint" href="{BOOK}">Book a call {icon('arrow')}</a>
           <small>Free 15-minute call</small>
         </div>
       </div>
-      <div class="rating-row"><a href="#reviews"><svg class="g-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.6 5.4 2.6 13.3l7.9 6.2C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.1 5.5c4.2-3.9 6.6-9.6 6.6-16.9z"/><path fill="#FBBC05" d="M10.5 28.6c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.9-6.2C.9 16.5 0 20.1 0 24s.9 7.5 2.6 10.8l7.9-6.2z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.1-5.5c-2.2 1.5-5 2.3-8.8 2.3-6.3 0-11.6-4.2-13.5-9.9l-7.9 6.2C6.6 42.6 14.6 48 24 48z"/></svg><span><b>Google</b>{stars(5)}</span><em>5.0</em></a></div>
+      <div class="rating-row"><a href="#reviews">{G_LOGO}<span><b>Google</b>{stars(5)}</span><em>{RATING}</em></a></div>
     </div>
     {mascot("mascot hero-mascot", lazy=False)}
   </div>
@@ -181,8 +184,8 @@ def home():
 <section class="reviews rev-band" id="reviews">
   <div class="wrap">
     <div class="rev-top">
-      <div><p class="eyebrow">What our clients say</p><h2>Businesses who vouch for us</h2></div>
-      <div class="g-score"><b>5.0</b> {stars(5)} <span>on Google</span></div>
+      <div><p class="eyebrow">What our clients say</p><h2>Plumbers who vouch for us</h2></div>
+      <div class="g-score"><b>{RATING}</b> {stars(5)} <span>on Google</span></div>
     </div>
     <div class="rev-grid rev-carousel" tabindex="0" aria-label="Google reviews">{revs}</div>
   </div>

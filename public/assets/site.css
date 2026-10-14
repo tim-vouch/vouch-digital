@@ -463,3 +463,10 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
 .rev-carousel .rev{scroll-snap-align:start}
 .rev-carousel:focus-visible{outline:2px solid var(--mint-dark);outline-offset:4px;border-radius:12px}
 @media (max-width:980px){.rev-carousel{grid-template-columns:none!important;grid-auto-columns:82%}}
+
+/* Review card footer: name + date on the left, Google logo bottom right */
+.rev .who{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+.rev .who .g-logo{width:24px;height:24px;flex:none}
+/* Hero blurb: slightly larger, two lines with a small gap */
+.hero-blurb{font-size:18.5px;display:grid;gap:10px}
+.hero-blurb span{display:block}

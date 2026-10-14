@@ -1,0 +1,33 @@
+name: Update Google reviews
+
+on:
+  schedule:
+    - cron: "23 6 * * *"   # every day, 06:23 UTC
+  workflow_dispatch:        # or run it by hand from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fetch reviews and rebuild
+        env:
+          GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
+          GOOGLE_PLACE_ID: ${{ vars.GOOGLE_PLACE_ID }}
+        run: |
+          python scripts/update_reviews.py
+          python src/build.py
+      - name: Commit if changed
+        run: |
+          if git diff --quiet; then echo "Nothing to commit"; exit 0; fi
+          git config user.name "reviews-bot"
+          git config user.email "reviews-bot@users.noreply.github.com"
+          git add -A
+          git commit -m "Update Google reviews"
+          git push

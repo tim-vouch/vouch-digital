@@ -18,8 +18,12 @@ SITE = {
 }
 
 # Real Google reviews of Vouch Digital only. Never add invented reviews.
-# Source: Vouch Digital Google Business Profile (via GHL review widget), Oct 2026.
-REVIEWS = [
+# Live data: src/google_reviews.json, refreshed daily from Google Places by .github/workflows/update-reviews.yml.
+# The list below is only a fallback for before that file exists.
+import json as _json
+from pathlib import Path as _Path
+
+_FALLBACK = {"rating": "5.0", "count": 3, "maps_url": "", "reviews": [
     {"name": "Paul McLoughlin", "date": "September 2026", "stars": 5,
      "text": "Tim is fantastic! We had a website before but Tim made a new one and we are "
              "actually noticing more calls. His team did the work quickly and kept us informed "
@@ -28,7 +32,11 @@ REVIEWS = [
      "text": "Great working with Tim and the team. They sorted our online presence and did "
              "everything they said they would"},
     {"name": "Ellie Balysz", "date": "September 2026", "stars": 5, "text": ""},
-]
+]}
+_live = _Path(__file__).parent / "google_reviews.json"
+GOOGLE = _json.loads(_live.read_text(encoding="utf-8")) if _live.exists() else _FALLBACK
+REVIEWS = GOOGLE["reviews"]
+RATING = GOOGLE["rating"]
 
 FAQ_HOME = [
     ("Why is the website free?",

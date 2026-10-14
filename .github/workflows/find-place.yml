@@ -1,0 +1,19 @@
+name: Find Place ID
+
+on:
+  workflow_dispatch:
+    inputs:
+      query:
+        description: "Business to search for"
+        default: "Vouch Digital London"
+
+jobs:
+  find:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Search Google Places
+        env:
+          GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
+          QUERY: ${{ inputs.query }}
+        run: python3 scripts/find_place.py

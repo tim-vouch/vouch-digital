@@ -11,7 +11,10 @@ wins plumbers more jobs, £197/month, everything included, no contract. Every bu
 (GHL calendar). The old "Find My Missed Jobs" free-audit pitch is retired; don't bring it back.
 
 ## How it's built
-- `src/site_data.py` — business facts, real reviews, homepage FAQ. Single source of truth.
+- `src/site_data.py` — business facts, homepage FAQ, plans. Single source of truth.
+- Google reviews and rating come from `src/google_reviews.json`, refreshed daily from Google Places by
+  `.github/workflows/update-reviews.yml` (needs secret `GOOGLE_PLACES_API_KEY` and variable `GOOGLE_PLACE_ID`;
+  find the ID with the "Find Place ID" workflow). Don't hand-edit that file; `site_data.py` has a fallback list.
 - `src/pages.py` — page bodies. `src/build.py` — shared head/header/footer. Run `python3 src/build.py`.
 - `public/` — built output plus `assets/site.css` and `assets/site.js`.
 - `src/worker.js` + `wrangler.jsonc` — Cloudflare Worker serving `public/` and `/api/enquiry`,
