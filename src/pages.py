@@ -2,6 +2,7 @@
 from html import escape
 
 from icons import icon
+from services_data import SERVICE_PAGES, GROUPS
 from site_data import SITE, REVIEWS, RATING, GOOGLE, FACEBOOK, FAQ_HOME, PLANS, EXTRAS, BILLING
 
 
@@ -46,21 +47,6 @@ def process_steps(cls="dark process"):
 
 BOOK = "/book"
 
-# What's in the system: one line each, in the order a plumber cares about them.
-PRODUCTS = [
-    ("phone", "Missed-call text-back",
-     "Under a boiler and can't pick up? The caller gets an instant text, so the job doesn't go to the next plumber."),
-    ("star", "Genuine Google reviews",
-     "Every new and past customer asked for a review by text and email. Real reviews only, never fake ones."),
-    ("pin", "Google profile, local SEO &amp; AI search",
-     "Your Google Business Profile, listings and ChatGPT visibility kept working for you every month."),
-    ("monitor", "Lead-generating website",
-     "Built free in 3–5 days. Every enquiry becomes a text conversation on your phone."),
-    ("clock", "Lead follow-up &amp; campaigns",
-     "Quotes chased automatically, and one-click offers to past customers when you want more work."),
-    ("mail", "All-in-one inbox &amp; business phone",
-     "Calls, texts, emails and Facebook messages in one app, on a separate business number."),
-]
 
 
 def book_buttons(second=("See pricing", "/pricing")):
@@ -122,47 +108,43 @@ def pricing_section():
 </section>"""
 
 
-# Two groups: keep the work you already get, then win more of it. Keys are icon names in PRODUCTS.
-PRODUCT_GROUPS = [
-    ("Stop losing jobs", "Every missed call or unanswered quote is a boiler install for your competition. "
-     "These make sure every enquiry gets a reply.", ["phone", "clock", "mail"]),
-    ("Win more jobs", "Homeowners choose from the top of Google and ChatGPT. "
-     "These help you show up there, backed by real reviews.", ["star", "pin", "monitor"]),
-]
-# One short line per card on the homepage (the longer PRODUCTS text is for service pages).
+# One short benefit line per service card (homepage + services page). Groups, names and order
+# come from SERVICE_PAGES in services_data.py.
 PRODUCT_SHORT = {
-    "phone": "Callers get a text back, so they don't ring the next plumber.",
-    "clock": "Quotes chased for you, and old customers brought back for more work.",
-    "mail": "Every enquiry in one place, so you save time and nothing gets forgotten.",
-    "star": "Gives homeowners a reason to pick you over the plumber next door.",
-    "pin": "Helps you show up when locals search \u201cplumber near me\u201d in Google and ChatGPT.",
-    "monitor": "Free, live in 3–5 days, and built to turn visitors into enquiries.",
+    "missed-call-text-back": "Callers get a text back, so they don't ring the next plumber.",
+    "lead-follow-up": "Quotes chased for you, and old customers brought back for more work.",
+    "all-in-one-inbox": "Every enquiry in one place, so you save time and nothing gets forgotten.",
+    "websites": "Free, live in 3–5 days, and built to turn visitors into enquiries.",
+    "google-reviews": "Gives homeowners a reason to pick you over the plumber next door.",
+    "google-business-profile": "Helps you show up when locals search \u201cplumber near me\u201d in Google and ChatGPT.",
 }
-# Where each product card links (by icon). Missed-call, follow-up and inbox get their own pages later.
-PRODUCT_LINKS = {"phone": "/services", "clock": "/services", "mail": "/services",
-                 "star": "/services/google-reviews", "pin": "/services/google-business-profile",
-                 "monitor": "/services/websites"}
 
 
-def products_section(cls="products"):
-    titles = {i: t for i, t, _ in PRODUCTS}
+def product_groups(exclude=None):
+    """The two systems as side-by-side panels of linked service cards."""
     groups = ""
-    for n, (title, blurb, keys) in enumerate(PRODUCT_GROUPS, 1):
-        cards = "".join(f'<li><a href="{PRODUCT_LINKS[k]}"><span class="ic">{icon(k)}</span>'
-                        f'<span class="txt"><b>{titles[k]}</b><span>{PRODUCT_SHORT[k]}</span></span>'
-                        f'<span class="go">{icon("arrow")}</span></a></li>' for k in keys)
+    for n, (title, blurb) in GROUPS.items():
+        cards = "".join(
+            f'<li><a href="/services/{slug}"><span class="ic">{icon(d["icon"])}</span>'
+            f'<span class="txt"><b>{d["name"]}</b><span>{PRODUCT_SHORT[slug]}</span></span>'
+            f'<span class="go">{icon("arrow")}</span></a></li>'
+            for slug, d in SERVICE_PAGES.items() if d["group"] == n and slug != exclude)
         groups += f"""
     <div class="prod-group pg-{n}">
       <div class="pg-head"><span class="pg-num">{n}</span><div><h3>{title}</h3><p>{blurb}</p></div></div>
       <ul class="prod-list">{cards}</ul>
     </div>"""
+    return f'<div class="prod-groups">{groups}\n    </div>'
+
+
+def products_section(cls="products", eyebrow="What we do", h2="Our services",
+                     intro="Two simple systems that help plumbers make more money."):
     return f"""
 <section class="{cls}" id="system">
   <div class="wrap">
-    <div class="sec-head"><p class="eyebrow">What we do</p><h2>Our services</h2>
-    <p>Two simple systems that help plumbers make more money.</p></div>
-    <div class="prod-groups">{groups}
-    </div>
+    <div class="sec-head"><p class="eyebrow">{eyebrow}</p><h2>{h2}</h2>
+    <p>{intro}</p></div>
+    {product_groups()}
   </div>
 </section>"""
 

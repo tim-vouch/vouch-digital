@@ -4,13 +4,18 @@
 
 const MIN_FILL_MS = 3000;
 
-const SERVICES = ['google-reviews', 'google-business-profile', 'websites', 'local-seo', 'ai-search'];
+const SERVICES = ['missed-call-text-back', 'lead-follow-up', 'all-in-one-inbox', 'websites', 'google-reviews',
+  'google-business-profile'];
+// Service pages merged in Oct 2026: local SEO and AI search now live on the Google profile page.
+const MOVED = { 'local-seo': 'google-business-profile', 'ai-search': 'google-business-profile' };
 const OLD_SERVICES = Object.fromEntries(SERVICES.map((s) => [s, s]));
 Object.assign(OLD_SERVICES, {
   'reviews': 'google-reviews', 'review-management': 'google-reviews', 'google-review-management': 'google-reviews',
   'gbp': 'google-business-profile', 'google-business-profile-optimisation': 'google-business-profile',
   'gbp-optimisation': 'google-business-profile', 'website-design': 'websites', 'web-design': 'websites',
-  'website': 'websites', 'seo': 'local-seo', 'ai-seo': 'ai-search', 'ai-search-optimisation': 'ai-search',
+  'website': 'websites', 'seo': 'google-business-profile', 'local-seo': 'google-business-profile',
+  'ai-seo': 'google-business-profile', 'ai-search': 'google-business-profile',
+  'ai-search-optimisation': 'google-business-profile', 'missed-call-text-back': 'missed-call-text-back',
 }); // faster than this is almost certainly a bot
 
 export default {
@@ -25,6 +30,9 @@ export default {
     // Old site (GHL) used /services/*-for-plumbers style URLs: send them to the matching new page.
     const old = url.pathname.match(/^\/services\/(.+?)-for-(plumbers|electricians)\/?$/);
     if (old) return Response.redirect(url.origin + (OLD_SERVICES[old[1]] ? '/services/' + OLD_SERVICES[old[1]] : '/services'), 301);
+
+    const moved = url.pathname.match(/^\/services\/(local-seo|ai-search)\/?$/);
+    if (moved) return Response.redirect(url.origin + '/services/' + MOVED[moved[1]], 301);
 
     // Electricians page retired (Oct 2026): the site is plumbers-only now.
     if (/^\/electricians\/?$/.test(url.pathname)) return Response.redirect(url.origin + '/plumbers', 301);

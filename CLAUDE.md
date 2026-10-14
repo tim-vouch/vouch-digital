@@ -16,6 +16,11 @@ wins plumbers more jobs, £197/month, everything included, no contract. Every bu
   `.github/workflows/update-reviews.yml` (needs secret `GOOGLE_PLACES_API_KEY` and variable `GOOGLE_PLACE_ID`;
   find the ID with the "Find Place ID" workflow). Don't hand-edit that file; `site_data.py` has a fallback list.
 - Facebook rating (hero) is set by hand in `FACEBOOK` in `src/site_data.py`; keep it true to the Facebook page.
+- Services: six pages in two systems (1 Stop losing jobs: missed-call text-back, lead follow-up, inbox;
+  2 Win more jobs: website, Google reviews, Google profile/local SEO/AI search). Content and order in
+  `src/services_data.py`; homepage cards and /services both read from it. /services/local-seo and
+  /services/ai-search 301 to /services/google-business-profile. Add a demo video by setting `video`.
+  No prices on the homepage (pricing lives on /pricing only).
 - `src/pages.py` — page bodies. `src/build.py` — shared head/header/footer. Run `python3 src/build.py`.
 - `public/` — built output plus `assets/site.css` and `assets/site.js`.
 - `src/worker.js` + `wrangler.jsonc` — Cloudflare Worker serving `public/` and `/api/enquiry`,
