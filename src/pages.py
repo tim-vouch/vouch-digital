@@ -122,14 +122,33 @@ def pricing_section():
 </section>"""
 
 
+# Two groups: keep the work you already get, then win more of it. Keys are icon names in PRODUCTS.
+PRODUCT_GROUPS = [
+    ("Catch every job", "Stop losing the work you already get",
+     "Enquiries slip through when you're on a job. These make sure every caller and every quote gets an answer.",
+     ["phone", "clock", "mail"]),
+    ("Win more jobs", "Get found by more customers",
+     "Homeowners pick from the top of Google and ChatGPT. These put you there, without paying for leads.",
+     ["star", "pin", "monitor"]),
+]
+
+
 def products_section(cls="products"):
-    cards = "".join(f'<li><span class="ic">{icon(i)}</span><h3>{t}</h3><p>{d}</p></li>' for i, t, d in PRODUCTS)
+    by_icon = {i: (i, t, d) for i, t, d in PRODUCTS}
+    groups = ""
+    for n, (tag, title, blurb, keys) in enumerate(PRODUCT_GROUPS, 1):
+        cards = "".join(f'<li><span class="ic">{icon(i)}</span><h3>{t}</h3><p>{d}</p></li>'
+                        for i, t, d in (by_icon[k] for k in keys))
+        groups += f"""
+    <div class="prod-group">
+      <div class="pg-head"><span class="pg-num">{n}</span><div><p class="pg-tag">{tag}</p><h3>{title}</h3><p>{blurb}</p></div></div>
+      <ul class="prod-grid">{cards}</ul>
+    </div>"""
     return f"""
 <section class="{cls}" id="system">
   <div class="wrap">
     <div class="sec-head"><p class="eyebrow">What you get</p><h2>One system that wins you more jobs</h2>
-    <p>Everything below is included, and we set it all up for you.</p></div>
-    <ul class="prod-grid">{cards}</ul>
+    <p>Everything below is included, and we set it all up for you.</p></div>{groups}
   </div>
 </section>"""
 
