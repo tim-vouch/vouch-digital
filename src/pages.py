@@ -78,7 +78,7 @@ def pricing_section():
                    for k in p["extras"])
     # Included services listed by system, named and linked exactly like the service pages.
     items = ""
-    for n, (title, _) in GROUPS.items():
+    for n, (title, _) in sorted(GROUPS.items(), reverse=True):  # System 2 first: seen as more valuable
         items += "".join(f'<li><a href="/services/{slug}">{d["name"]}</a></li>'
                          for slug, d in SERVICE_PAGES.items() if d["group"] == n and slug != "websites")
     tabs = ""
