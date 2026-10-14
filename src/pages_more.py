@@ -467,33 +467,23 @@ def faq_page():
 
 
 def pricing_section():
-    plans = ""
-    for p in PLANS:
-        items = "".join(f"<li>{icon('check')}<span>{t}<small>{d}</small></span></li>" for t, d in p["items"])
-        extras = "".join(
-            f'<div class="pr-extra"><span class="ic">{icon(EXTRAS[k][0])}</span>'
-            f'<h4>{EXTRAS[k][1]}</h4>'
-            f'<div class="val"><b>FREE</b><span>You save {EXTRAS[k][3]}</span></div>'
-            f'<p>{EXTRAS[k][2]}</p></div>'
-            for k in p["extras"])
-        feat = " feat" if p["featured"] else ""
-        badge = '<span class="pr-badge">Most popular</span>' if p["featured"] and len(PLANS) > 1 else ""
-        plans += f"""<div class="pr-plan">
-  <div class="pr-card{feat}">{badge}
-    <div><h3>{p['name']}</h3><p class="pr-tag">{p['tag']}</p></div>
-    <p class="pr-price"><b>£{p['price']}</b><span>/month</span></p>
-    <a class="pr-btn" href="/#audit">Book a call</a>
-    <p class="pr-lead">{p['lead']}</p>
-    <ul>{items}</ul>
-  </div>
-  <div class="pr-extras">{extras}</div>
-</div>"""
+    """Single-plan card, centred list with dividers (layout modelled on Stone Systems)."""
+    p = PLANS[0]
+    free = "".join(f'<li class="free">{EXTRAS[k][1]} <b>FREE</b> <small>(save {EXTRAS[k][3]})</small></li>'
+                   for k in p["extras"])
+    items = "".join(f"<li>{t}</li>" for t, _ in p["items"])
     return f"""
 <section class="tint pricing" id="pricing">
   <div class="wrap">
-    <div class="sec-head"><p class="eyebrow">Pricing</p><h2>One simple plan for domestic plumbers</h2>
-    <p>Everything included, plus a free website. No contract, cancel anytime.</p></div>
-    <div class="pr-plans{' single' if len(PLANS) == 1 else ''}">{plans}</div>
+    <div class="sec-head"><p class="eyebrow">Pricing</p><h2>Our pricing</h2>
+    <p>One plan, everything included. No contract, cancel anytime.</p></div>
+    <div class="pk">
+      <p class="pk-label">Everything included</p>
+      <h3>{p['name']}</h3>
+      <p class="pk-price">£{p['price']}<span>/month</span></p>
+      <ul>{free}{items}</ul>
+      <a class="pk-btn" href="/#audit">Book a call</a>
+    </div>
     <p class="pr-foot">Want just the website? It's £1,499 as a one-off, yours to keep.</p>
   </div>
 </section>"""
