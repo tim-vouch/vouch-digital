@@ -583,3 +583,8 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
   .site-head{position:fixed;background:var(--deep);box-shadow:0 4px 18px rgba(0,0,0,.18)}
   [id]{scroll-margin-top:96px}
 }
+/* Pricing card: included services grouped by system and linked */
+.pk li.pk-sys{border-top:0;padding:16px 4px 4px;font-family:var(--head);font-weight:800;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mint)}
+.pk li.pk-sys + li{border-top:0}
+.pk li a{color:#fff;text-decoration:none}
+.pk li a:hover{color:var(--mint);text-decoration:underline;text-underline-offset:3px}

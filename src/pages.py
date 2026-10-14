@@ -76,7 +76,12 @@ def pricing_section():
     p = PLANS[0]
     free = "".join(f'<li class="free">{EXTRAS[k][1]} <b>FREE</b> <small>(save {EXTRAS[k][3]})</small></li>'
                    for k in p["extras"])
-    items = "".join(f"<li>{t}</li>" for t, _ in p["items"])
+    # Included services listed by system, named and linked exactly like the service pages.
+    items = ""
+    for n, (title, _) in GROUPS.items():
+        items += f'<li class="pk-sys">System {n}: {title}</li>'
+        items += "".join(f'<li><a href="/services/{slug}">{d["name"]}</a></li>'
+                         for slug, d in SERVICE_PAGES.items() if d["group"] == n and slug != "websites")
     tabs = ""
     for i, b in enumerate(BILLING):
         pill = f"<span>{b['pill']}</span>" if b["pill"] else ""
@@ -99,7 +104,7 @@ def pricing_section():
       <p class="pk-price"><s class="pk-was" hidden>£{p['price']}</s><b class="pk-num">£{p['price']}</b><span>/month</span></p>
       <p class="pk-billed">Billed monthly.</p>
       <p class="pk-save is-note">No contract, cancel anytime</p>
-      <ul>{free}{items}</ul>
+      <ul><li class="pk-sys">Free with the plan</li>{free}{items}</ul>
       <a class="pk-btn" href="{BOOK}">Book a call</a>
     </div>
     </div>
