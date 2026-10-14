@@ -10,16 +10,16 @@ def stars(n, total=5):
 
 
 def process_steps(cls="dark process"):
-    """'What working with us looks like': the 3-step process shared by every page."""
-    s = "".join(f"""<li><span class="num">0{n}</span><span class="time">{tm}</span><h3>{t}</h3><p>{d}</p></li>"""
-                for n, (tm, t, d) in enumerate([
-                    ("Takes roughly 15 mins", "Free call",
+    """'What working with us looks like': the 3-step journey shared by every page."""
+    s = "".join(f"""<li><span class="j-num">{n}</span><h3>{t}</h3><p class="j-time">{tm}</p><p class="j-desc">{d}</p></li>"""
+                for n, (t, tm, d) in enumerate([
+                    ("Free call", "15 mins",
                      "Yes, it's a sales call. But there's no pressure and no hard sell. We'll show you where "
                      "you're losing jobs online, answer your questions and see if we're a good fit."),
-                    ("Takes roughly 3–5 days", "We build your system",
+                    ("We build your system", "3–5 days",
                      "Fill in a short onboarding form with your business details. We get to work on your new "
                      "website and everything around it."),
-                    ("Takes roughly 25 mins", "Launch call",
+                    ("Launch call", "25 mins",
                      "We walk you through your new website and system, answer any questions, and show you how it "
                      "all works. Then we keep it running while you're out on jobs."),
                 ], 1))
@@ -27,7 +27,7 @@ def process_steps(cls="dark process"):
 <section class="{cls}" id="how">
   <div class="wrap">
     <div class="sec-head"><p class="eyebrow">How it works</p><h2>What working with us looks like</h2></div>
-    <ol class="steps three">{s}</ol>
+    <ol class="journey">{s}</ol>
   </div>
 </section>"""
 
