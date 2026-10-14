@@ -165,35 +165,38 @@ def service_page(slug):
     return body
 
 
+# The customer's journey. Tags are (label, service slug) and can point at either system.
 FLOW = [
     ("search", "They find you", "Someone searches \u201cplumber near me\u201d on Google or ChatGPT and sees your complete "
-     "profile and strong reviews.", ["google-business-profile", "google-reviews"]),
-    ("monitor", "They check you out", "Your website shows what you do, your real reviews, and makes getting in touch easy.",
-     ["websites"]),
+     "profile and strong reviews.",
+     [("Google profile", "google-business-profile"), ("Reviews", "google-reviews"),
+      ("Local SEO", "google-business-profile"), ("AI search", "google-business-profile")]),
+    ("monitor", "They check you out", "Your website shows what you do and your real Google reviews, and makes getting "
+     "in touch easy.", [("Website", "websites"), ("Reviews", "google-reviews")]),
     ("phone", "They get in touch", "Missed their call? They get a text back. Asked for a quote? It gets followed up.",
-     ["missed-call-text-back", "lead-follow-up"]),
-    ("mail", "You reply from one app", "Every call, text, email and message lands in one inbox on your phone.",
-     ["all-in-one-inbox"]),
-    ("star", "Job done, review asked", "Every customer is asked for a review, which helps the next homeowner find you.",
-     ["google-reviews"]),
+     [("Text-back", "missed-call-text-back"), ("Follow-up", "lead-follow-up")]),
+    ("mail", "You reply from one app", "Every call, text, email, Facebook and Instagram message lands in one inbox on "
+     "your phone.", [("All-in-one inbox", "all-in-one-inbox")]),
+    ("star", "Job done, review asked", "Every customer is automatically asked for a review and followed up, which "
+     "helps the next homeowner find you.", [("Reviews", "google-reviews")]),
+    ("target", "They come back for more", "Boiler service reminders, seasonal offers and referral nudges turn happy "
+     "customers into repeat work and recommendations.", [("Campaigns", "lead-follow-up")]),
 ]
-SHORT_NAMES = {"missed-call-text-back": "Text-back", "lead-follow-up": "Follow-up", "all-in-one-inbox": "Inbox",
-               "websites": "Website", "google-reviews": "Reviews", "google-business-profile": "Google profile"}
 
 
 def flow():
     steps_html = ""
     for n, (i, t, d, slugs) in enumerate(FLOW, 1):
-        tags = "".join(f'<a href="/services/{x}">{SHORT_NAMES[x]}</a>' for x in slugs)
+        tags = "".join(f'<a href="/services/{x}">{label}</a>' for label, x in slugs)
         steps_html += (f'<li><span class="fl-ic">{icon(i)}<em>{n}</em></span><h3>{t}</h3><p>{d}</p>'
                        f'<span class="fl-tags">{tags}</span></li>')
     return f"""
 <section class="tint-soft flow">
   <div class="wrap">
     <div class="sec-head"><p class="eyebrow">How they fit together</p><h2>Stronger together than on their own</h2>
-    <p>Here's how one homeowner becomes a job, then a review that brings in the next one.</p></div>
+    <p>Here's how one homeowner becomes a job, a review, and repeat work.</p></div>
     <ol class="fl-steps">{steps_html}</ol>
-    <p class="fl-loop">{icon("trend")} Each new review helps the next homeowner find you, and it starts again.</p>
+    <p class="fl-loop">{icon("trend")} Happy customers review you, come back and recommend you. Then it starts again.</p>
   </div>
 </section>"""
 
