@@ -78,7 +78,7 @@ def header(path):
     <a class="logo" href="/"><img src="/assets/img/logo.webp" alt="Vouch Digital" width="112" height="48"></a>
     <nav class="nav" id="nav">{links}</nav>
     <div class="head-cta">
-      <a class="head-phone" href="tel:{SITE['phone_intl']}">{icon('phone')} {SITE['phone']}</a>
+      <a class="head-phone" href="tel:{SITE['phone_intl']}" aria-label="Call {SITE['phone']}">{icon('phone')} <span>{SITE['phone']}</span></a>
       <a class="btn btn-mint" href="/book">Book a call {icon('arrow')}</a>
       <button class="menu-btn" aria-label="Menu" aria-controls="nav" aria-expanded="false">{icon('menu')}</button>
     </div>
@@ -104,7 +104,6 @@ def footer():
     </div>
   </div>
 </footer>
-<div class="mbar"><a class="btn btn-ghost" href="tel:{SITE['phone_intl']}">{icon('phone')} Call</a><a class="btn btn-mint" href="/book">Book a call</a></div>
 <script src="/assets/site.js" defer></script>
 </body></html>"""
 

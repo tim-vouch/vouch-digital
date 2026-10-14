@@ -179,8 +179,8 @@ FLOW = [
      "your phone.", [("All-in-one inbox", "all-in-one-inbox")]),
     ("star", "Job done, review asked", "Every customer is automatically asked for a review and followed up, which "
      "helps the next homeowner find you.", [("Reviews", "google-reviews")]),
-    ("target", "Campaigns bring them back", "Automatic marketing campaigns go out to past customers: boiler service "
-     "reminders, seasonal offers and referral nudges.", [("Marketing campaigns", "marketing-campaigns")]),
+    ("target", "Automatic marketing campaigns", "Boiler service reminders, seasonal offers and referral nudges, "
+     "sent to past customers automatically.", [("Marketing campaigns", "marketing-campaigns")]),
 ]
 
 
@@ -188,7 +188,7 @@ def flow():
     steps_html = ""
     for n, (i, t, d, slugs) in enumerate(FLOW, 1):
         tags = "".join(f'<a href="/services/{x}">{label}</a>' for label, x in slugs)
-        steps_html += (f'<li><span class="fl-ic">{icon(i)}<em>{n}</em></span><h3>{t}</h3><p>{d}</p>'
+        steps_html += (f'<li><span class="fl-num">Step {n}</span><span class="fl-ic">{icon(i)}</span><h3>{t}</h3><p>{d}</p>'
                        f'<span class="fl-tags">{tags}</span></li>')
     return f"""
 <section class="tint-soft flow">
@@ -196,7 +196,8 @@ def flow():
     <div class="sec-head"><p class="eyebrow">How they fit together</p><h2>Stronger together than on their own</h2>
     <p>Here's how one homeowner becomes a job, a review, and repeat work.</p></div>
     <ol class="fl-steps">{steps_html}</ol>
-    <p class="fl-loop">{icon("trend")} Happy customers review you, come back and recommend you. Then it starts again.</p>
+    <div class="fl-return" aria-hidden="true"></div>
+    <p class="fl-loop">{icon("trend")} Back to step 1: happy customers review you, come back and recommend you.</p>
   </div>
 </section>"""
 
@@ -209,8 +210,6 @@ def services():
         f"""
 <section class="products">
   <div class="wrap">
-    <div class="sec-head"><p class="eyebrow">Pick a service</p><h2>See how each one works</h2>
-    <p>Tap any service for the full details.</p></div>
     {product_groups()}
   </div>
 </section>""",
