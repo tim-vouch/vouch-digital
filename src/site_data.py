@@ -83,7 +83,10 @@ PLANS = [
                ("Monthly strategy call", "Plan the next month with Tim")],
      "extras": ["website", "gbp"]},
 ]
+# (icon, title, description, normal price)
 EXTRAS = {
-    "website": ("monitor", "SEO-optimised website, live in 3–5 days", "£1,499"),
-    "gbp": ("pin", "Google Business Profile setup", "£299"),
+    "website": ("monitor", "Lead-generating website",
+                "Turns visitors into text conversations that go straight to your phone. Live in 3–5 days.", "£1,499"),
+    "gbp": ("pin", "Google Business Profile setup",
+            "Every section filled in properly, so you're set up to show on Google Maps.", "£299"),
 }

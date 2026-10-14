@@ -471,8 +471,11 @@ def pricing_section():
     for p in PLANS:
         items = "".join(f"<li>{icon('check')}<span>{t}<small>{d}</small></span></li>" for t, d in p["items"])
         extras = "".join(
-            f'<div class="pr-extra">{icon(EXTRAS[k][0])}<span>{EXTRAS[k][1]}</span>'
-            f'<span class="val"><s>{EXTRAS[k][2]}</s><b>FREE</b></span></div>' for k in p["extras"])
+            f'<div class="pr-extra"><span class="ic">{icon(EXTRAS[k][0])}</span>'
+            f'<h4>{EXTRAS[k][1]}</h4>'
+            f'<div class="val"><b>FREE</b><span>You save {EXTRAS[k][3]}</span></div>'
+            f'<p>{EXTRAS[k][2]}</p></div>'
+            for k in p["extras"])
         feat = " feat" if p["featured"] else ""
         badge = '<span class="pr-badge">Most popular</span>' if p["featured"] else ""
         plans += f"""<div class="pr-plan">
