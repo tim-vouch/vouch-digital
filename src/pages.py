@@ -123,8 +123,12 @@ def pricing_section():
 
 
 # Two groups: keep the work you already get, then win more of it. Keys are icon names in PRODUCTS.
-PRODUCT_GROUPS = [("Catch every job", ["phone", "clock", "mail"]),
-                  ("Win more jobs", ["star", "pin", "monitor"])]
+PRODUCT_GROUPS = [
+    ("Stop losing jobs", "Every missed call and unanswered quote is work going to another plumber. "
+     "These make sure every enquiry gets a reply, even when you're on a job.", ["phone", "clock", "mail"]),
+    ("Win more jobs", "Homeowners choose from the top of Google and ChatGPT. "
+     "These help you show up there, backed by real reviews.", ["star", "pin", "monitor"]),
+]
 # One short line per card on the homepage (the longer PRODUCTS text is for service pages).
 PRODUCT_SHORT = {
     "phone": "Can't pick up? They get an instant text.",
@@ -143,13 +147,13 @@ PRODUCT_LINKS = {"phone": "/services", "clock": "/services", "mail": "/services"
 def products_section(cls="products"):
     titles = {i: t for i, t, _ in PRODUCTS}
     groups = ""
-    for n, (title, keys) in enumerate(PRODUCT_GROUPS, 1):
+    for n, (title, blurb, keys) in enumerate(PRODUCT_GROUPS, 1):
         cards = "".join(f'<li><a href="{PRODUCT_LINKS[k]}"><span class="ic">{icon(k)}</span>'
                         f'<span class="txt"><b>{titles[k]}</b><span>{PRODUCT_SHORT[k]}</span></span>'
                         f'<span class="go">{icon("arrow")}</span></a></li>' for k in keys)
         groups += f"""
     <div class="prod-group pg-{n}">
-      <h3 class="pg-head"><span class="pg-num">{n}</span>{title}</h3>
+      <div class="pg-head"><span class="pg-num">{n}</span><div><h3>{title}</h3><p>{blurb}</p></div></div>
       <ul class="prod-list">{cards}</ul>
     </div>"""
     return f"""
