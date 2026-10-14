@@ -15,6 +15,7 @@ wins plumbers more jobs, £197/month, everything included, no contract. Every bu
 - Google reviews and rating come from `src/google_reviews.json`, refreshed daily from Google Places by
   `.github/workflows/update-reviews.yml` (needs secret `GOOGLE_PLACES_API_KEY` and variable `GOOGLE_PLACE_ID`;
   find the ID with the "Find Place ID" workflow). Don't hand-edit that file; `site_data.py` has a fallback list.
+- Facebook rating (hero) is set by hand in `FACEBOOK` in `src/site_data.py`; keep it true to the Facebook page.
 - `src/pages.py` — page bodies. `src/build.py` — shared head/header/footer. Run `python3 src/build.py`.
 - `public/` — built output plus `assets/site.css` and `assets/site.js`.
 - `src/worker.js` + `wrangler.jsonc` — Cloudflare Worker serving `public/` and `/api/enquiry`,

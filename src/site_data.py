@@ -38,6 +38,9 @@ GOOGLE = _json.loads(_live.read_text(encoding="utf-8")) if _live.exists() else _
 REVIEWS = GOOGLE["reviews"]
 RATING = GOOGLE["rating"]
 
+# Facebook rating: Facebook has no simple reviews API, so this is set by hand. Keep it true to the page.
+FACEBOOK = {"rating": "5.0", "url": ""}  # url: the Vouch Digital Facebook page, e.g. https://www.facebook.com/...
+
 FAQ_HOME = [
     ("Why is the website free?",
      "Because it's part of the system. When you join the monthly plan, we build your website for free so it works "

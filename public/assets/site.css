@@ -470,3 +470,6 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
 /* Hero blurb: slightly larger, two lines with a small gap */
 .hero-blurb{font-size:18.5px;display:grid;gap:10px}
 .hero-blurb span{display:block}
+.rating-row .fb-logo{width:30px;height:30px;flex:none}
+.rating-row a + a{padding-left:28px;border-left:1px solid rgba(255,255,255,.1)}
+@media (max-width:480px){.rating-row{gap:14px;flex-wrap:wrap}.rating-row a{gap:8px}.rating-row a + a{padding-left:14px}.rating-row em{font-size:18px;margin-left:0}.rating-row .stars{font-size:12px}.rating-row .g-logo,.rating-row .fb-logo{width:24px;height:24px}}
