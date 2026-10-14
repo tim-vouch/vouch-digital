@@ -186,7 +186,7 @@ def home():
           <figcaption class="who"><span>{escape(r['name'])}</span>{G_LOGO}</figcaption></figure>"""
 
     faq = "".join(f"<details><summary>{q}{icon('chevron')}</summary><p>{a}</p></details>"
-                  for q, a in FAQ_HOME)
+                  for q, a in FAQ_HOME if not q.startswith("How much"))
 
     hero_ticks = "".join(f'<li><span class="tick">{icon("check")}</span>{t}</li>' for t in
                          ["Free website, live in 3–5 days", "£197 a month, everything included",
@@ -262,7 +262,6 @@ def home():
 
 
 
-{pricing_section()}
 
 <section class="faq" id="faq">
   <div class="wrap">
@@ -319,7 +318,7 @@ ALL = [
     {"path": "/", "body": home,
      "title": "Marketing for Domestic Plumbers & Heating Engineers | Vouch Digital",
      "desc": "A free website plus missed-call text-back, Google reviews, your Google profile and local SEO "
-             "for domestic plumbers. £197 a month, everything included, no contract."},
+             "for domestic plumbers. Set up for you, no contract."},
     {"path": "/book", "body": book, "noindex": True,
      "title": "Book a call | Vouch Digital",
      "desc": "Book a free 15-minute call with Vouch Digital."},
