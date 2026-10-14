@@ -571,5 +571,5 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
 /* Desktop hero: tighter bottom, mascot a touch smaller so the banner ends closer to the ratings */
 @media (min-width:981px){
   .hero-k.hero-v2 .hero-copy{padding-bottom:40px}
-  .hero-k .hero-mascot{width:420px;max-width:none;margin-top:-128px}
+  .hero-k .hero-mascot{width:392px;max-width:none;margin-top:-90px}
 }
