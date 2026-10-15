@@ -154,8 +154,8 @@ SYS_JOIN = """
     </div>"""
 
 
-def products_section(cls="products", eyebrow="What we do", h2="Two simple systems that help plumbers make more money",
-                     intro="One stops you losing the jobs you already get. The other brings you more.",
+def products_section(cls="products", eyebrow="What we do", h2="2 simple systems that help our plumbers make more money",
+                     intro="One stops you losing the jobs you already get. The other wins you more jobs.",
                      join=False):
     joiner = SYS_JOIN.format(arrow=icon("arrow")) if join else ""
     return f"""
