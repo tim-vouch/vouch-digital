@@ -60,8 +60,7 @@ FAQ_HOME = [
      "Very little: a 15-minute first call, a short onboarding form, then the launch call. After that we run it in "
      "the background while you're out on jobs."),
     ("Are the reviews genuine?",
-     "Yes. We only ask your real customers, every customer is asked, and we never filter out "
-     "unhappy ones. We never write, buy, incentivise or remove reviews. That's how the Digital "
+     "Yes. We only ask your real customers. We never write, buy, incentivise or remove reviews. That's how the Digital "
      "Markets, Competition and Consumers Act 2024 says it should be done."),
     ("Do you only work with plumbers?",
      "Yes. We only work with domestic plumbers and heating engineers, anywhere in the UK. Everything is done "

@@ -242,7 +242,7 @@ SERVICE_PAGES = {
                    "Reply to every review", "Keep it all compliant with UK law"]),
         "faq": [
             ("Are the reviews genuine?",
-             "Yes. We only ask your real customers, every customer is asked, and we never filter out unhappy ones. "
+             "Yes. We only ask your real customers. "
              "We never write, buy, incentivise or remove reviews. That's what the Digital Markets, Competition and "
              "Consumers Act 2024 requires."),
             ("What if someone leaves a bad review?",
