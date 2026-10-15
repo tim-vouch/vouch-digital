@@ -193,8 +193,8 @@ def flow():
     return f"""
 <section class="tint-soft flow" id="how">
   <div class="wrap">
-    <div class="sec-head"><p class="eyebrow">How they fit together</p><h2>Stronger together than on their own</h2>
-    <p>Here's how one homeowner becomes a job, a review, and repeat work.</p></div>
+    <div class="sec-head"><p class="eyebrow">How they fit together</p><h2>2 systems working together to win repeat business for life</h2>
+    <p>Follow one homeowner through the 2 systems: found, booked, reviewed, referral, repeat.</p></div>
     <ol class="fl-steps">{steps_html}</ol>
     <div class="fl-return" aria-hidden="true"></div>
     <p class="fl-loop">{icon("trend")} Back to step 1: happy customers review you, come back and recommend you.</p>
