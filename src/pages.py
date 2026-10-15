@@ -27,7 +27,7 @@ def process_steps(cls="dark process"):
     """'What working with us looks like': the 3-step journey shared by every page."""
     s = "".join(f"""<li><span class="j-num">{n}</span><h3>{t}</h3><p class="j-time">{tm}</p><p class="j-desc">{d}</p></li>"""
                 for n, (t, tm, d) in enumerate([
-                    ("Quick call", "15 mins",
+                    ("Demo call", "15 mins",
                      "Yes, it's a sales call. But there's no pressure and no hard sell. We'll show you where "
                      "you're losing jobs online, answer your questions and see if we're a good fit."),
                     ("We build your system", "3–5 days",
