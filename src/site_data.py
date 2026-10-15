@@ -11,8 +11,8 @@ SITE = {
     "email": "info@vouchdigital.co.uk",
     "domain": "https://vouchdigital.co.uk",
     "area": "the UK",
-    # GHL booking calendar for the free 15-minute call (permanent link, survives slug changes)
-    "booking_url": "https://link.vouchdigital.co.uk/widget/booking/xbAVu7ah9p5NXexCdiO8",
+    # GHL booking calendar for the 15-minute demo call. GHL's own domain (always works), not link.vouchdigital.co.uk
+    "booking_url": "https://api.leadconnectorhq.com/widget/booking/xbAVu7ah9p5NXexCdiO8",
     # Keep True until the site is live on vouchdigital.co.uk
     "noindex": False,
 }

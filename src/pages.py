@@ -61,7 +61,7 @@ def final_cta(h2="Be the plumber everyone vouches for.",
 <section class="dark final has-mascot">
   <div class="wrap">
     <div class="final-copy">
-    <p class="eyebrow">15 minutes, no hard sell</p>
+    <p class="eyebrow">15-minute demo call</p>
     <h2>{h2}</h2>
     <p class="muted">{text}</p>
     <div class="row"><a class="btn btn-mint" href="{BOOK}">Book a call {icon('arrow')}</a>
