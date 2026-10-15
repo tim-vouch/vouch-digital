@@ -556,7 +556,7 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
 .sj-lines path{fill:none;stroke:var(--mint-dark);stroke-width:2;stroke-dasharray:6 6;vector-effect:non-scaling-stroke}
 .sys-join .btn{margin-top:-2px;font-size:23px;padding:22px 44px}
 .sys-join .btn svg{width:24px;height:24px}
-@media (max-width:900px){.sj-lines{display:none}.sys-join{margin-top:24px}.sys-join .btn{font-size:18px;padding:17px 26px}}
+@media (max-width:900px){.sj-lines{display:none}.sys-join{margin-top:24px}.sys-join .btn{font-size:20px;line-height:1.25;padding:18px 30px;white-space:normal;text-align:center;max-width:320px}}
 /* Mobile hero: left-aligned like desktop; Book a call, Google and Facebook stacked beside a small mascot */
 @media (max-width:760px){
   .hero-k .wrap{position:relative}
