@@ -208,7 +208,6 @@ def home():
         <p class="hero-blurb"><span>No jargon, no magic tricks, no fake promises.</span><span>No agency... (including ours) has the miracle solution to all your problems. We'll give you the tools to win but you need to commit to using them!</span></p>
         <div class="hero-cta">
           <a class="btn btn-mint" href="{BOOK}">Book a call {icon('arrow')}</a>
-          <small>15 minutes, no hard sell</small>
         </div>
       </div>
       <div class="rating-row"><a href="#reviews">{G_LOGO}<span><b>Google</b>{stars(5)}</span><em>{RATING}</em></a>
