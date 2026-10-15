@@ -150,7 +150,7 @@ SYS_JOIN = """
     <div class="sys-join">
       <svg class="sj-lines" viewBox="0 0 1000 70" preserveAspectRatio="none" aria-hidden="true">
         <path d="M250 0 C250 45 500 25 500 64" /><path d="M750 0 C750 45 500 25 500 64" /></svg>
-      <a class="btn btn-mint" href="/services#how">See how both systems work together {arrow}</a>
+      <a class="btn btn-mint" href="/services#how">See how the 2 systems work together {arrow}</a>
     </div>"""
 
 
