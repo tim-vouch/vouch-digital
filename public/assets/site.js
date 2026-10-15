@@ -89,3 +89,26 @@ if (pk) {
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 }
+
+// Reviews carousel: dots instead of a scrollbar (one per review, active = first visible)
+document.querySelectorAll('.rev-carousel').forEach((c) => {
+  const dots = c.parentElement.querySelector('.rev-dots');
+  if (!dots) return;
+  const cards = [...c.children];
+  const maxScroll = () => c.scrollWidth - c.clientWidth;
+  // only as many dots as there are distinct scroll positions
+  const stops = cards.map((el) => Math.min(el.offsetLeft - cards[0].offsetLeft, maxScroll()))
+    .filter((v, i, a) => i === 0 || v - a[i - 1] > 4);
+  if (stops.length < 2) { dots.hidden = true; return; }
+  dots.innerHTML = stops.map((_, i) => `<button type="button" aria-label="Show review ${i + 1}"></button>`).join('');
+  const btns = [...dots.children];
+  const update = () => {
+    const x = c.scrollLeft;
+    let best = 0;
+    stops.forEach((s, i) => { if (Math.abs(s - x) < Math.abs(stops[best] - x)) best = i; });
+    btns.forEach((b, i) => b.setAttribute('aria-current', String(i === best)));
+  };
+  btns.forEach((b, i) => b.addEventListener('click', () => c.scrollTo({ left: stops[i], behavior: 'smooth' })));
+  c.addEventListener('scroll', update, { passive: true });
+  update();
+});

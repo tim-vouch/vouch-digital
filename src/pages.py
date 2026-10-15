@@ -223,6 +223,7 @@ def home():
       <div><p class="eyebrow">What our clients say</p><h2>Plumbers who vouch for us</h2></div>
     </div>
     <div class="rev-grid rev-carousel" tabindex="0" aria-label="Google reviews">{revs}</div>
+    <div class="rev-dots" aria-label="Choose review"></div>
   </div>
 </section>
 
