@@ -605,3 +605,8 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
   .hero-k .rating-row .tp-ico{width:24px;height:24px}
   .hero-k .hero-mascot{width:188px;bottom:8px;right:max(calc(50vw - 194px),2px)}
 }
+/* Trustpilot star reads small at the same box size as the round logos; no dividers between ratings */
+.rating-row .tp-ico{width:36px;height:36px;margin:-3px}
+.rating-row a + a{border-left:0!important}
+@media (min-width:981px){.hero-k .rating-row{gap:40px}.hero-k .rating-row a + a{padding-left:0}}
+@media (max-width:760px){.hero-k .rating-row .tp-ico{width:29px;height:29px;margin:-2.5px}}
