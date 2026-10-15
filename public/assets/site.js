@@ -90,24 +90,21 @@ if (pk) {
   onScroll();
 }
 
-// Reviews carousel: one dot per review; the review nearest the middle is active
+// Reviews carousel (mobile): one dot per review. Positions are worked out live, so they stay right after fonts load or the phone rotates.
 document.querySelectorAll('.rev-carousel').forEach((c) => {
   const dots = c.parentElement.querySelector('.rev-dots');
   const cards = [...c.children];
-  if (!dots || cards.length < 2) { if (dots) dots.hidden = true; return; }
+  if (!dots || cards.length < 2) return;
   dots.innerHTML = cards.map((_, i) => `<button type="button" aria-label="Show review ${i + 1}"></button>`).join('');
   const btns = [...dots.children];
-  const centre = (el) => el.offsetLeft + el.offsetWidth / 2;
-  const go = (i) => c.scrollTo({ left: centre(cards[i]) - c.clientWidth / 2, behavior: 'smooth' });
+  const stop = (i) => Math.min(cards[i].offsetLeft - cards[0].offsetLeft, c.scrollWidth - c.clientWidth);
   const update = () => {
-    const mid = c.scrollLeft + c.clientWidth / 2;
+    const x = c.scrollLeft;
     let best = 0;
-    cards.forEach((el, i) => { if (Math.abs(centre(el) - mid) < Math.abs(centre(cards[best]) - mid)) best = i; });
-    cards.forEach((el, i) => el.classList.toggle('is-active', i === best));
+    cards.forEach((_, i) => { if (Math.abs(stop(i) - x) <= Math.abs(stop(best) - x)) best = i; });
     btns.forEach((b, i) => b.setAttribute('aria-current', String(i === best)));
   };
-  btns.forEach((b, i) => b.addEventListener('click', () => go(i)));
-  cards.forEach((el, i) => el.addEventListener('click', () => go(i)));
+  btns.forEach((b, i) => b.addEventListener('click', () => c.scrollTo({ left: stop(i), behavior: 'smooth' })));
   c.addEventListener('scroll', update, { passive: true });
   window.addEventListener('resize', update);
   update();

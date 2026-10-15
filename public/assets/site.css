@@ -464,8 +464,10 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
 
 /* Reviews carousel directly under the hero */
 .rev-band{padding:56px 0}
-.rev-carousel{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(300px,1fr);grid-template-columns:none;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px;scrollbar-width:none}
-.rev-carousel::-webkit-scrollbar{display:none}
+.rev-carousel{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(300px,1fr);grid-template-columns:none;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px;scrollbar-width:thin;scrollbar-color:#cfd8d4 transparent}
+.rev-carousel::-webkit-scrollbar{height:4px}
+.rev-carousel::-webkit-scrollbar-thumb{background:#cfd8d4;border-radius:999px}
+.rev-carousel::-webkit-scrollbar-track{background:transparent}
 .rev-carousel .rev{scroll-snap-align:start}
 .rev-carousel:focus-visible{outline:2px solid var(--mint-dark);outline-offset:4px;border-radius:12px}
 @media (max-width:980px){.rev-carousel{grid-template-columns:none!important;grid-auto-columns:82%}}
@@ -593,8 +595,6 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
 .rev-dots button{width:9px;height:9px;padding:0;border:0;border-radius:999px;background:#cfd8d4;cursor:pointer;transition:width .2s,background .2s}
 .rev-dots button[aria-current="true"]{width:26px;background:var(--mint-dark)}
 .rev-dots button:focus-visible{outline:2px solid var(--mint-dark);outline-offset:3px}
-/* Centred review carousel: every card can sit in the middle, so there is one dot per review */
-.rev-carousel{grid-auto-columns:360px;scroll-snap-type:x mandatory;padding-inline:calc(50% - 180px);scroll-padding-inline:0}
-.rev-carousel .rev{scroll-snap-align:center;transition:opacity .25s,transform .25s}
-.rev-carousel .rev:not(.is-active){opacity:.55;transform:scale(.97)}
-@media (max-width:980px){.rev-carousel{grid-auto-columns:82%!important;padding-inline:9%}}
+/* Desktop: quiet thin scrollbar, no dots. Mobile: dots (one per review), no scrollbar. */
+.rev-dots{display:none}
+@media (max-width:980px){.rev-dots{display:flex}.rev-carousel{scrollbar-width:none;padding-bottom:4px}.rev-carousel::-webkit-scrollbar{display:none}}
