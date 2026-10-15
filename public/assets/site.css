@@ -610,3 +610,20 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
 .rating-row a + a{border-left:0!important}
 @media (min-width:981px){.hero-k .rating-row{gap:40px}.hero-k .rating-row a + a{padding-left:0}}
 @media (max-width:760px){.hero-k .rating-row .tp-ico{width:29px;height:29px;margin:-2.5px}}
+/* Booking page */
+.book-hero{padding:130px 0 44px}
+.book-ratings{justify-content:center;border-top:0;margin-top:22px;padding-top:0;gap:34px;flex-wrap:wrap}
+.book-ratings a + a{border-left:0!important;padding-left:0!important}
+.book-grid{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:40px;align-items:start;max-width:1120px}
+.book-info{position:sticky;top:110px;display:grid;gap:20px}
+.book-info h2{font-size:24px;font-weight:800}
+.book-points{list-style:none;display:grid;gap:14px}
+.book-points li{display:flex;gap:12px;align-items:flex-start;font-size:16px;line-height:1.5}
+.book-points .tick{flex:none;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--mint);color:var(--deep);margin-top:1px}
+.book-points .tick svg{width:14px;height:14px;stroke-width:3}
+.worst-case{background:#fff;border:1px solid #cdeedd;border-left:4px solid var(--mint);border-radius:14px;padding:18px 20px}
+.worst-case .wc-lbl{font-family:var(--head);font-weight:800;font-size:17px;margin-bottom:6px}
+.worst-case p:last-child{color:var(--ink-soft);font-size:15px;line-height:1.55}
+.book-frame{max-width:none;margin:0;background:#fff;border-radius:16px;overflow:hidden}
+@media (max-width:900px){.book-grid{grid-template-columns:1fr;gap:24px}.book-info{position:static}
+  .book-ratings{flex-direction:column;align-items:center;gap:12px}.book-ratings span{min-width:84px}.book-ratings a{width:170px}}

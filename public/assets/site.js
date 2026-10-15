@@ -57,8 +57,6 @@ if (booking) {
   // GHL's resize script expects the id format <calendarId>_<timestamp>
   booking.id = booking.dataset.src.split('/').pop() + '_' + Date.now();
   booking.src = booking.dataset.src + (qs ? '?' + qs : '');
-  const hi = document.querySelector('[data-first]');
-  if (hi && first) hi.textContent = 'Nice one, ' + first + '.';
 }
 
 // Pricing: monthly / quarterly / annual toggle

@@ -354,12 +354,12 @@ def contact():
     ways = [
         ("phone", "Call or text", f'<a href="tel:{SITE["phone_intl"]}">{SITE["phone"]}</a>'),
         ("mail", "Email", f'<a href="mailto:{SITE["email"]}">{SITE["email"]}</a>'),
-        ("clipboard", "Book a free call", '<a href="/book">Pick a time</a> that suits you for a 15-minute call.'),
+        ("clipboard", "Book a call", '<a href="/book">Pick a time</a> that suits you for a 15-minute call.'),
         ("building", "Registered office", f"{SITE['address']}. This is our registered address, not a walk-in office."),
     ]
     return page(
         hero("Contact", "Let's get your <span class=\"accent\">free website started.</span>",
-             "The quickest way to get started is a free 15-minute call. Pick a time that suits you, "
+             "The quickest way to get started is a 15-minute call. Pick a time that suits you, "
              f"or call or text {SITE['phone']}."),
         cards(ways, "Get in touch", "Other ways to reach us", cls="tint-soft"),
     )
@@ -385,6 +385,6 @@ ALL_MORE = (
         "title": "FAQ | Vouch Digital",
         "desc": "Answers to common questions about Vouch Digital's services for domestic plumbers and heating engineers."},
        {"path": "/contact", "body": contact,
-        "title": "Contact Vouch Digital | Book a Free Call",
-        "desc": f"Call or text {SITE['phone']}, email {SITE['email']}, or book a free 15-minute call."}]
+        "title": "Contact Vouch Digital | Book a Call",
+        "desc": f"Call or text {SITE['phone']}, email {SITE['email']}, or book a 15-minute call."}]
 )

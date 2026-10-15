@@ -27,7 +27,7 @@ def process_steps(cls="dark process"):
     """'What working with us looks like': the 3-step journey shared by every page."""
     s = "".join(f"""<li><span class="j-num">{n}</span><h3>{t}</h3><p class="j-time">{tm}</p><p class="j-desc">{d}</p></li>"""
                 for n, (t, tm, d) in enumerate([
-                    ("Free call", "15 mins",
+                    ("Quick call", "15 mins",
                      "Yes, it's a sales call. But there's no pressure and no hard sell. We'll show you where "
                      "you're losing jobs online, answer your questions and see if we're a good fit."),
                     ("We build your system", "3–5 days",
@@ -56,12 +56,12 @@ def book_buttons(second=("See pricing", "/pricing")):
 
 
 def final_cta(h2="Be the plumber everyone vouches for.",
-              text="Book a free 15-minute call. We'll show you how it works and get your free website started."):
+              text="Book a 15-minute call. We'll show you how it works and get your free website started."):
     return f"""
 <section class="dark final has-mascot">
   <div class="wrap">
     <div class="final-copy">
-    <p class="eyebrow">Free, 15 minutes, no hard sell</p>
+    <p class="eyebrow">15 minutes, no hard sell</p>
     <h2>{h2}</h2>
     <p class="muted">{text}</p>
     <div class="row"><a class="btn btn-mint" href="{BOOK}">Book a call {icon('arrow')}</a>
@@ -208,7 +208,7 @@ def home():
         <p class="hero-blurb"><span>No jargon, no magic tricks, no fake promises.</span><span>No agency... (including ours) has the miracle solution to all your problems. We'll give you the tools to win but you need to commit to using them!</span></p>
         <div class="hero-cta">
           <a class="btn btn-mint" href="{BOOK}">Book a call {icon('arrow')}</a>
-          <small>Free 15-minute call</small>
+          <small>15 minutes, no hard sell</small>
         </div>
       </div>
       <div class="rating-row"><a href="#reviews">{G_LOGO}<span><b>Google</b>{stars(5)}</span><em>{RATING}</em></a>
@@ -287,22 +287,38 @@ def home():
 
 
 def book():
+    ratings = (f'<a href="#">{G_LOGO}<span><b>Google</b>{stars(5)}</span><em>{RATING}</em></a>'
+               f'<a href="{TRUSTPILOT["url"]}" target="_blank" rel="noopener">{TP_ICON}<span><b>Trustpilot</b>{stars(5)}</span><em>{TRUSTPILOT["rating"]}</em></a>'
+               f'<a href="{FACEBOOK["url"] or "#"}" target="_blank" rel="noopener">{FB_LOGO}<span><b>Facebook</b>{stars(5)}</span><em>{FACEBOOK["rating"]}</em></a>')
+    points = "".join(f'<li><span class="tick">{icon("check")}</span>{t}</li>' for t in [
+        "We look at your Google profile and website together.",
+        "We show you how the 2 systems would work for your business.",
+        "No hard sell. If it's not right for you, we'll tell you.",
+    ])
     return f"""
 <main>
 <section class="dark book-hero">
   <div class="wrap">
-    <p class="eyebrow">Free 15-minute call</p>
-    <h1><span data-first>Nice one.</span> Pick a time that suits you.</h1>
-    <p class="muted">15 minutes on Google Meet. We'll show you how the system works, answer your questions and get your free website started.</p>
+    <h1>Book your 15-minute call</h1>
+    <p class="muted">Pick a time that suits you. 15 minutes on Google Meet.</p>
+    <div class="rating-row book-ratings">{ratings}</div>
   </div>
 </section>
 <section class="book">
-  <div class="wrap">
-    <div class="book-frame">
-      <iframe class="booking" title="Book your free 15-minute call" data-src="{SITE['booking_url']}" scrolling="no"></iframe>
+  <div class="wrap book-grid">
+    <div class="book-info">
+      <h2>What happens on the call</h2>
+      <ul class="book-points">{points}</ul>
+      <div class="worst-case">
+        <p class="wc-lbl">Worst case?</p>
+        <p>You spend 15 minutes and leave with a clear list of what to fix on your Google profile and website. Do it yourself, and we never work together. No hard feelings.</p>
+      </div>
     </div>
-    <p class="book-alt">Can't find a time that works? Call or text <a href="tel:{SITE['phone_intl']}">{SITE['phone']}</a> and we'll sort one out.</p>
+    <div class="book-frame">
+      <iframe class="booking" title="Book your 15-minute call" data-src="{SITE['booking_url']}" scrolling="no"></iframe>
+    </div>
   </div>
+  <p class="book-alt wrap">Can't find a time that works? Call or text <a href="tel:{SITE['phone_intl']}">{SITE['phone']}</a> and we'll sort one out.</p>
 </section>
 </main>
 <script src="https://link.msgsndr.com/js/form_embed.js" defer></script>"""
@@ -329,7 +345,7 @@ ALL = [
              "for domestic plumbers. Set up for you, no contract."},
     {"path": "/book", "body": book, "noindex": True,
      "title": "Book a call | Vouch Digital",
-     "desc": "Book a free 15-minute call with Vouch Digital."},
+     "desc": "Book a 15-minute call with Vouch Digital."},
     {"path": "/privacy", "body": legal("privacy", "Privacy Policy"),
      "title": "Privacy Policy | Vouch Digital",
      "desc": "How Vouch Digital (Bolotin Ltd) collects, uses and protects personal data."},
