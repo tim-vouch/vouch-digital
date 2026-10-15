@@ -38,8 +38,12 @@ GOOGLE = _json.loads(_live.read_text(encoding="utf-8")) if _live.exists() else _
 REVIEWS = GOOGLE["reviews"]
 RATING = GOOGLE["rating"]
 
+# Trustpilot TrustScore, set by hand (5.0 from 1 review, 15 Oct 2026). Keep it equal to the public profile.
+# Free plan: no Trustpilot logo/stars (brand assets) on our site, so it's shown as text with our own icon.
+TRUSTPILOT = {"rating": "5.0", "url": "https://uk.trustpilot.com/review/vouchdigital.co.uk"}
+
 # Facebook rating: Facebook has no simple reviews API, so this is set by hand. Keep it true to the page.
-FACEBOOK = {"rating": "5.0", "url": ""}  # url: the Vouch Digital Facebook page, e.g. https://www.facebook.com/...
+FACEBOOK = {"rating": "5.0", "url": "https://www.facebook.com/profile.php?id=61595114371482"}  # url: the Vouch Digital Facebook page, e.g. https://www.facebook.com/...
 
 FAQ_HOME = [
     ("Why is the website free?",

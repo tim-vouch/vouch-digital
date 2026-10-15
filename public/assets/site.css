@@ -598,3 +598,10 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
 /* Desktop: quiet thin scrollbar, no dots. Mobile: dots (one per review), no scrollbar. */
 .rev-dots{display:none}
 @media (max-width:980px){.rev-dots{display:flex}.rev-carousel{scrollbar-width:none;padding-bottom:4px}.rev-carousel::-webkit-scrollbar{display:none}}
+/* Trustpilot (own icon, not their brand mark) + three-up rating row */
+.rating-row .tp-ico{width:30px;height:30px;flex:none}
+@media (min-width:981px){.hero-k .rating-row{gap:24px}.hero-k .rating-row a + a{padding-left:24px}}
+@media (max-width:760px){
+  .hero-k .rating-row .tp-ico{width:24px;height:24px}
+  .hero-k .hero-mascot{width:188px;bottom:8px;right:max(calc(50vw - 194px),2px)}
+}

@@ -16,6 +16,7 @@ wins plumbers more jobs, £197/month, everything included, no contract. Every bu
   `.github/workflows/update-reviews.yml` (needs secret `GOOGLE_PLACES_API_KEY` and variable `GOOGLE_PLACE_ID`;
   find the ID with the "Find Place ID" workflow). Don't hand-edit that file; `site_data.py` has a fallback list.
 - Reviews carousel: thin scrollbar on desktop, one dot per review on mobile. Planned: once there are ~10 Google reviews, make it an endless looping carousel.
+- Trustpilot TrustScore (hero) is set by hand in `TRUSTPILOT` in `src/site_data.py`; free plan, so no Trustpilot logo or stars on our site (own icon + text).
 - Facebook rating (hero) is set by hand in `FACEBOOK` in `src/site_data.py`; keep it true to the Facebook page.
 - Services: seven pages in two systems (1 Stop losing jobs: missed-call text-back, lead follow-up, inbox;
   2 Win more jobs: website, Google reviews, Google profile/local SEO/AI search, marketing campaigns). Content and order in
