@@ -211,8 +211,8 @@ def home():
         </div>
       </div>
       <div class="rating-row"><a href="#reviews">{G_LOGO}<span><b>Google</b>{stars(5)}</span><em>{RATING}</em></a>
-      <a href="{TRUSTPILOT['url']}" target="_blank" rel="noopener">{TP_ICON}<span><b>Trustpilot</b>{stars(5)}</span><em>{TRUSTPILOT['rating']}</em></a>
-      <a href="{FACEBOOK['url'] or '#reviews'}"{' target="_blank" rel="noopener"' if FACEBOOK['url'] else ''}>{FB_LOGO}<span><b>Facebook</b>{stars(5)}</span><em>{FACEBOOK['rating']}</em></a></div>
+      <a href="#reviews">{TP_ICON}<span><b>Trustpilot</b>{stars(5)}</span><em>{TRUSTPILOT['rating']}</em></a>
+      <a href="#reviews">{FB_LOGO}<span><b>Facebook</b>{stars(5)}</span><em>{FACEBOOK['rating']}</em></a></div>
     </div>
     {mascot("mascot hero-mascot", lazy=False)}
   </div>
