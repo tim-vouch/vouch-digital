@@ -1,8 +1,14 @@
 {
   "rating": "5.0",
-  "count": 4,
+  "count": 5,
   "maps_url": "https://maps.google.com/?cid=5463523624297031145&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
   "reviews": [
+    {
+      "name": "Kliment Jurisson",
+      "stars": 5,
+      "text": "Tims great. Excellent on keeping communication. 10 of 10 thank you man!",
+      "date": "October 2026"
+    },
     {
       "name": "Oliver Needleman",
       "stars": 5,
