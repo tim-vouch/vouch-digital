@@ -67,8 +67,7 @@ FAQ_HOME = [
      "Yes. We only ask your real customers. We never write, buy, incentivise or remove reviews. That's how the Digital "
      "Markets, Competition and Consumers Act 2024 says it should be done."),
     ("Do you only work with plumbers?",
-     "Yes. We only work with domestic plumbers and heating engineers, anywhere in the UK. Everything is done "
-     "remotely over video call and phone."),
+     "Yes. We only work with domestic plumbers and heating engineers, anywhere in the UK."),
 ]
 
 
