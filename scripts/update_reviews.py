@@ -5,7 +5,7 @@ Runs daily from .github/workflows/update-reviews.yml. Needs two settings on the 
   secret   GOOGLE_PLACES_API_KEY  (Google Cloud key with "Places API (New)" enabled)
   variable GOOGLE_PLACE_ID        (Vouch Digital's Google Maps place ID; find it with the "Find Place ID" workflow)
 
-Google returns up to 5 reviews. Every review it returns is shown (no filtering), with the author's name and date.
+Google returns up to 5 reviews per call. New ones are added to the saved list and older ones are kept, so the\nsite builds up every review over time. Every review is shown (no filtering), with the author's name and date.
 """
 import datetime, json, os, pathlib, sys, urllib.request
 
@@ -40,15 +40,36 @@ for r in data.get("reviews", []):
         "date": month(r.get("publishTime", "")),
         "published": r.get("publishTime", ""),
     })
-reviews.sort(key=lambda r: r["published"], reverse=True)
+# Google only returns the 5 most recent reviews, so keep every review saved before and add new ones on top.
+# (If someone deletes their review on Google, remove it from src/google_reviews.json by hand.)
+path = pathlib.Path(__file__).resolve().parent.parent / "src" / "google_reviews.json"
+saved = json.loads(path.read_text()).get("reviews", []) if path.exists() else []
+
+
+def key(r):
+    return (r["name"].strip().lower(), " ".join(r["text"].split())[:80].lower())
+
+
+def month_sort(r):
+    try:
+        return datetime.datetime.strptime(r.get("date", ""), "%B %Y").strftime("%Y-%m-01T00:00:00Z")
+    except ValueError:
+        return ""
+
+
+fresh = {key(r) for r in reviews}
+for r in saved:
+    if key(r) not in fresh:
+        r.setdefault("published", month_sort(r))
+        reviews.append(r)
+reviews.sort(key=lambda r: r.get("published") or month_sort(r), reverse=True)
 
 out = {
     "rating": f'{data.get("rating", 0):.1f}',
     "count": int(data.get("userRatingCount", 0)),
     "maps_url": data.get("googleMapsUri", ""),
-    "reviews": [{k: v for k, v in r.items() if k != "published"} for r in reviews],
+    "reviews": reviews,
 }
-path = pathlib.Path(__file__).resolve().parent.parent / "src" / "google_reviews.json"
 old = path.read_text() if path.exists() else ""
 new = json.dumps(out, indent=2, ensure_ascii=False) + "\n"
 if new == old:

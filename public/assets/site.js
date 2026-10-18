@@ -88,22 +88,30 @@ if (pk) {
   onScroll();
 }
 
-// Reviews carousel (mobile): one dot per review. Positions are worked out live, so they stay right after fonts load or the phone rotates.
+// Reviews carousel (mobile and desktop): one dot per position the row can scroll to (one per review on a phone,
+// fewer on desktop where three show at once). Worked out live, so it stays right after fonts load or a resize.
 document.querySelectorAll('.rev-carousel').forEach((c) => {
   const dots = c.parentElement.querySelector('.rev-dots');
   const cards = [...c.children];
   if (!dots || cards.length < 2) return;
-  dots.innerHTML = cards.map((_, i) => `<button type="button" aria-label="Show review ${i + 1}"></button>`).join('');
-  const btns = [...dots.children];
-  const stop = (i) => Math.min(cards[i].offsetLeft - cards[0].offsetLeft, c.scrollWidth - c.clientWidth);
+  let stops = [];
+  const build = () => {
+    const max = c.scrollWidth - c.clientWidth;
+    stops = [...new Set(cards.map((el) => Math.round(Math.min(el.offsetLeft - cards[0].offsetLeft, max))))];
+    dots.hidden = stops.length < 2;
+    dots.innerHTML = stops.map((_, i) => `<button type="button" aria-label="Show reviews, position ${i + 1} of ${stops.length}"></button>`).join('');
+    [...dots.children].forEach((b, i) => b.addEventListener('click', () => c.scrollTo({ left: stops[i], behavior: 'smooth' })));
+    update();
+  };
   const update = () => {
     const x = c.scrollLeft;
     let best = 0;
-    cards.forEach((_, i) => { if (Math.abs(stop(i) - x) <= Math.abs(stop(best) - x)) best = i; });
-    btns.forEach((b, i) => b.setAttribute('aria-current', String(i === best)));
+    stops.forEach((s, i) => { if (Math.abs(s - x) < Math.abs(stops[best] - x)) best = i; });
+    [...dots.children].forEach((b, i) => b.setAttribute('aria-current', String(i === best)));
   };
-  btns.forEach((b, i) => b.addEventListener('click', () => c.scrollTo({ left: stop(i), behavior: 'smooth' })));
   c.addEventListener('scroll', update, { passive: true });
-  window.addEventListener('resize', update);
-  update();
+  let t;
+  window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(build, 150); });
+  window.addEventListener('load', build);
+  build();
 });

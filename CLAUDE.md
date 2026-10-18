@@ -14,8 +14,9 @@ wins plumbers more jobs, £197/month, everything included, no contract. Every bu
 - `src/site_data.py` — business facts, homepage FAQ, plans. Single source of truth.
 - Google reviews and rating come from `src/google_reviews.json`, refreshed daily from Google Places by
   `.github/workflows/update-reviews.yml` (needs secret `GOOGLE_PLACES_API_KEY` and variable `GOOGLE_PLACE_ID`;
-  find the ID with the "Find Place ID" workflow). Don't hand-edit that file; `site_data.py` has a fallback list.
-- Reviews carousel: thin scrollbar on desktop, one dot per review on mobile. Planned: once there are ~10 Google reviews, make it an endless looping carousel.
+  find the ID with the "Find Place ID" workflow). Don't hand-edit that file except to remove a deleted review; `site_data.py` has a fallback list.
+- Reviews carousel: dots on every screen size (one per scroll position, so fewer on desktop where three show at once), no scrollbar. Planned: once there are ~10 Google reviews, make it an endless looping carousel.
+- The review updater keeps every review it has ever fetched (Google only returns the 5 newest) and adds new ones on top. If a reviewer deletes their review on Google, remove it from `src/google_reviews.json` by hand.
 - Trustpilot TrustScore (hero) is set by hand in `TRUSTPILOT` in `src/site_data.py`; shown with the Trustpilot star logo at Tim's choice (15 Oct 2026, free plan; remove it if Trustpilot asks).
 - Facebook rating (hero) is set by hand in `FACEBOOK` in `src/site_data.py`; keep it true to the Facebook page.
 - Services: seven pages in two systems (1 Stop losing jobs: missed-call text-back, lead follow-up, inbox;
