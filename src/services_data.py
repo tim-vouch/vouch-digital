@@ -10,153 +10,17 @@ only shows once a video exists.
 """
 
 GROUPS = {
-    1: ("Stop losing jobs", "Every missed call or unanswered quote is a boiler install for your competition. "
-                            "These make sure every enquiry gets a reply."),
-    2: ("Win more jobs", "Get found on Google and ChatGPT, backed by real reviews, "
+    1: ("Win more jobs", "Get found on Google and ChatGPT, backed by real reviews, "
                          "and bring past customers back for more."),
+    2: ("Stop losing jobs", "Every missed call or unanswered quote is a boiler install for your competition. "
+                            "These make sure every enquiry gets a reply."),
 }
 
 # Order matters: this is the order on the homepage and the services page.
 SERVICE_PAGES = {
-    # ---------- 1. Stop losing jobs ----------
-    "missed-call-text-back": {
-        "group": 1, "icon": "phone", "name": "Missed-call text-back",
-        "title": "Missed-Call Text-Back for Plumbers | Vouch Digital",
-        "desc": "When you can't answer, the caller gets an instant text from your business so the job doesn't go to "
-                "the next plumber. For domestic plumbers across the UK.",
-        "h1": "Under a boiler and can't pick up? <span class=\"accent\">We'll text them back for you.</span>",
-        "lede": "Everyone misses calls. Not everyone texts back. When you can't answer, the caller gets a friendly text "
-                "from your business within seconds, so they wait for you instead of ringing the next plumber.",
-        "tagline": "Everyone misses calls, but not everyone texts back. Be the one who does.",
-        "benefits": [
-            ("Stand out from other plumbers",
-             "Most plumbers ring back hours later, if at all. An instant text puts you first in the queue."),
-            ("No more lost leads",
-             "Hands full on a job? The text goes out automatically and starts the conversation for you."),
-            ("Show customers you care",
-             "A burst pipe is stressful. A quick “got your call, I’ll be in touch” calms people down."),
-            ("Covers after hours too",
-             "Missed a call at 9pm? They still get a text, so the enquiry is waiting for you in the morning."),
-        ],
-        "explain_h2": "How missed-call text-back works",
-        "explain": [
-            ("phone", "Someone rings and you can't answer",
-             "On a job, driving, or just off for the day. The call goes unanswered, like it always would."),
-            ("mail", "They get a text from your business",
-             "Within seconds, written in your words: who you are, that you'll be in touch, and a link to send "
-             "details or photos of the problem."),
-            ("clock", "The conversation is waiting for you",
-             "Their reply lands in your inbox app with their number, so you can pick it up the moment you're free."),
-            ("chart", "You see every missed call",
-             "No more guessing who rang. Every missed call is logged, so nothing slips through the cracks."),
-        ],
-        "split": (["Use your business number on your van, website and Google profile",
-                   "Reply when you're free"],
-                  ["Set up your business number", "Write the text-back message with you",
-                   "Connect it to your inbox app", "Tweak it whenever you want"]),
-        "faq": [
-            ("Do I need a new phone number?",
-             "We set you up with a business number that forwards to your mobile. That's what makes the text-back "
-             "possible, and it keeps work and personal calls separate."),
-            ("Can I still answer calls normally?",
-             "Yes. Calls ring your mobile as usual. The text only goes out when you don't pick up."),
-            ("What does the text say?",
-             "Whatever suits you. We'll write it with you, in plain English, signed off as your business."),
-        ],
-    },
-    "lead-follow-up": {
-        "group": 1, "icon": "clock", "name": "Automated lead follow-up",
-        "title": "Automated Lead Follow-Up for Plumbers | Vouch Digital",
-        "desc": "Every enquiry gets an instant reply and every quote is chased automatically, so fewer jobs slip away. "
-                "For domestic plumbers across the UK.",
-        "h1": "Every enquiry answered. <span class=\"accent\">Every quote chased.</span>",
-        "lede": "Most quotes aren't lost to a cheaper plumber. They're lost because nobody followed up. We reply to every "
-                "enquiry instantly and chase your quotes politely, so you don't have to.",
-        "tagline": "Sent a quote and heard nothing? You're not alone. Let the system do the chasing.",
-        "benefits": [
-            ("Every enquiry answered instantly",
-             "Website form, chat or Facebook message: they get a text straight away saying you've got it."),
-            ("Quotes chased automatically",
-             "A friendly nudge a few days after you quote, then another. You stop chasing, the system does it."),
-            ("Stops the moment they reply",
-             "No awkward double messages. As soon as the customer gets back to you, the follow-ups stop."),
-            ("Sounds like you, not a robot",
-             "Short, friendly messages written in your words and signed off as your business."),
-        ],
-        "explain_h2": "What's in the follow-up system",
-        "explain": [
-            ("monitor", "Website and chat enquiries",
-             "When someone fills in your form or chat, they get an instant text to confirm, and you get a notification "
-             "so you can reply properly."),
-            ("clipboard", "Quote follow-ups",
-             "Sent a quote and heard nothing? A short series of polite texts and emails follows it up, and stops as "
-             "soon as they reply."),
-            ("mail", "Facebook and Instagram replies",
-             "Message you on Facebook or Instagram and they get a quick reply saying you'll be in touch soon."),
-            ("chart", "Nothing left hanging",
-             "Every open enquiry and quote is tracked in the app, so you can see at a glance who still needs an answer."),
-        ],
-        "split": (["Mark a quote as sent in the app", "Reply when customers get back to you"],
-                  ["Write the follow-up messages with you", "Set up the instant replies",
-                   "Connect your website, Facebook and Instagram", "Tweak the timings whenever you want"]),
-        "faq": [
-            ("Won't customers find it annoying?",
-             "The messages are short, spaced out and written like you'd write them. Follow-ups stop the moment someone "
-             "replies."),
-            ("How many follow-ups are sent?",
-             "Usually two or three, spread over a couple of weeks. We'll agree the timing with you."),
-            ("Can I turn it off for a customer?",
-             "Yes. One tap in the app stops the follow-ups for anyone."),
-        ],
-    },
-    "all-in-one-inbox": {
-        "group": 1, "icon": "mail", "name": "All-in-one inbox & business phone",
-        "title": "All-in-One Inbox & Business Phone for Plumbers | Vouch Digital",
-        "desc": "Calls, texts, emails, Facebook and Instagram messages in one app, on a separate business number. "
-                "For domestic plumbers across the UK.",
-        "h1": "Every enquiry in one app. <span class=\"accent\">Work and personal kept separate.</span>",
-        "lede": "Texts on your phone, emails on the laptop, Facebook messages you forgot to check. We put every enquiry "
-                "into one simple app, on a business number that's separate from your personal one.",
-        "tagline": "Five apps to check after a long day? Make it one.",
-        "benefits": [
-            ("One place for everything",
-             "Texts, emails, calls, Facebook and Instagram messages, all in one list on your phone."),
-            ("Save time every day",
-             "No more jumping between apps or scrolling back to find what someone asked for."),
-            ("A proper business number",
-             "Customers ring your business, not your personal mobile. Switch it off at the weekend if you like."),
-            ("Nothing gets forgotten",
-             "Every conversation stays with the customer's details, so you can pick it up months later."),
-        ],
-        "explain_h2": "What's in the inbox",
-        "explain": [
-            ("mail", "4-in-1 unified inbox",
-             "Texts, emails, Facebook messages and Instagram DMs land in one inbox, and you can reply to all of them "
-             "from the same place."),
-            ("phone", "Business phone number",
-             "A local or mobile business number that rings through to your phone, with your name shown to customers."),
-            ("chart", "Call history",
-             "See who called, when, and whether you answered. Handy for knowing which enquiries came from where."),
-            ("user", "Customer details in one place",
-             "Name, number, address and every message you've swapped, all saved against the customer."),
-        ],
-        "split": (["Download the app on your phone", "Reply to customers from one place"],
-                  ["Set up your business number", "Connect your email, Facebook and Instagram",
-                   "Show you round the app on the launch call", "Help whenever you get stuck"]),
-        "faq": [
-            ("Can I keep my existing number?",
-             "Often, yes. Many numbers can be moved across. If not, we'll set up a new business number and you can "
-             "forward your old one to it."),
-            ("Does it work on my phone?",
-             "Yes. There's an app for iPhone and Android, and it works on a laptop too."),
-            ("Do my staff get access?",
-             "If you have someone who handles enquiries, they can have their own login."),
-        ],
-    },
-
-    # ---------- 2. Win more jobs ----------
+    # ---------- 1. Win more jobs ----------
     "websites": {
-        "group": 2, "icon": "monitor", "name": "Lead-generating website",
+        "group": 1, "icon": "monitor", "name": "Lead-generating website",
         "title": "Websites for Domestic Plumbers | Vouch Digital",
         "desc": "A fast, mobile-friendly website that turns visitors into text conversations on your phone. "
                 "Free with the plan, live in 3–5 days. For domestic plumbers across the UK.",
@@ -205,7 +69,7 @@ SERVICE_PAGES = {
         ],
     },
     "google-reviews": {
-        "group": 2, "icon": "star", "name": "Genuine Google reviews",
+        "group": 1, "icon": "star", "name": "Genuine Google reviews",
         "title": "Google Reviews for Domestic Plumbers | Vouch Digital",
         "desc": "Every customer asked for a genuine Google review by text and email, with polite reminders and a reply "
                 "to every review. Fully compliant. For domestic plumbers across the UK.",
@@ -254,7 +118,7 @@ SERVICE_PAGES = {
         ],
     },
     "google-business-profile": {
-        "group": 2, "icon": "pin", "name": "Google profile, local SEO & AI search",
+        "group": 1, "icon": "pin", "name": "Google profile, local SEO & AI search",
         "title": "Google Business Profile & Local SEO for Plumbers | Vouch Digital",
         "desc": "Your Google Business Profile, local listings and website kept complete and active, so you can show up "
                 "for “plumber near me” in Google and ChatGPT. For domestic plumbers across the UK.",
@@ -305,7 +169,7 @@ SERVICE_PAGES = {
         ],
     },
     "marketing-campaigns": {
-        "group": 2, "icon": "target", "name": "Marketing campaigns",
+        "group": 1, "icon": "target", "name": "Marketing campaigns",
         "title": "Marketing Campaigns for Plumbers | Vouch Digital",
         "desc": "Automatic boiler service reminders, seasonal offers and referral campaigns to your past customers. "
                 "Repeat work from people who already trust you. For domestic plumbers across the UK.",
@@ -348,6 +212,142 @@ SERVICE_PAGES = {
              "There's no minimum. Even a few dozen past customers is enough to make a campaign worthwhile."),
         ],
     },
+    # ---------- 2. Stop losing jobs ----------
+    "missed-call-text-back": {
+        "group": 2, "icon": "phone", "name": "Missed-call text-back",
+        "title": "Missed-Call Text-Back for Plumbers | Vouch Digital",
+        "desc": "When you can't answer, the caller gets an instant text from your business so the job doesn't go to "
+                "the next plumber. For domestic plumbers across the UK.",
+        "h1": "Under a boiler and can't pick up? <span class=\"accent\">We'll text them back for you.</span>",
+        "lede": "Everyone misses calls. Not everyone texts back. When you can't answer, the caller gets a friendly text "
+                "from your business within seconds, so they wait for you instead of ringing the next plumber.",
+        "tagline": "Everyone misses calls, but not everyone texts back. Be the one who does.",
+        "benefits": [
+            ("Stand out from other plumbers",
+             "Most plumbers ring back hours later, if at all. An instant text puts you first in the queue."),
+            ("No more lost leads",
+             "Hands full on a job? The text goes out automatically and starts the conversation for you."),
+            ("Show customers you care",
+             "A burst pipe is stressful. A quick “got your call, I’ll be in touch” calms people down."),
+            ("Covers after hours too",
+             "Missed a call at 9pm? They still get a text, so the enquiry is waiting for you in the morning."),
+        ],
+        "explain_h2": "How missed-call text-back works",
+        "explain": [
+            ("phone", "Someone rings and you can't answer",
+             "On a job, driving, or just off for the day. The call goes unanswered, like it always would."),
+            ("mail", "They get a text from your business",
+             "Within seconds, written in your words: who you are, that you'll be in touch, and a link to send "
+             "details or photos of the problem."),
+            ("clock", "The conversation is waiting for you",
+             "Their reply lands in your inbox app with their number, so you can pick it up the moment you're free."),
+            ("chart", "You see every missed call",
+             "No more guessing who rang. Every missed call is logged, so nothing slips through the cracks."),
+        ],
+        "split": (["Use your business number on your van, website and Google profile",
+                   "Reply when you're free"],
+                  ["Set up your business number", "Write the text-back message with you",
+                   "Connect it to your inbox app", "Tweak it whenever you want"]),
+        "faq": [
+            ("Do I need a new phone number?",
+             "We set you up with a business number that forwards to your mobile. That's what makes the text-back "
+             "possible, and it keeps work and personal calls separate."),
+            ("Can I still answer calls normally?",
+             "Yes. Calls ring your mobile as usual. The text only goes out when you don't pick up."),
+            ("What does the text say?",
+             "Whatever suits you. We'll write it with you, in plain English, signed off as your business."),
+        ],
+    },
+    "lead-follow-up": {
+        "group": 2, "icon": "clock", "name": "Automated lead follow-up",
+        "title": "Automated Lead Follow-Up for Plumbers | Vouch Digital",
+        "desc": "Every enquiry gets an instant reply and every quote is chased automatically, so fewer jobs slip away. "
+                "For domestic plumbers across the UK.",
+        "h1": "Every enquiry answered. <span class=\"accent\">Every quote chased.</span>",
+        "lede": "Most quotes aren't lost to a cheaper plumber. They're lost because nobody followed up. We reply to every "
+                "enquiry instantly and chase your quotes politely, so you don't have to.",
+        "tagline": "Sent a quote and heard nothing? You're not alone. Let the system do the chasing.",
+        "benefits": [
+            ("Every enquiry answered instantly",
+             "Website form, chat or Facebook message: they get a text straight away saying you've got it."),
+            ("Quotes chased automatically",
+             "A friendly nudge a few days after you quote, then another. You stop chasing, the system does it."),
+            ("Stops the moment they reply",
+             "No awkward double messages. As soon as the customer gets back to you, the follow-ups stop."),
+            ("Sounds like you, not a robot",
+             "Short, friendly messages written in your words and signed off as your business."),
+        ],
+        "explain_h2": "What's in the follow-up system",
+        "explain": [
+            ("monitor", "Website and chat enquiries",
+             "When someone fills in your form or chat, they get an instant text to confirm, and you get a notification "
+             "so you can reply properly."),
+            ("clipboard", "Quote follow-ups",
+             "Sent a quote and heard nothing? A short series of polite texts and emails follows it up, and stops as "
+             "soon as they reply."),
+            ("mail", "Facebook and Instagram replies",
+             "Message you on Facebook or Instagram and they get a quick reply saying you'll be in touch soon."),
+            ("chart", "Nothing left hanging",
+             "Every open enquiry and quote is tracked in the app, so you can see at a glance who still needs an answer."),
+        ],
+        "split": (["Mark a quote as sent in the app", "Reply when customers get back to you"],
+                  ["Write the follow-up messages with you", "Set up the instant replies",
+                   "Connect your website, Facebook and Instagram", "Tweak the timings whenever you want"]),
+        "faq": [
+            ("Won't customers find it annoying?",
+             "The messages are short, spaced out and written like you'd write them. Follow-ups stop the moment someone "
+             "replies."),
+            ("How many follow-ups are sent?",
+             "Usually two or three, spread over a couple of weeks. We'll agree the timing with you."),
+            ("Can I turn it off for a customer?",
+             "Yes. One tap in the app stops the follow-ups for anyone."),
+        ],
+    },
+    "all-in-one-inbox": {
+        "group": 2, "icon": "mail", "name": "All-in-one inbox & business phone",
+        "title": "All-in-One Inbox & Business Phone for Plumbers | Vouch Digital",
+        "desc": "Calls, texts, emails, Facebook and Instagram messages in one app, on a separate business number. "
+                "For domestic plumbers across the UK.",
+        "h1": "Every enquiry in one app. <span class=\"accent\">Work and personal kept separate.</span>",
+        "lede": "Texts on your phone, emails on the laptop, Facebook messages you forgot to check. We put every enquiry "
+                "into one simple app, on a business number that's separate from your personal one.",
+        "tagline": "Five apps to check after a long day? Make it one.",
+        "benefits": [
+            ("One place for everything",
+             "Texts, emails, calls, Facebook and Instagram messages, all in one list on your phone."),
+            ("Save time every day",
+             "No more jumping between apps or scrolling back to find what someone asked for."),
+            ("A proper business number",
+             "Customers ring your business, not your personal mobile. Switch it off at the weekend if you like."),
+            ("Nothing gets forgotten",
+             "Every conversation stays with the customer's details, so you can pick it up months later."),
+        ],
+        "explain_h2": "What's in the inbox",
+        "explain": [
+            ("mail", "4-in-1 unified inbox",
+             "Texts, emails, Facebook messages and Instagram DMs land in one inbox, and you can reply to all of them "
+             "from the same place."),
+            ("phone", "Business phone number",
+             "A local or mobile business number that rings through to your phone, with your name shown to customers."),
+            ("chart", "Call history",
+             "See who called, when, and whether you answered. Handy for knowing which enquiries came from where."),
+            ("user", "Customer details in one place",
+             "Name, number, address and every message you've swapped, all saved against the customer."),
+        ],
+        "split": (["Download the app on your phone", "Reply to customers from one place"],
+                  ["Set up your business number", "Connect your email, Facebook and Instagram",
+                   "Show you round the app on the launch call", "Help whenever you get stuck"]),
+        "faq": [
+            ("Can I keep my existing number?",
+             "Often, yes. Many numbers can be moved across. If not, we'll set up a new business number and you can "
+             "forward your old one to it."),
+            ("Does it work on my phone?",
+             "Yes. There's an app for iPhone and Android, and it works on a laptop too."),
+            ("Do my staff get access?",
+             "If you have someone who handles enquiries, they can have their own login."),
+        ],
+    },
+
 }
 
 for _s in SERVICE_PAGES.values():

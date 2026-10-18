@@ -19,8 +19,8 @@ wins plumbers more jobs, £197/month, everything included, no contract. Every bu
 - The review updater keeps every review it has ever fetched (Google only returns the 5 newest) and adds new ones on top. If a reviewer deletes their review on Google, remove it from `src/google_reviews.json` by hand.
 - Trustpilot TrustScore (hero) is set by hand in `TRUSTPILOT` in `src/site_data.py`; shown with the Trustpilot star logo at Tim's choice (15 Oct 2026, free plan; remove it if Trustpilot asks).
 - Facebook rating (hero) is set by hand in `FACEBOOK` in `src/site_data.py`; keep it true to the Facebook page.
-- Services: seven pages in two systems (1 Stop losing jobs: missed-call text-back, lead follow-up, inbox;
-  2 Win more jobs: website, Google reviews, Google profile/local SEO/AI search, marketing campaigns). Content and order in
+- Services: seven pages in two systems (1 Win more jobs: website, Google reviews, Google profile/local SEO/AI search,
+  marketing campaigns; 2 Stop losing jobs: missed-call text-back, lead follow-up, inbox). Win more jobs leads (swapped 18 Oct 2026) to match the free-website ad. Content and order in
   `src/services_data.py`; homepage cards and /services both read from it. /services/local-seo and
   /services/ai-search 301 to /services/google-business-profile. Add a demo video by setting `video`.
   No prices on the homepage (pricing lives on /pricing only).
