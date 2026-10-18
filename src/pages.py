@@ -156,7 +156,7 @@ SYS_JOIN = """
 
 
 def products_section(cls="products", eyebrow="What we do", h2="2 simple systems that help our plumbers make more money",
-                     intro="One stops you losing the jobs you already get. The other wins you more jobs.",
+                     intro="One wins you more jobs. The other makes sure you don't lose the ones you get.",
                      join=False):
     joiner = SYS_JOIN.format(arrow=icon("arrow")) if join else ""
     return f"""
