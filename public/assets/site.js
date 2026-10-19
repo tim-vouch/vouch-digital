@@ -158,7 +158,7 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
     banner.setAttribute('role', 'dialog');
     banner.setAttribute('aria-label', 'Cookie choices');
     banner.innerHTML = `
-      <p><strong>Allow cookies from Vouch Digital on this browser?</strong><br>
+      <p><strong>Allow cookies from Vouch Digital on this browser?</strong>
       <span>Learn more in our <a href="/privacy#cookies">Privacy Policy</a>.</span></p>
       <div class="cookie-actions">
         <button type="button" class="btn cookie-reject" data-consent="denied">Reject</button>
