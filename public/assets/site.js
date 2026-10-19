@@ -158,9 +158,10 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
     banner.setAttribute('role', 'dialog');
     banner.setAttribute('aria-label', 'Cookie choices');
     banner.innerHTML = `
-      <p>Can we use cookies to improve our ads? <a href="/privacy#cookies">Details</a></p>
+      <p><strong>Allow cookies from Vouch Digital on this browser?</strong><br>
+      <span>Learn more in our <a href="/privacy#cookies">Privacy Policy</a>.</span></p>
       <div class="cookie-actions">
-        <button type="button" class="btn btn-ghost" data-consent="denied">No thanks</button>
+        <button type="button" class="btn cookie-reject" data-consent="denied">Reject</button>
         <button type="button" class="btn btn-mint" data-consent="granted">Accept</button>
       </div>`;
     banner.querySelectorAll('[data-consent]').forEach((b) => b.addEventListener('click', () => {
