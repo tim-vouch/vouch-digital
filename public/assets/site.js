@@ -150,7 +150,13 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
   };
 
   let banner;
-  const close = () => { if (banner) { banner.remove(); banner = null; } };
+  const close = () => {
+    if (!banner) return;
+    const b = banner;
+    banner = null;
+    b.classList.add('is-leaving'); // quick slide down, then remove
+    setTimeout(() => b.remove(), 200);
+  };
   const showBanner = () => {
     if (banner) return;
     banner = document.createElement('div');
