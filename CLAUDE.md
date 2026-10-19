@@ -29,9 +29,11 @@ wins plumbers more jobs, £197/month, everything included, no contract. Every bu
 - `src/worker.js` + `wrangler.jsonc` — Cloudflare Worker serving `public/` and `/api/enquiry`,
   which forwards leads to GHL. Secret `GHL_WEBHOOK_URL` is set in Cloudflare, never in the repo.
 - Pushing to `main` deploys automatically via Cloudflare.
-- Meta pixel (ID in `SITE["meta_pixel_id"]`) loads only after the visitor clicks Accept on the cookie banner
-  (consent code at the end of `public/assets/site.js`; "Cookie settings" in the footer reopens it). Fires PageView,
-  and Lead when the enquiry form is sent. Never add any tracking or non-essential cookies that load before consent,
+- Meta pixel (ID in `SITE["meta_pixel_id"]`): Meta's base code sits in every page's `<head>` (`PIXEL_HEAD` in
+  `src/build.py`) paused with `fbq('consent','revoke')`; clicking Accept on the cookie banner calls
+  `fbq('consent','grant')` and fires PageView (consent code at the end of `public/assets/site.js`; "Cookie settings"
+  in the footer reopens it). Lead fires when the enquiry form is sent, only for visitors who accepted. Meta's
+  `<noscript>` image is deliberately left out (it would track people who can't see the banner). Never add any tracking or non-essential cookies that load before consent,
   keep Reject on the banner as visible and easy as Accept (ICO), and update the privacy policy cookies section
   (`src/legal/privacy.html`) whenever tracking changes.
 

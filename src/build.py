@@ -12,6 +12,24 @@ import pages
 import pages_more
 
 ROOT = Path(__file__).resolve().parent.parent
+
+# Meta pixel base code, exactly as Meta provides it, plus Meta's consent call: the pixel stays paused
+# (no cookies, no events sent) until the visitor clicks Accept, which calls fbq('consent','grant') in site.js.
+# The <noscript> image is deliberately left out: it would track visitors who can't see the cookie banner.
+PIXEL_HEAD = """<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('consent', 'revoke');
+fbq('init', '""" + SITE["meta_pixel_id"] + """');
+</script>
+<!-- End Meta Pixel Code -->"""
 OUT = ROOT / "public"
 
 
@@ -52,6 +70,7 @@ def head(title, desc, path, noindex=False):
 <meta name="theme-color" content="#04201b">
 <meta name="facebook-domain-verification" content="3t84q3i49854mqyiuc8ebzmlia4rfv" />
 <meta name="meta-pixel-id" content="{SITE['meta_pixel_id']}">
+{PIXEL_HEAD}
 <meta property="og:image" content="{SITE['domain']}/assets/img/icon-512.png">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">

@@ -33,7 +33,7 @@ document.querySelectorAll('form.enquiry').forEach((form) => {
       }));
     } catch (_) { /* private mode: the calendar will just ask again */ }
     // Meta pixel Lead event (only exists if the visitor accepted cookies)
-    if (window.fbq) window.fbq('track', 'Lead');
+    try { if (window.fbq && localStorage.getItem('vouch_cookie_consent') === 'granted') window.fbq('track', 'Lead'); } catch (_) {}
     window.location.href = '/book';
   });
 });
@@ -126,15 +126,13 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
   const get = () => { try { return localStorage.getItem(KEY); } catch (_) { return null; } };
   const set = (v) => { try { localStorage.setItem(KEY, v); } catch (_) { /* private mode */ } };
 
+  // The pixel base code is in every page's <head>, paused with fbq('consent','revoke').
+  // Accept switches it on with Meta's own consent call, then records the page view.
+  let granted = false;
   const loadPixel = () => {
-    if (!pixelId || window.fbq) return;
-    /* Meta's standard base code */
-    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-    document,'script','https://connect.facebook.net/en_US/fbevents.js');
-    window.fbq('init', pixelId);
+    if (!window.fbq || granted) return;
+    granted = true;
+    window.fbq('consent', 'grant');
     window.fbq('track', 'PageView');
   };
 
@@ -176,7 +174,7 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
       set(choice);
       close();
       if (choice === 'granted') loadPixel();
-      else if (before === 'granted') { clearMetaCookies(); location.reload(); } // stop a pixel that's already running
+      else if (before === 'granted') { if (window.fbq) window.fbq('consent', 'revoke'); clearMetaCookies(); location.reload(); } // stop a pixel that's already running
     }));
     document.body.appendChild(banner);
   };
