@@ -178,5 +178,18 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
   document.querySelectorAll('[data-cookie-settings]').forEach((b) => b.addEventListener('click', showBanner));
   const choice = get();
   if (choice === 'granted') loadPixel();
-  else if (choice !== 'denied') showBanner();
+  else if (choice !== 'denied') {
+    // On phones, wait for the first scroll or tap so visitors see the hero and ratings first
+    const phone = window.matchMedia && window.matchMedia('(max-width: 600px)').matches;
+    if (phone && window.scrollY < 40) {
+      const onScroll = () => { if (window.scrollY >= 40) go(); };
+      const go = () => {
+        window.removeEventListener('scroll', onScroll);
+        window.removeEventListener('pointerdown', go);
+        showBanner();
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('pointerdown', go);
+    } else showBanner();
+  }
 }
