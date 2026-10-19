@@ -158,10 +158,9 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
     banner.setAttribute('role', 'dialog');
     banner.setAttribute('aria-label', 'Cookie choices');
     banner.innerHTML = `
-      <p>We'd like to use cookies to measure how our Facebook and Instagram ads perform. They're off unless you accept.
-      <a href="/privacy#cookies">More in our privacy policy</a>.</p>
+      <p>Can we use cookies to improve our ads? <a href="/privacy#cookies">Details</a></p>
       <div class="cookie-actions">
-        <button type="button" class="btn btn-ghost" data-consent="denied">Reject</button>
+        <button type="button" class="btn btn-ghost" data-consent="denied">No thanks</button>
         <button type="button" class="btn btn-mint" data-consent="granted">Accept</button>
       </div>`;
     banner.querySelectorAll('[data-consent]').forEach((b) => b.addEventListener('click', () => {
