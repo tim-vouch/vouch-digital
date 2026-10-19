@@ -635,7 +635,7 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
 .cookie-banner span{color:rgba(255,255,255,.7);font-size:13px}
 .cookie-banner a{color:rgba(255,255,255,.85);text-decoration:underline;text-underline-offset:2px}
 .cookie-actions{display:flex;gap:8px;flex:none}
-@media (max-width:600px){.cookie-banner{flex-wrap:wrap}.cookie-actions{width:100%;justify-content:flex-end}}
+@media (max-width:600px){.cookie-banner{flex-wrap:wrap;padding:14px 14px 12px}.cookie-banner span{display:block;margin-top:2px}.cookie-actions{width:100%}.cookie-actions .btn{flex:1;justify-content:center}}
 .cookie-actions .btn{padding:8px 20px;font-size:14px}
 /* Reject: flat, no glow, muted green so it sits back into the dark banner (still clearly readable) */
 .cookie-reject{background:transparent;border:1.5px solid rgba(20,211,138,.45);color:#5fd3a6;box-shadow:none}
