@@ -32,6 +32,8 @@ document.querySelectorAll('form.enquiry').forEach((form) => {
         name: data.get('name'), business: data.get('business'), email: data.get('email'), phone: data.get('phone'),
       }));
     } catch (_) { /* private mode: the calendar will just ask again */ }
+    // Meta pixel Lead event (only exists if the visitor accepted cookies)
+    if (window.fbq) window.fbq('track', 'Lead');
     window.location.href = '/book';
   });
 });
@@ -115,3 +117,66 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
   window.addEventListener('load', build);
   build();
 });
+
+// Cookie consent + Meta pixel. The pixel only loads after the visitor clicks Accept (UK PECR / UK GDPR).
+// Choice is remembered in localStorage; "Cookie settings" in the footer reopens the banner.
+{
+  const KEY = 'vouch_cookie_consent';
+  const pixelId = document.querySelector('meta[name="meta-pixel-id"]')?.content;
+  const get = () => { try { return localStorage.getItem(KEY); } catch (_) { return null; } };
+  const set = (v) => { try { localStorage.setItem(KEY, v); } catch (_) { /* private mode */ } };
+
+  const loadPixel = () => {
+    if (!pixelId || window.fbq) return;
+    /* Meta's standard base code */
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    window.fbq('init', pixelId);
+    window.fbq('track', 'PageView');
+  };
+
+  // Remove Meta's cookies if someone withdraws consent
+  const clearMetaCookies = () => {
+    const host = location.hostname.replace(/^www\./, '');
+    ['_fbp', '_fbc'].forEach((name) => {
+      [location.hostname, '.' + host].forEach((d) => {
+        document.cookie = `${name}=; Max-Age=0; path=/; domain=${d}`;
+      });
+      document.cookie = `${name}=; Max-Age=0; path=/`;
+    });
+  };
+
+  let banner;
+  const close = () => { if (banner) { banner.remove(); banner = null; } };
+  const showBanner = () => {
+    if (banner) return;
+    banner = document.createElement('div');
+    banner.className = 'cookie-banner';
+    banner.setAttribute('role', 'dialog');
+    banner.setAttribute('aria-label', 'Cookie choices');
+    banner.innerHTML = `
+      <p>We'd like to use cookies to measure how our Facebook and Instagram ads perform. They're off unless you accept.
+      <a href="/privacy#cookies">More in our privacy policy</a>.</p>
+      <div class="cookie-actions">
+        <button type="button" class="btn btn-ghost" data-consent="denied">Reject</button>
+        <button type="button" class="btn btn-mint" data-consent="granted">Accept</button>
+      </div>`;
+    banner.querySelectorAll('[data-consent]').forEach((b) => b.addEventListener('click', () => {
+      const choice = b.dataset.consent;
+      const before = get();
+      set(choice);
+      close();
+      if (choice === 'granted') loadPixel();
+      else if (before === 'granted') { clearMetaCookies(); location.reload(); } // stop a pixel that's already running
+    }));
+    document.body.appendChild(banner);
+  };
+
+  document.querySelectorAll('[data-cookie-settings]').forEach((b) => b.addEventListener('click', showBanner));
+  const choice = get();
+  if (choice === 'granted') loadPixel();
+  else if (choice !== 'denied') showBanner();
+}

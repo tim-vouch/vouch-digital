@@ -51,6 +51,7 @@ def head(title, desc, path, noindex=False):
 <meta property="og:url" content="{url}">
 <meta name="theme-color" content="#04201b">
 <meta name="facebook-domain-verification" content="3t84q3i49854mqyiuc8ebzmlia4rfv" />
+<meta name="meta-pixel-id" content="{SITE['meta_pixel_id']}">
 <meta property="og:image" content="{SITE['domain']}/assets/img/icon-512.png">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -105,7 +106,7 @@ def footer():
       <p>Vouch Digital is a trading name of {SITE['legal_name']}. Registered in England and Wales, company number {SITE['company_no']}.<br>
       Registered office: {SITE['address']}. ICO registration: {SITE['ico']}.<br>
       <a href="tel:{SITE['phone_intl']}">{SITE['phone']}</a> · <a href="mailto:{SITE['email']}">{SITE['email']}</a></p>
-      <p>© 2026 {SITE['legal_name']}. <a href="/privacy">Privacy Policy</a> · <a href="/terms">Terms</a></p>
+      <p>© 2026 {SITE['legal_name']}. <a href="/privacy">Privacy Policy</a> · <a href="/terms">Terms</a> · <button type="button" class="link-btn" data-cookie-settings>Cookie settings</button></p>
     </div>
   </div>
 </footer>

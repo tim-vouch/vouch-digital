@@ -15,6 +15,8 @@ SITE = {
     "booking_url": "https://api.leadconnectorhq.com/widget/booking/xbAVu7ah9p5NXexCdiO8",
     # Keep True until the site is live on vouchdigital.co.uk
     "noindex": False,
+    # Meta (Facebook) pixel. Only loads after a visitor accepts cookies (see the consent code in site.js).
+    "meta_pixel_id": "1737681243973132",
 }
 
 # Real Google reviews of Vouch Digital only. Never add invented reviews.
