@@ -394,7 +394,8 @@ section.first{padding-top:144px}
 .pk-bonus-tag{justify-self:center;background:var(--mint);color:var(--deep);font-family:var(--head);font-weight:800;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px;border-radius:999px}
 .pk-bonus-name{font-family:var(--head);font-weight:800;font-size:20px;margin-top:6px}
 .pk-bonus-price{font-family:var(--head);font-weight:800;font-size:26px;line-height:1.1}
-.pk-bonus-price s{font-size:20px;color:rgba(255,255,255,.55);text-decoration-color:var(--bad);text-decoration-thickness:2px;margin-right:6px}
+.pk-bonus-price s{position:relative;display:inline-block;font-size:21px;color:rgba(255,255,255,.92);text-decoration:none;margin-right:8px}
+.pk-bonus-price s::after{content:"";position:absolute;left:-6%;right:-6%;top:52%;height:2.5px;border-radius:2px;background:var(--bad);transform:rotate(-14deg)}
 .pk-bonus-price b{color:var(--mint)}
 .pk-bonus-note{font-size:13.5px;color:rgba(255,255,255,.75);line-height:1.45}
 .pk-bonus-note a{color:var(--mint);font-weight:700;white-space:nowrap}
