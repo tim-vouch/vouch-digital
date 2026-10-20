@@ -117,7 +117,7 @@ def pricing_section(h1=None, lede=None):
     </div>
     <div class="pk pk-x" data-base="{x['price']}" data-note="{x['pill']}">{x_data}
       <h3>{x['name']}</h3>
-      <p class="pk-price"><small>From</small><s class="pk-was" hidden>£{x['price']}</s><b class="pk-num">£{x['price']}</b><span>/month</span></p>
+      <p class="pk-price"><s class="pk-was" hidden>£{x['price']}</s><b class="pk-num">£{x['price']}</b><span>/month</span></p>
       <p class="pk-billed">Billed monthly.</p>
       <p class="pk-save is-note">{x['pill']}</p>
       <p class="pk-ads">{x['note']}</p>

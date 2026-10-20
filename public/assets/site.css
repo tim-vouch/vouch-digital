@@ -360,11 +360,12 @@ section.first{padding-top:144px}
 .pk-row{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
 .pk-row .pk{margin:8px 0 0;max-width:none}
 .pk-row .pk-price{flex-wrap:wrap}
-.pk.pk-x{background:#fff;color:var(--ink);border:2px solid var(--deep)}
+.pk.pk-x{background:linear-gradient(180deg,var(--mint-tint),#fff 42%);color:var(--deep);border:2px solid var(--mint);box-shadow:0 22px 48px rgba(20,211,138,.18)}
+.pk.pk-x li{border-top-color:rgba(4,32,27,.1)}
 .pk.pk-x .pk-label{color:var(--mint-dark)}
 .pk.pk-x .pk-billed{color:var(--ink-soft)}
 .pk.pk-x .pk-was{color:rgba(11,31,26,.4)}
-.pk.pk-x .pk-save.is-note{background:var(--mint-tint);color:#06603d}
+.pk.pk-x .pk-save.is-note{background:#fff;color:#06603d;box-shadow:inset 0 0 0 1.5px var(--mint)}
 .pk-price small{font-size:18px;font-weight:700;margin-right:6px;opacity:.75}
 .pk-ads{font-size:13.5px;color:var(--ink-soft);margin:-4px 0 6px}
 .pk.pk-x li{border-top-color:var(--line)}
