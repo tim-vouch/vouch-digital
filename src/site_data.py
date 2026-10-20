@@ -75,7 +75,7 @@ FAQ_HOME = [
 
 # Pricing plans (shown on /pricing). Crossed-out prices must be real prices we charge.
 PLANS = [
-    {"name": "Growth", "price": 197, "tag": "Everything you need to win more jobs from Google and ChatGPT.",
+    {"name": "Growth Package", "price": 197, "tag": "Everything you need to win more jobs from Google and ChatGPT.",
      "featured": True, "lead": "What's included",
      "items": [("All-in-one inbox", "Calls, texts, emails and Facebook messages in one app"),
                ("Business phone number", "Keep work and personal separate"),
@@ -87,22 +87,26 @@ PLANS = [
                ("Local SEO &amp; AI search", "Listings, area pages and ChatGPT visibility, every month")],
      "extras": ["website"]},
 ]
-# Second, higher plan. Shown only on /pricing, below Growth (not on the homepage or service pages).
-# Tailored per client, so the button is "Book a call". Ad spend is paid by the client directly to Google.
-ACCELERATOR = {
-    "name": "Install Accelerator", "price": 997,
-    "tag": "For plumbers who want more boiler installs, faster. Tailored to your business, so we'll walk you through it on a call.",
-    "note": "Plus ad spend, paid by you directly to Google.",
-    "items": [("Google Ads for boiler installs", "Set up and managed for you, aimed at homeowners searching for a new boiler"),
-              ("Instant online boiler quotes", "Homeowners see a price range on your website and book a free survey"),
-              ("Good, Better, Best quotes", "Three options on every quote, with a short video of you explaining each boiler"),
-              ("Monthly payments for customers", "Help getting set up with a boiler finance partner, shown properly on your site and quotes"),
-              ("Your own boiler care plan", "A monthly plan covering each customer's annual service and priority call-outs"),
-              ("AI receptionist", "Calls you miss are answered, details taken and surveys booked"),
-              ("Monthly sales training", "Turn more surveys into installs, with Tim and a sales specialist"),
-              ("Priority support", "You go to the front of the queue")],
+# Second, higher plan. Shown only on /pricing, beside Growth as the price anchor (not on the homepage or
+# service pages, which have no pages for these extras). Tailored per client, so it's sold on a call.
+# Ad spend is paid by the client directly to Google. Billing follows the same toggle as Growth (10% / 25% off).
+EXCLUSIVE = {
+    "name": "Exclusive Package", "price": 997, "label": "Tailored to you",
+    "note": "Plus ad spend, paid by you directly to Google",
+    "pill": "Built around your business",
+    "items": [("Google Ads for boiler installs", "We set up and manage Google Ads that show you to homeowners searching for a new boiler in your area."),
+              ("Instant online boiler quotes", "Homeowners answer a few quick questions on your website, see a price range straight away and book a free survey. Built with your boilers and your prices."),
+              ("Good, Better, Best quotes", "Every quote shows three options in your branding, with a short video of you explaining each boiler you fit."),
+              ("Monthly payments for customers", "We help you get set up with a boiler finance partner, so customers can spread the cost, and show it properly on your website and quotes."),
+              ("Your own boiler care plan", "A monthly plan covering each customer's annual service and priority call-outs: sign-up page, payments and reminders all set up for you."),
+              ("AI receptionist", "Calls you miss are answered, callers' details taken and surveys booked, so no install goes to the engineer down the road."),
+              ("Monthly sales training", "A monthly session with Tim and a sales specialist on turning more surveys into installs."),
+              ("Priority support", "You go to the front of the queue whenever you need something.")],
+    "billing": {"monthly": (997, None, None),
+                "quarterly": (897, "£2,691 every 3 months", "£1,200 a year"),
+                "annual": (748, "£8,976 once a year", "£2,988 a year")},
 }
-# Billing options for the single plan. Monthly is the default (matches the ads).
+# Billing options for Growth (Exclusive has its own figures in EXCLUSIVE["billing"]). Monthly is the default (matches the ads).
 # Quarterly: 10% off, paid upfront. Annual: 25% off, paid upfront.
 BILLING = [
     {"id": "monthly", "label": "Monthly", "per_month": 197, "billed": None, "save": None, "pill": None},

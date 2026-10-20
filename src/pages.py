@@ -3,7 +3,7 @@ from html import escape
 
 from icons import icon
 from services_data import SERVICE_PAGES, GROUPS
-from site_data import SITE, REVIEWS, RATING, GOOGLE, FACEBOOK, TRUSTPILOT, FAQ_HOME, PLANS, EXTRAS, BILLING, ACCELERATOR
+from site_data import SITE, REVIEWS, RATING, GOOGLE, FACEBOOK, TRUSTPILOT, FAQ_HOME, PLANS, EXTRAS, BILLING, EXCLUSIVE
 
 
 TP_ICON = '<svg class="tp-ico" viewBox="0 0 48 48" aria-hidden="true"><path fill="#00B67A" d="M24 3l5.6 15.6H46L32.7 28.2 37.8 44 24 34.3 10.2 44l5.1-15.8L2 18.6h16.4z"/><path fill="#005128" d="M33.6 30.9l-1-2.7-8.6 6.1z"/></svg>'
@@ -73,8 +73,8 @@ def final_cta(h2="Be the plumber everyone vouches for.",
 
 
 def pricing_section():
-    """Single-plan card, centred list with dividers, with monthly/quarterly/annual toggle."""
-    p = PLANS[0]
+    """Growth and Exclusive side by side (Exclusive is the price anchor), with one monthly/quarterly/annual toggle."""
+    p, x = PLANS[0], EXCLUSIVE
     free = "".join(f'<li class="free">{EXTRAS[k][1]} <b>FREE</b> <small>(save {EXTRAS[k][3]})</small></li>'
                    for k in p["extras"])
     # Included services listed by system, named and linked exactly like the service pages.
@@ -82,23 +82,28 @@ def pricing_section():
     for n, (title, _) in sorted(GROUPS.items()):  # System 1 (Win more jobs) first: seen as more valuable
         items += "".join(f'<li><a href="/services/{slug}">{d["name"]}</a></li>'
                          for slug, d in SERVICE_PAGES.items() if d["group"] == n and slug != "websites")
+    # Exclusive extras have no service pages, so each one opens to explain itself.
+    x_items = "".join(f'<li class="pk-more"><details><summary>{t}</summary><p>{d}</p></details></li>'
+                      for t, d in x["items"])
     tabs = ""
     for i, b in enumerate(BILLING):
         pill = f"<span>{b['pill']}</span>" if b["pill"] else ""
         selected = "true" if i == 0 else "false"
         tabs += (f'<button type="button" role="tab" id="bill-{b["id"]}" data-bill="{b["id"]}" '
                  f'aria-selected="{selected}">{b["label"]}{pill}</button>')
-    data = "".join(
-        f'<template data-bill-opt="{b["id"]}" data-per="{b["per_month"]}" data-billed="{b["billed"] or ""}" '
-        f'data-save="{b["save"] or ""}"></template>' for b in BILLING)
+    tpl = lambda bid, per, billed, save: (f'<template data-bill-opt="{bid}" data-per="{per}" '
+                                          f'data-billed="{billed or ""}" data-save="{save or ""}"></template>')
+    g_data = "".join(tpl(b["id"], b["per_month"], b["billed"], b["save"]) for b in BILLING)
+    x_data = "".join(tpl(bid, *v) for bid, v in x["billing"].items())
     return f"""
 <section class="tint pricing" id="pricing">
   <div class="wrap">
     <div class="sec-head"><p class="eyebrow">Pricing</p><h2>Our pricing</h2>
-    <p>Everything you need in one plan. Pay monthly with no contract, or pay upfront and save.</p></div>
+    <p>Pay monthly with no contract, or pay upfront and save.</p></div>
     <div class="bill-tabs" role="tablist" aria-label="Billing period">{tabs}</div>
     <div class="pk-stage"><img class="pk-lean" src="/assets/img/mascot-lean.webp" width="320" height="475" loading="lazy" alt="Vouch Digital mascot leaning on the pricing card, giving a thumbs up">
-    <div class="pk" data-base="{p['price']}">{data}
+    <div class="pk-row">
+    <div class="pk" data-base="{p['price']}" data-note="No contract, cancel anytime">{g_data}
       <p class="pk-label">Everything included</p>
       <h3>{p['name']}</h3>
       <p class="pk-price"><s class="pk-was" hidden>£{p['price']}</s><b class="pk-num">£{p['price']}</b><span>/month</span></p>
@@ -107,31 +112,21 @@ def pricing_section():
       <ul>{free}{items}</ul>
       <a class="pk-btn" href="{BOOK}">Book a call</a>
     </div>
+    <div class="pk pk-x" data-base="{x['price']}" data-note="{x['pill']}">{x_data}
+      <p class="pk-label">{x['label']}</p>
+      <h3>{x['name']}</h3>
+      <p class="pk-price"><small>From</small><s class="pk-was" hidden>£{x['price']}</s><b class="pk-num">£{x['price']}</b><span>/month</span></p>
+      <p class="pk-billed">Billed monthly.</p>
+      <p class="pk-save is-note">{x['pill']}</p>
+      <p class="pk-ads">{x['note']}</p>
+      <ul><li class="pk-all">Everything in the {p['name']}, plus:</li>{x_items}</ul>
+      <a class="pk-btn" href="{BOOK}">Book a call</a>
     </div>
-    {accelerator_card()}
+    </div>
+    </div>
     <p class="pr-foot">Want just the website? It's £1,499 as a one-off, yours to keep.</p>
   </div>
 </section>"""
-
-
-def accelerator_card():
-    """The higher plan, shown under Growth on /pricing only. Tailored per client, so it's sold on a call."""
-    a = ACCELERATOR
-    items = "".join(f"<li><b>{t}</b><span>{d}</span></li>" for t, d in a["items"])
-    return f"""<div class="acc">
-      <div class="acc-head">
-        <p class="acc-label">Want installs faster?</p>
-        <h3>{a['name']}</h3>
-        <p class="acc-price">From <b>£{a['price']}</b><span>/month</span></p>
-        <p class="acc-note">{a['note']}</p>
-        <p class="acc-tag">{a['tag']}</p>
-        <a class="btn btn-mint" href="{BOOK}">Book a call</a>
-      </div>
-      <div class="acc-body">
-        <p class="acc-lead">Everything in {PLANS[0]['name']}, plus:</p>
-        <ul>{items}</ul>
-      </div>
-    </div>"""
 
 
 # One short benefit line per service card (homepage + services page). Groups, names and order

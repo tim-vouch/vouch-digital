@@ -61,23 +61,27 @@ if (booking) {
   booking.src = booking.dataset.src + (qs ? '?' + qs : '');
 }
 
-// Pricing: monthly / quarterly / annual toggle
-const pk = document.querySelector('.pk[data-base]');
-if (pk) {
-  const base = Number(pk.dataset.base);
-  const opts = Object.fromEntries([...pk.querySelectorAll('template[data-bill-opt]')].map((t) => [t.dataset.billOpt, t.dataset]));
+// Pricing: monthly / quarterly / annual toggle, applied to every plan card at once
+const pks = [...document.querySelectorAll('.pk[data-base]')];
+if (pks.length) {
+  const cards = pks.map((pk) => ({
+    pk, base: Number(pk.dataset.base), note: pk.dataset.note,
+    opts: Object.fromEntries([...pk.querySelectorAll('template[data-bill-opt]')].map((t) => [t.dataset.billOpt, t.dataset])),
+  }));
   const show = (id) => {
-    const o = opts[id];
     document.querySelectorAll('[data-bill]').forEach((b) => b.setAttribute('aria-selected', b.dataset.bill === id));
-    pk.querySelector('.pk-num').textContent = '£' + o.per;
-    const was = pk.querySelector('.pk-was');
-    was.hidden = Number(o.per) === base;
-    pk.querySelector('.pk-billed').textContent = o.billed ? 'Billed ' + o.billed + '.' : 'Billed monthly.';
-    // The pill is always shown (keeps the card the same height): savings upfront, "no contract" monthly.
-    const save = pk.querySelector('.pk-save');
-    save.classList.toggle('is-note', !o.save);
-    save.innerHTML = o.save ? 'You save <b></b>' : 'No contract, cancel anytime';
-    if (o.save) save.querySelector('b').textContent = o.save;
+    cards.forEach(({ pk, base, note, opts }) => {
+      const o = opts[id];
+      if (!o) return;
+      pk.querySelector('.pk-num').textContent = '£' + o.per;
+      pk.querySelector('.pk-was').hidden = Number(o.per) === base;
+      pk.querySelector('.pk-billed').textContent = o.billed ? 'Billed ' + o.billed + '.' : 'Billed monthly.';
+      // The pill is always shown (keeps the cards level): savings upfront, the card's own note monthly.
+      const save = pk.querySelector('.pk-save');
+      save.classList.toggle('is-note', !o.save);
+      save.innerHTML = o.save ? 'You save <b></b>' : note;
+      if (o.save) save.querySelector('b').textContent = o.save;
+    });
   };
   document.querySelectorAll('[data-bill]').forEach((b) => b.addEventListener('click', () => show(b.dataset.bill)));
 }

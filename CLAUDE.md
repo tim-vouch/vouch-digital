@@ -49,8 +49,10 @@ Based on the mockup Tim approved on 4 Oct 2026. Mascot (Tim's own artwork): `pub
 - Mention electricians, or limit the service area to London & the South East: it's the whole UK.
 - Show a crossed-out price that isn't a real price we charge (website £1,499 and GBP setup £299 are real).
   Plans live in `PLANS` in `src/site_data.py` and show on /pricing.
-- The higher plan, Install Accelerator (from £997/month plus ad spend), lives in `ACCELERATOR` in `src/site_data.py`.
-  It shows only on /pricing, under Growth, with "Book a call" (tailored per client). Not on the homepage or service pages.
+- Two plans on /pricing, side by side: Growth Package (`PLANS`) and Exclusive Package (`EXCLUSIVE` in
+  `src/site_data.py`, from £997/month plus ad spend, tailored, "Book a call"). Exclusive is the price anchor; its
+  extras have no service pages, so each opens in place. Not on the homepage or service pages. One billing toggle
+  drives both cards (10% quarterly, 25% annual).
 
 ## Launch checklist
 - [x] Set `noindex` to False in `src/site_data.py`
