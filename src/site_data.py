@@ -87,6 +87,21 @@ PLANS = [
                ("Local SEO &amp; AI search", "Listings, area pages and ChatGPT visibility, every month")],
      "extras": ["website", "gbp"]},
 ]
+# Second, higher plan. Shown only on /pricing, below Growth (not on the homepage or service pages).
+# Tailored per client, so the button is "Book a call". Ad spend is paid by the client directly to Google.
+ACCELERATOR = {
+    "name": "Install Accelerator", "price": 997,
+    "tag": "For plumbers who want more boiler installs, faster. Tailored to your business, so we'll walk you through it on a call.",
+    "note": "Plus ad spend, paid by you directly to Google.",
+    "items": [("Google Ads for boiler installs", "Set up and managed for you, aimed at homeowners searching for a new boiler"),
+              ("Instant online boiler quotes", "Homeowners see a price range on your website and book a free survey"),
+              ("Good, Better, Best quotes", "Three options on every quote, with a short video of you explaining each boiler"),
+              ("Monthly payments for customers", "Help getting set up with a boiler finance partner, shown properly on your site and quotes"),
+              ("Your own boiler care plan", "A monthly plan covering each customer's annual service and priority call-outs"),
+              ("AI receptionist", "Calls you miss are answered, details taken and surveys booked"),
+              ("Monthly sales training", "Turn more surveys into installs, with Tim and a sales specialist"),
+              ("Priority support", "You go to the front of the queue")],
+}
 # Billing options for the single plan. Monthly is the default (matches the ads).
 # Quarterly: 10% off, paid upfront. Annual: 25% off, paid upfront.
 BILLING = [

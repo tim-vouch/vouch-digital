@@ -3,7 +3,7 @@ from html import escape
 
 from icons import icon
 from services_data import SERVICE_PAGES, GROUPS
-from site_data import SITE, REVIEWS, RATING, GOOGLE, FACEBOOK, TRUSTPILOT, FAQ_HOME, PLANS, EXTRAS, BILLING
+from site_data import SITE, REVIEWS, RATING, GOOGLE, FACEBOOK, TRUSTPILOT, FAQ_HOME, PLANS, EXTRAS, BILLING, ACCELERATOR
 
 
 TP_ICON = '<svg class="tp-ico" viewBox="0 0 48 48" aria-hidden="true"><path fill="#00B67A" d="M24 3l5.6 15.6H46L32.7 28.2 37.8 44 24 34.3 10.2 44l5.1-15.8L2 18.6h16.4z"/><path fill="#005128" d="M33.6 30.9l-1-2.7-8.6 6.1z"/></svg>'
@@ -95,7 +95,7 @@ def pricing_section():
 <section class="tint pricing" id="pricing">
   <div class="wrap">
     <div class="sec-head"><p class="eyebrow">Pricing</p><h2>Our pricing</h2>
-    <p>One plan, everything included. Pay monthly with no contract, or pay upfront and save.</p></div>
+    <p>Everything you need in one plan. Pay monthly with no contract, or pay upfront and save.</p></div>
     <div class="bill-tabs" role="tablist" aria-label="Billing period">{tabs}</div>
     <div class="pk-stage"><img class="pk-lean" src="/assets/img/mascot-lean.webp" width="320" height="475" loading="lazy" alt="Vouch Digital mascot leaning on the pricing card, giving a thumbs up">
     <div class="pk" data-base="{p['price']}">{data}
@@ -108,9 +108,30 @@ def pricing_section():
       <a class="pk-btn" href="{BOOK}">Book a call</a>
     </div>
     </div>
+    {accelerator_card()}
     <p class="pr-foot">Want just the website? It's £1,499 as a one-off, yours to keep.</p>
   </div>
 </section>"""
+
+
+def accelerator_card():
+    """The higher plan, shown under Growth on /pricing only. Tailored per client, so it's sold on a call."""
+    a = ACCELERATOR
+    items = "".join(f"<li><b>{t}</b><span>{d}</span></li>" for t, d in a["items"])
+    return f"""<div class="acc">
+      <div class="acc-head">
+        <p class="acc-label">Want installs faster?</p>
+        <h3>{a['name']}</h3>
+        <p class="acc-price">From <b>£{a['price']}</b><span>/month</span></p>
+        <p class="acc-note">{a['note']}</p>
+        <p class="acc-tag">{a['tag']}</p>
+        <a class="btn btn-mint" href="{BOOK}">Book a call</a>
+      </div>
+      <div class="acc-body">
+        <p class="acc-lead">Everything in {PLANS[0]['name']}, plus:</p>
+        <ul>{items}</ul>
+      </div>
+    </div>"""
 
 
 # One short benefit line per service card (homepage + services page). Groups, names and order
