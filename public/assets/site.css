@@ -359,14 +359,20 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
 .pk-ads{font-size:13.5px;color:var(--ink-soft);margin:-4px 0 6px}
 .pk.pk-x li{border-top-color:var(--line)}
 .pk.pk-x li.pk-all{color:var(--mint-dark);font-family:var(--head);font-weight:800}
-.pk.pk-x li.pk-more{padding:0}
-.pk.pk-x details{border:0;border-radius:0;margin:0;background:none}
-.pk.pk-x details summary{display:block;list-style:none;cursor:pointer;padding:13px 28px;position:relative;font-weight:600}
-.pk.pk-x details summary::-webkit-details-marker{display:none}
-.pk.pk-x details summary::after{content:"+";position:absolute;right:8px;top:50%;transform:translateY(-50%);font-family:var(--head);font-weight:800;font-size:20px;color:var(--mint-dark)}
-.pk.pk-x details[open] summary::after{content:"\2212"}
-.pk.pk-x details summary:focus-visible{outline:2px solid var(--mint-dark);outline-offset:-2px;border-radius:6px}
-.pk.pk-x details p{font-size:14px;font-weight:500;color:var(--ink-soft);padding:0 12px 14px;line-height:1.5}
+.pk li.pk-more{padding:0}
+.pk .pk-more details{border:0;border-radius:0;margin:0;background:none}
+.pk .pk-more summary{display:block;list-style:none;cursor:pointer;padding:13px 28px;position:relative;font-weight:600}
+.pk .pk-more summary::-webkit-details-marker{display:none}
+.pk .pk-more summary::after{content:"+";position:absolute;right:8px;top:50%;transform:translateY(-50%);font-family:var(--head);font-weight:800;font-size:20px;color:var(--mint)}
+.pk .pk-more details[open] summary::after{content:"\2212"}
+.pk .pk-more summary:focus-visible{outline:2px solid var(--mint);outline-offset:-2px;border-radius:6px}
+.pk .pk-more summary b{color:var(--mint);font-weight:800}
+.pk .pk-more summary small{color:rgba(255,255,255,.65);font-weight:500}
+.pk .pk-more p{font-size:14px;font-weight:500;color:rgba(255,255,255,.75);padding:0 12px 14px;line-height:1.5}
+.pk .pk-more p a{color:var(--mint);font-weight:700;white-space:nowrap}
+.pk.pk-x .pk-more summary::after{color:var(--mint-dark)}
+.pk.pk-x .pk-more summary:focus-visible{outline-color:var(--mint-dark)}
+.pk.pk-x .pk-more p{color:var(--ink-soft)}
 .pk.pk-x .pk-btn{background:var(--deep);color:#fff}
 .pk.pk-x .pk-btn:hover,.pk.pk-x .pk-btn:focus-visible{background:var(--mint);color:var(--deep)}
 @media (max-width:860px){.pk-row{grid-template-columns:1fr;max-width:440px;margin:0 auto}}

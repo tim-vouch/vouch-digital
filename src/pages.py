@@ -75,16 +75,19 @@ def final_cta(h2="Be the plumber everyone vouches for.",
 def pricing_section():
     """Growth and Exclusive side by side (Exclusive is the price anchor), with one monthly/quarterly/annual toggle."""
     p, x = PLANS[0], EXCLUSIVE
-    free = "".join(f'<li class="free">{EXTRAS[k][1]} <b>FREE</b> <small>(save {EXTRAS[k][3]})</small></li>'
+    # Growth items open in place (a short benefit) with a link to their service page.
+    def more(summary, text, href=None):
+        link = f' <a href="{href}">Learn more</a>' if href else ""
+        return f'<li class="pk-more"><details><summary>{summary}</summary><p>{text}{link}</p></details></li>'
+    free = "".join(more(f'{EXTRAS[k][1]} <b>FREE</b> <small>(save {EXTRAS[k][3]})</small>',
+                        ("Live in roughly 3–5 days and built to turn visitors into enquiries, so more of the people who find you get in touch." if k == "website" else EXTRAS[k][2]), "/services/websites" if k == "website" else None)
                    for k in p["extras"])
-    # Included services listed by system, named and linked exactly like the service pages.
     items = ""
     for n, (title, _) in sorted(GROUPS.items()):  # System 1 (Win more jobs) first: seen as more valuable
-        items += "".join(f'<li><a href="/services/{slug}">{d["name"]}</a></li>'
+        items += "".join(more(d["name"], PRODUCT_SHORT[slug], f"/services/{slug}")
                          for slug, d in SERVICE_PAGES.items() if d["group"] == n and slug != "websites")
     # Exclusive extras have no service pages, so each one opens to explain itself.
-    x_items = "".join(f'<li class="pk-more"><details><summary>{t}</summary><p>{d}</p></details></li>'
-                      for t, d in x["items"])
+    x_items = "".join(more(t, d) for t, d in x["items"])
     tabs = ""
     for i, b in enumerate(BILLING):
         pill = f"<span>{b['pill']}</span>" if b["pill"] else ""
