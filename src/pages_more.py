@@ -103,12 +103,14 @@ def page(*sections):
 # Content lives in services_data.py (one entry per service, in homepage order).
 
 
-def benefits(items, tagline, name):
+def benefits(items, tagline, name, h1=None):
+    """h1: on a service page this section opens the page (one heading block: service name, H1, italic tagline)."""
     cells = "".join(f'<li><h3>{icon("check", "tick")}{t}</h3><p>{d}</p></li>' for t, d in items)
+    heading = f"<h1>{h1}</h1>" if h1 else "<h2>Why plumbers use it</h2>"
     return f"""
-<section class="svc-benefits">
+<section class="svc-benefits{' first' if h1 else ''}">
   <div class="wrap">
-    <div class="sec-head"><p class="eyebrow">{name}</p><h2>Why plumbers use it</h2><p class="svc-tag">{tagline}</p></div>
+    <div class="sec-head"><p class="eyebrow">{name}</p>{heading}<p class="svc-tag">{tagline}</p></div>
     <ul class="svc-bens">{cells}</ul>
   </div>
 </section>"""
@@ -154,8 +156,7 @@ def service_page(slug):
 
     def body():
         return page(
-            hero(f"{group} · {d['name']}", d["h1"], d["lede"]),
-            benefits(d["benefits"], d["tagline"], d["name"]),
+            benefits(d["benefits"], d["tagline"], d["name"], h1=d["h1"]),
             demo(d["video"], d["name"]),
             explain(d["explain_h2"], d["explain"]),
             split("Your part vs our part", "What you do", d["split"][0], "What we do", d["split"][1]),
