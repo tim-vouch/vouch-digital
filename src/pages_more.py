@@ -205,9 +205,9 @@ def flow():
 
 def services():
     return page(
-        hero("Our services", "2 simple systems that help our plumbers <span class=\"accent\">make more money.</span>",
-             "First we help more homeowners find you. Then we make sure you don't lose the work they bring.<br>"
-             "7 services, all working together, all done for you."),
+        hero("Our services", "2 simple systems that help our plumbers <span class=\"accent\">win more boiler installs.</span>",
+             "First we help more homeowners find you. Then we make sure you don't lose the work they bring. "
+             "Everything works together, and we build and run it all for you."),
         f"""
 <section class="products">
   <div class="wrap">
