@@ -292,7 +292,7 @@ details p{padding:0 20px 18px;color:var(--ink-soft);font-size:15px}
 .page-hero + .legal{padding-top:8px}
 .page-hero h1{font-size:clamp(34px,4.6vw,52px);font-weight:800;margin:12px auto 14px;max-width:16em}
 .page-hero .lede{max-width:38em;margin:0 auto;font-size:18px;color:var(--ink-soft)}
-.page-hero .accent,.first .accent{color:#07a066}
+.page-hero .accent,.first .accent{color:var(--mint-dark)}
 .hero .accent{color:var(--mint)}
 .page-hero .btn-ghost{border-color:var(--deep);color:var(--deep)}
 .page-hero .btn-ghost:hover{background:var(--deep);color:#fff}
