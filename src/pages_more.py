@@ -342,7 +342,7 @@ def faq_page():
 def pricing_page():
     return page(
         pricing_section(h1="Simple pricing. <span class=\"accent\">A free website when you join.</span>",
-                        lede="£197 a month, everything included. No contract, cancel anytime, or pay upfront and save."),
+                        lede="No contract, cancel anytime, or pay upfront and save."),
         steps(),
         faq(FAQ_HOME[:5], h2="Questions about pricing"),
         final(),
