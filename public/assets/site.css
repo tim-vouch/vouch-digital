@@ -393,10 +393,10 @@ section.first{padding-top:144px}
 .pk-bonus{margin:4px 0 10px;padding:14px 14px 12px;border:2px dashed var(--mint);border-radius:14px;background:rgba(20,211,138,.1);display:grid;gap:4px}
 .pk-bonus-tag{justify-self:center;background:var(--mint);color:var(--deep);font-family:var(--head);font-weight:800;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px;border-radius:999px}
 .pk-bonus-name{font-family:var(--head);font-weight:800;font-size:20px;margin-top:6px}
-.pk-bonus-price{font-family:var(--head);font-weight:800;font-size:26px;line-height:1.1}
-.pk-bonus-price s{position:relative;display:inline-block;font-size:21px;color:rgba(255,255,255,.92);text-decoration:none;margin-right:8px}
-.pk-bonus-price s::after{content:"";position:absolute;left:-6%;right:-6%;top:52%;height:2.5px;border-radius:2px;background:var(--bad);transform:rotate(-14deg)}
-.pk-bonus-price b{color:var(--mint)}
+.pk-bonus-price{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;font-family:var(--head);line-height:1.1;margin:4px 0 2px}
+.pk-bonus-price span{font-size:16px;font-weight:600;color:rgba(255,255,255,.8);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:5px 12px}
+.pk-bonus-price span b{color:#fff;font-weight:800;font-size:18px}
+.pk-bonus-price strong{font-size:30px;font-weight:800;color:var(--mint)}
 .pk-bonus-note{font-size:13.5px;color:rgba(255,255,255,.75);line-height:1.45}
 .pk-bonus-note a{color:var(--mint);font-weight:700;white-space:nowrap}
 .pr-foot{margin-top:36px;text-align:center;color:var(--ink-soft);font-size:14px}

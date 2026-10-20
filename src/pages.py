@@ -85,7 +85,7 @@ def pricing_section(h1=None, lede=None):
     free = f"""<div class="pk-bonus">
         <p class="pk-bonus-tag">Free bonus when you join</p>
         <p class="pk-bonus-name">{w[1]}</p>
-        <p class="pk-bonus-price"><s>{w[3]}</s> <b>FREE</b></p>
+        <p class="pk-bonus-price"><span>Normally <b>{w[3]}</b></span><strong>FREE</strong></p>
         <p class="pk-bonus-note">Built for you in roughly 3–5 days to turn visitors into enquiries. <a href="/services/websites">Learn more</a></p>
       </div>"""
     items = ""
