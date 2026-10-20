@@ -12,7 +12,7 @@ only shows once a video exists.
 GROUPS = {
     1: ("Win more jobs", "Get found on Google and ChatGPT, backed by real reviews, "
                          "and bring past customers back for more."),
-    2: ("Stop losing jobs", "Every missed call or unanswered quote is a boiler install for your competition. "
+    2: ("Stop losing jobs", "Every missed call or unanswered enquiry is a boiler install for your competition. "
                             "These make sure every enquiry gets a reply."),
 }
 
@@ -261,17 +261,17 @@ SERVICE_PAGES = {
     "lead-follow-up": {
         "group": 2, "icon": "clock", "name": "Automated lead follow-up",
         "title": "Automated Lead Follow-Up for Plumbers | Vouch Digital",
-        "desc": "Every enquiry gets an instant reply and every quote is chased automatically, so fewer jobs slip away. "
+        "desc": "Every enquiry gets an instant reply and a polite follow-up, so fewer jobs slip away to the next plumber. "
                 "For domestic plumbers across the UK.",
-        "h1": "Every enquiry answered. <span class=\"accent\">Every quote chased.</span>",
-        "lede": "Most quotes aren't lost to a cheaper plumber. They're lost because nobody followed up. We reply to every "
-                "enquiry instantly and chase your quotes politely, so you don't have to.",
-        "tagline": "Sent a quote and heard nothing? You're not alone. Let the system do the chasing.",
+        "h1": "Every enquiry answered. <span class=\"accent\">Instantly.</span>",
+        "lede": "Most jobs aren't lost to a cheaper plumber. They're lost because nobody replied quickly enough. Every "
+                "enquiry gets an instant reply and a polite follow-up, so you don't have to.",
+        "tagline": "Homeowners contact two or three plumbers. The first one to reply is often the one who gets the job.",
         "benefits": [
             ("Every enquiry answered instantly",
              "Website form, chat or Facebook message: they get a text straight away saying you've got it."),
-            ("Quotes chased automatically",
-             "A friendly nudge a few days after you quote, then another. You stop chasing, the system does it."),
+            ("Followed up if they go quiet",
+             "Asked about a job but never booked in? A friendly check-in follows, so the enquiry doesn't go cold."),
             ("Stops the moment they reply",
              "No awkward double messages. As soon as the customer gets back to you, the follow-ups stop."),
             ("Sounds like you, not a robot",
@@ -282,15 +282,15 @@ SERVICE_PAGES = {
             ("monitor", "Website and chat enquiries",
              "When someone fills in your form or chat, they get an instant text to confirm, and you get a notification "
              "so you can reply properly."),
-            ("clipboard", "Quote follow-ups",
-             "Sent a quote and heard nothing? A short series of polite texts and emails follows it up, and stops as "
-             "soon as they reply."),
+            ("clipboard", "Enquiry follow-ups",
+             "Someone got in touch but went quiet before booking? A short series of polite texts follows it up, and stops "
+             "as soon as they reply."),
             ("mail", "Facebook and Instagram replies",
              "Message you on Facebook or Instagram and they get a quick reply saying you'll be in touch soon."),
             ("chart", "Nothing left hanging",
-             "Every open enquiry and quote is tracked in the app, so you can see at a glance who still needs an answer."),
+             "Every open enquiry is tracked in the app, so you can see at a glance who still needs an answer."),
         ],
-        "split": (["Mark a quote as sent in the app", "Reply when customers get back to you"],
+        "split": (["Reply when customers get back to you", "Book the job in"],
                   ["Write the follow-up messages with you", "Set up the instant replies",
                    "Connect your website, Facebook and Instagram", "Tweak the timings whenever you want"]),
         "faq": [

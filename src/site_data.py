@@ -80,7 +80,7 @@ PLANS = [
      "items": [("All-in-one inbox", "Calls, texts, emails and Facebook messages in one app"),
                ("Business phone number", "Keep work and personal separate"),
                ("Missed-call text-back", "An instant text when you can't pick up"),
-               ("Automated lead follow-up", "Quotes and enquiries chased for you"),
+               ("Automated lead follow-up", "Every enquiry answered and followed up for you"),
                ("Review requests", "Every new and past customer asked for a genuine Google review"),
                ("Google Business Profile management", "Ongoing optimisation, photos and posts"),
                ("One-click marketing campaigns", "Win repeat work from past customers"),

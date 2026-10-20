@@ -387,6 +387,14 @@ section.first{padding-top:144px}
 .pk.pk-x .pk-btn{background:var(--deep);color:#fff}
 .pk.pk-x .pk-btn:hover,.pk.pk-x .pk-btn:focus-visible{background:var(--mint);color:var(--deep)}
 @media (max-width:860px){.pk-row{grid-template-columns:1fr;max-width:440px;margin:0 auto}}
+.pk-bonus{margin:6px 0 14px;padding:18px 16px 16px;border:2px dashed var(--mint);border-radius:14px;background:rgba(20,211,138,.1);display:grid;gap:4px}
+.pk-bonus-tag{justify-self:center;background:var(--mint);color:var(--deep);font-family:var(--head);font-weight:800;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px;border-radius:999px}
+.pk-bonus-name{font-family:var(--head);font-weight:800;font-size:20px;margin-top:6px}
+.pk-bonus-price{font-family:var(--head);font-weight:800;font-size:26px;line-height:1.1}
+.pk-bonus-price s{font-size:20px;color:rgba(255,255,255,.55);text-decoration-color:var(--bad);text-decoration-thickness:2px;margin-right:6px}
+.pk-bonus-price b{color:var(--mint)}
+.pk-bonus-note{font-size:13.5px;color:rgba(255,255,255,.75);line-height:1.45}
+.pk-bonus-note a{color:var(--mint);font-weight:700;white-space:nowrap}
 .pr-foot{margin-top:36px;text-align:center;color:var(--ink-soft);font-size:14px}
 .pr-plans.single{grid-template-columns:minmax(0,520px);justify-content:center}
 .pr-plans.single .pr-card ul{grid-template-columns:1fr 1fr;column-gap:20px;row-gap:14px}

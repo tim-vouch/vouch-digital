@@ -175,7 +175,7 @@ FLOW = [
       ("Local SEO", "google-business-profile"), ("AI search", "google-business-profile")]),
     ("monitor", "They check you out", "Your website shows what you do and your real Google reviews, and makes getting "
      "in touch easy.", [("Website", "websites"), ("Reviews", "google-reviews")]),
-    ("phone", "They get in touch", "Missed their call? They get a text back. Asked for a quote? It gets followed up.",
+    ("phone", "They get in touch", "Missed their call? They get a text back. Sent an enquiry? They get a reply straight away.",
      [("Text-back", "missed-call-text-back"), ("Follow-up", "lead-follow-up")]),
     ("mail", "You reply from one app", "Every call, text, email, Facebook and Instagram message lands in one inbox on "
      "your phone.", [("All-in-one inbox", "all-in-one-inbox")]),

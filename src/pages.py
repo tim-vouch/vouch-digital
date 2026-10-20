@@ -80,9 +80,14 @@ def pricing_section(h1=None, lede=None):
     def more(summary, text, href=None):
         link = f' <a href="{href}">Learn more</a>' if href else ""
         return f'<li class="pk-more"><details><summary>{summary}</summary><p>{text}{link}</p></details></li>'
-    free = "".join(more(f'{EXTRAS[k][1]} <b>FREE</b> <small>(save {EXTRAS[k][3]})</small>',
-                        ("Live in roughly 3–5 days and built to turn visitors into enquiries, so more of the people who find you get in touch." if k == "website" else EXTRAS[k][2]), "/services/websites" if k == "website" else None)
-                   for k in p["extras"])
+    # The free website is the headline bonus, so it gets its own highlighted box above the list.
+    w = EXTRAS["website"]
+    free = f"""<div class="pk-bonus">
+        <p class="pk-bonus-tag">Free bonus when you join</p>
+        <p class="pk-bonus-name">{w[1]}</p>
+        <p class="pk-bonus-price"><s>{w[3]}</s> <b>FREE</b></p>
+        <p class="pk-bonus-note">Built for you in roughly 3–5 days to turn visitors into enquiries. <a href="/services/websites">Learn more</a></p>
+      </div>"""
     items = ""
     for n, (title, _) in sorted(GROUPS.items()):  # System 1 (Win more jobs) first: seen as more valuable
         items += "".join(more(d["name"], PRODUCT_SHORT[slug], f"/services/{slug}")
@@ -112,7 +117,8 @@ def pricing_section(h1=None, lede=None):
       <p class="pk-price"><s class="pk-was" hidden>£{p['price']}</s><b class="pk-num">£{p['price']}</b><span>/month</span></p>
       <p class="pk-billed">Billed monthly.</p>
       <p class="pk-save is-note">No contract, cancel anytime</p>
-      <ul>{free}{items}</ul>
+      {free}
+      <ul>{items}</ul>
       <a class="pk-btn" href="{BOOK}">Book a call</a>
     </div>
     <div class="pk pk-x" data-base="{x['price']}" data-note="{x['pill']}">{x_data}
@@ -136,7 +142,7 @@ def pricing_section(h1=None, lede=None):
 # come from SERVICE_PAGES in services_data.py.
 PRODUCT_SHORT = {
     "missed-call-text-back": "Callers get a text back, so they don't ring the next plumber.",
-    "lead-follow-up": "Every enquiry answered instantly and every quote chased for you.",
+    "lead-follow-up": "Every enquiry answered instantly, so they don't move on to the next plumber.",
     "all-in-one-inbox": "Every enquiry in one place, so you save time and nothing gets forgotten.",
     "websites": "Free, live in 3–5 days, and built to turn visitors into enquiries.",
     "google-reviews": "Gives homeowners a reason to pick you over the plumber next door.",
