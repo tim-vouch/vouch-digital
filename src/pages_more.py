@@ -12,14 +12,15 @@ from services_data import SERVICE_PAGES, GROUPS
 # ---------- building blocks ----------
 
 def hero(eyebrow, h1, lede, form=True, form_eyebrow=None):
-    """Dark page hero. form=True adds the Book a call buttons (the old audit form is retired)."""
+    """Light page heading for inner pages (only the homepage has the big dark hero).
+    form=True adds the Book a call buttons (the old audit form is retired)."""
     buttons = book_buttons() if form else ""
     return f"""
-<section class="dark page-hero">
+<section class="page-hero">
   <div class="wrap">
     <p class="eyebrow">{eyebrow}</p>
     <h1>{h1}</h1>
-    <p class="muted">{lede}</p>
+    <p class="lede">{lede}</p>
     {buttons}
   </div>
 </section>"""
@@ -73,15 +74,15 @@ def split(h2, left_title, left, right_title, right, cls="tint"):
 steps = process_steps
 
 
-def faq(items, h2="Got questions? We've got straight answers.", intro=None):
+def faq(items, h2="Got questions? We've got straight answers.", intro=None, h1=None, eyebrow="Frequently asked questions"):
     qs = "".join(f"<details><summary>{q}{icon('chevron')}</summary><p>{a}</p></details>" for q, a in items)
     intro = intro or f"No jargon, no promises we can't keep. Anything else, call <a href=\"tel:{SITE['phone_intl']}\">{SITE['phone']}</a>."
     return f"""
-<section class="faq" id="faq">
+<section class="faq{' first' if h1 else ''}" id="faq">
   <div class="wrap">
     <div class="intro">
-      <p class="eyebrow">Frequently asked questions</p>
-      <h2>{h2}</h2>
+      <p class="eyebrow">{eyebrow}</p>
+      {f'<h1>{h1}</h1>' if h1 else f'<h2>{h2}</h2>'}
       <p>{intro}</p>
     </div>
     <div>{qs}</div>
@@ -331,19 +332,17 @@ FAQ_MORE = [
 
 def faq_page():
     return page(
-        hero("FAQ", "Straight answers to <span class=\"accent\">common questions.</span>",
-             "If your question isn't here, call or text us. We'd rather answer it properly than have you guess.",
-             form=False),
-        faq(FAQ_HOME + FAQ_MORE, h2="Everything you might want to ask"),
+        faq(FAQ_HOME + FAQ_MORE, h1="Straight answers to <span class=\"accent\">common questions.</span>", eyebrow="FAQ",
+            intro="If your question isn't here, call or text us on "
+                  f"<a href=\"tel:{SITE['phone_intl']}\">{SITE['phone']}</a>. We'd rather answer it properly than have you guess."),
         final(),
     )
 
 
 def pricing_page():
     return page(
-        hero("Pricing", "One simple price. <span class=\"accent\">A free website when you join.</span>",
-             "£197 a month, everything included. No contract, cancel anytime.", form=False),
-        pricing_section(),
+        pricing_section(h1="Simple pricing. <span class=\"accent\">A free website when you join.</span>",
+                        lede="£197 a month, everything included. No contract, cancel anytime, or pay upfront and save."),
         steps(),
         faq(FAQ_HOME[:5], h2="Questions about pricing"),
         final(),

@@ -72,8 +72,9 @@ def final_cta(h2="Be the plumber everyone vouches for.",
 </section>"""
 
 
-def pricing_section():
-    """Growth and Exclusive side by side (Exclusive is the price anchor), with one monthly/quarterly/annual toggle."""
+def pricing_section(h1=None, lede=None):
+    """Growth and Exclusive side by side (Exclusive is the price anchor), with one monthly/quarterly/annual toggle.
+    h1: on /pricing the section is the top of the page, so it carries the page's H1 (no separate banner)."""
     p, x = PLANS[0], EXCLUSIVE
     # Growth items open in place (a short benefit) with a link to their service page.
     def more(summary, text, href=None):
@@ -99,15 +100,14 @@ def pricing_section():
     g_data = "".join(tpl(b["id"], b["per_month"], b["billed"], b["save"]) for b in BILLING)
     x_data = "".join(tpl(bid, *v) for bid, v in x["billing"].items())
     return f"""
-<section class="tint pricing" id="pricing">
+<section class="tint pricing{' first' if h1 else ''}" id="pricing">
   <div class="wrap">
-    <div class="sec-head"><p class="eyebrow">Pricing</p><h2>Our pricing</h2>
-    <p>Pay monthly with no contract, or pay upfront and save.</p></div>
+    <div class="sec-head"><p class="eyebrow">Pricing</p>{f'<h1>{h1}</h1>' if h1 else '<h2>Our pricing</h2>'}
+    <p>{lede or 'Pay monthly with no contract, or pay upfront and save.'}</p></div>
     <div class="bill-tabs" role="tablist" aria-label="Billing period">{tabs}</div>
     <div class="pk-stage"><img class="pk-lean" src="/assets/img/mascot-lean.webp" width="320" height="475" loading="lazy" alt="Vouch Digital mascot leaning on the pricing card, giving a thumbs up">
     <div class="pk-row">
     <div class="pk" data-base="{p['price']}" data-note="No contract, cancel anytime">{g_data}
-      <p class="pk-label">Everything included</p>
       <h3>{p['name']}</h3>
       <p class="pk-price"><s class="pk-was" hidden>£{p['price']}</s><b class="pk-num">£{p['price']}</b><span>/month</span></p>
       <p class="pk-billed">Billed monthly.</p>
@@ -116,13 +116,13 @@ def pricing_section():
       <a class="pk-btn" href="{BOOK}">Book a call</a>
     </div>
     <div class="pk pk-x" data-base="{x['price']}" data-note="{x['pill']}">{x_data}
-      <p class="pk-label">{x['label']}</p>
       <h3>{x['name']}</h3>
       <p class="pk-price"><small>From</small><s class="pk-was" hidden>£{x['price']}</s><b class="pk-num">£{x['price']}</b><span>/month</span></p>
       <p class="pk-billed">Billed monthly.</p>
       <p class="pk-save is-note">{x['pill']}</p>
       <p class="pk-ads">{x['note']}</p>
-      <ul><li class="pk-all">Everything in the {p['name']}, plus:</li>{x_items}</ul>
+      <p class="pk-all">Everything in the {p['name']}, plus:</p>
+      <ul>{x_items}</ul>
       <a class="pk-btn" href="{BOOK}">Book a call</a>
     </div>
     </div>
@@ -350,7 +350,7 @@ def legal(name, heading):
         content = (LEGAL_DIR / f"{name}.html").read_text(encoding="utf-8")
         return f"""
 <main>
-<section class="dark page-hero"><div class="wrap"><p class="eyebrow">Vouch Digital</p><h1>{heading}</h1></div></section>
+<section class="page-hero"><div class="wrap"><p class="eyebrow">Vouch Digital</p><h1>{heading}</h1></div></section>
 <section class="legal"><div class="wrap">{content}</div></section>
 </main>"""
     return body

@@ -39,7 +39,8 @@ wins plumbers more jobs, £197/month, everything included, no contract. Every bu
 
 ## Design
 Dark green `#04201b`, mint `#14d38a`, mint tint `#e9f8f1`. Headings Outfit, body Inter.
-Based on the mockup Tim approved on 4 Oct 2026. Mascot (Tim's own artwork): `public/assets/img/mascot.webp`, used via `mascot()` in `src/pages.py` (final CTA on every page, beside the pricing card).
+Based on the mockup Tim approved on 4 Oct 2026. Only the homepage has the big dark hero. Inner pages open with a light heading (`hero()` in `src/pages_more.py`, class `page-hero`); on /pricing and /faq the first section carries the H1 itself (class `first`), so nothing is said twice.
+Mascot (Tim's own artwork): `public/assets/img/mascot.webp`, used via `mascot()` in `src/pages.py` (final CTA on every page, beside the pricing card).
 
 ## Never
 - Invent reviews, testimonials, case studies or results. Only real Google reviews of Vouch Digital
