@@ -85,7 +85,7 @@ PLANS = [
                ("Google Business Profile management", "Ongoing optimisation, photos and posts"),
                ("One-click marketing campaigns", "Win repeat work from past customers"),
                ("Local SEO &amp; AI search", "Listings, area pages and ChatGPT visibility, every month")],
-     "extras": ["website", "gbp"]},
+     "extras": ["website"]},
 ]
 # Second, higher plan. Shown only on /pricing, below Growth (not on the homepage or service pages).
 # Tailored per client, so the button is "Book a call". Ad spend is paid by the client directly to Google.
@@ -107,7 +107,7 @@ ACCELERATOR = {
 BILLING = [
     {"id": "monthly", "label": "Monthly", "per_month": 197, "billed": None, "save": None, "pill": None},
     {"id": "quarterly", "label": "Quarterly", "per_month": 177, "billed": "£531 every 3 months",
-     "save": "£60 a quarter", "pill": "Save 10%"},
+     "save": "£240 a year", "pill": "Save 10%"},
     {"id": "annual", "label": "Annually", "per_month": 148, "billed": "£1,776 once a year",
      "save": "£588 a year", "pill": "Save 25%"},
 ]
