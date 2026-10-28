@@ -73,7 +73,7 @@ def final_cta(h2="Be the plumber everyone vouches for.",
 
 
 def pricing_section(h1=None, lede=None):
-    """Growth and Exclusive side by side (Exclusive is the price anchor), with one monthly/quarterly/annual toggle.
+    """Growth and Exclusive side by side (Exclusive is the price anchor), with one monthly/annual toggle.
     h1: on /pricing the section is the top of the page, so it carries the page's H1 (no separate banner)."""
     p, x = PLANS[0], EXCLUSIVE
     # Growth items open in place (a short benefit) with a link to their service page.

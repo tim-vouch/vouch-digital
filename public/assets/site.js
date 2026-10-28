@@ -61,7 +61,7 @@ if (booking) {
   booking.src = booking.dataset.src + (qs ? '?' + qs : '');
 }
 
-// Pricing: monthly / quarterly / annual toggle, applied to every plan card at once
+// Pricing: monthly / annual toggle, applied to every plan card at once
 const pks = [...document.querySelectorAll('.pk[data-base]')];
 if (pks.length) {
   const cards = pks.map((pk) => ({

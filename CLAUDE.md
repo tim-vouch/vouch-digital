@@ -53,7 +53,7 @@ Mascot (Tim's own artwork): `public/assets/img/mascot.webp`, used via `mascot()`
 - Two plans on /pricing, side by side: Growth Package (`PLANS`) and Exclusive Package (`EXCLUSIVE` in
   `src/site_data.py`, from £997/month plus ad spend, tailored, "Book a call"). Exclusive is the price anchor; its
   extras have no service pages, so each opens in place. Not on the homepage or service pages. One billing toggle
-  drives both cards (10% quarterly, 25% annual).
+  drives both cards (monthly, or annual upfront with 2 months free; quarterly removed 28 Oct 2026).
 
 ## Launch checklist
 - [x] Set `noindex` to False in `src/site_data.py`
