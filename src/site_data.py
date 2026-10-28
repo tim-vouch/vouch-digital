@@ -53,7 +53,7 @@ FAQ_HOME = [
      "hand in hand with your reviews, Google profile and lead follow-up. If you only want a website on its own, "
      "it's £1,499 as a one-off."),
     ("How much does it cost?",
-     "£197 a month, everything included. Or pay for the year upfront and get 2 months free. "
+     "£197 a month, everything included. Or pay for the year upfront and get 3 months free. "
      "See our <a href=\"/pricing\">pricing</a>."),
     ("Am I locked into a contract?",
      "No. The monthly plan has no contract, so you can cancel anytime."),
@@ -89,7 +89,7 @@ PLANS = [
 ]
 # Second, higher plan. Shown only on /pricing, beside Growth as the price anchor (not on the homepage or
 # service pages, which have no pages for these extras). Tailored per client, so it's sold on a call.
-# Ad spend is paid by the client directly to Google. Billing follows the same toggle as Growth (annual = 2 months free).
+# Ad spend is paid by the client directly to Google. Billing follows the same toggle as Growth (annual = 3 months free).
 EXCLUSIVE = {
     "name": "Exclusive Package", "price": 997, "label": "Tailored to you",
     "note": "Plus ad spend",
@@ -103,14 +103,14 @@ EXCLUSIVE = {
               ("Monthly sales training", "A monthly session with Tim and a sales specialist on turning more surveys into installs, so you get more out of every enquiry you pay for."),
               ("Priority support", "You go to the front of the queue whenever you need something, so changes and fixes happen quickly.")],
     "billing": {"monthly": (997, None, None),
-                "annual": (831, "£9,970 once a year", "£1,994 a year")},
+                "annual": (748, "£8,973 once a year", "£2,991 a year")},
 }
 # Billing options for Growth (Exclusive has its own figures in EXCLUSIVE["billing"]). Monthly is the default (matches the ads).
-# Annual: paid upfront, 2 months free (10 months' price for 12). Quarterly removed 28 Oct 2026.
+# Annual: paid upfront, 3 months free (9 months' price for 12). Quarterly removed 28 Oct 2026.
 BILLING = [
     {"id": "monthly", "label": "Monthly", "per_month": 197, "billed": None, "save": None, "pill": None},
-    {"id": "annual", "label": "Annually", "per_month": 164, "billed": "£1,970 once a year",
-     "save": "£394 a year", "pill": "2 months free"},
+    {"id": "annual", "label": "Annually", "per_month": 148, "billed": "£1,773 once a year",
+     "save": "£591 a year", "pill": "3 months free"},
 ]
 
 # (icon, title, description, normal price)
