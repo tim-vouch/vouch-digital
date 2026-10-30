@@ -401,9 +401,18 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
     return best;
   };
   // Once scrolling settles in a clone, jump (invisibly) to the same review in the middle set.
+  // The dots update once per swipe, when the scroll comes to rest (as Instagram does). Updating them while a finger
+  // is still dragging made them flip back and forth on phones as the drag crossed the halfway point.
+  let shown = idx; // the review the dots currently show
+  let moveDots = () => {};
+  let touching = false; // a finger is still on the carousel: wait until it lifts
   const settle = () => {
-    idx = nearest();
-    if (idx < n || idx >= 2 * n) go(n + (idx % n), false);
+    if (touching) return;
+    const k = nearest();
+    const d = k - shown;
+    if (d && Math.abs(d) < n) moveDots(d); // the invisible jump between copies moves by n: no dots change
+    idx = shown = k;
+    if (idx < n || idx >= 2 * n) { go(n + (idx % n), false); shown = idx; }
   };
 
   // Instagram-style dots (Tim, 30 Oct 2026, v4 matched to a screen recording of Instagram). One dot per review along
@@ -423,7 +432,10 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
     b.addEventListener('click', () => {
       if (i === v) return;
       settle();
-      go(idx + (i - v), true);
+      const d = i - v;
+      moveDots(d); // tapping a dot moves the dots straight away
+      shown = idx + d;
+      go(idx + d, true);
     });
     dots.appendChild(b);
     els.set(i, b);
@@ -472,22 +484,13 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
   dots.innerHTML = '';
   layout(true);
 
-  let last = idx;
-  let raf = 0;
-  const watch = () => {
-    raf = 0;
-    const k = nearest();
-    if (k === last) return;
-    const d = k - last;
-    last = k;
-    // the invisible jump from a clone back to the middle set moves by n: no dots change
-    if (Math.abs(d) < n) for (let i = 0; i < Math.abs(d); i++) bump(Math.sign(d));
-  };
+  moveDots = (d) => { for (let i = 0; i < Math.abs(d); i++) bump(Math.sign(d)); };
   let t;
-  c.addEventListener('scroll', () => {
-    if (!raf) raf = requestAnimationFrame(watch);
-    clearTimeout(t); t = setTimeout(settle, 140);
-  }, { passive: true });
+  c.addEventListener('scroll', () => { clearTimeout(t); t = setTimeout(settle, 120); }, { passive: true });
+  c.addEventListener('touchstart', () => { touching = true; }, { passive: true });
+  const lift = () => { touching = false; clearTimeout(t); t = setTimeout(settle, 120); };
+  c.addEventListener('touchend', lift, { passive: true });
+  c.addEventListener('touchcancel', lift, { passive: true });
   if ('onscrollend' in window) c.addEventListener('scrollend', settle);
   let rt;
   window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => go(idx, false), 150); });
