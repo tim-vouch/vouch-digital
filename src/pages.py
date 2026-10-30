@@ -320,6 +320,14 @@ def book_intro():
             f'<source src="{SITE["book_video"]}" type="video/mp4"></video></div>')
 
 
+def book_vsl_below():
+    """The full walkthrough promised on the landing page, under the calendar so it never slows booking down."""
+    if not SITE.get("vsl_url"):
+        return ""
+    return f"""
+  <div class="wrap book-vsl-below"><p class="eyebrow">Here's the video</p><h2>How it all works</h2>{vsl_player()}</div>"""
+
+
 def book():
     ratings = (f'<a href="#">{G_LOGO}<span><b>Google</b>{stars(5)}</span><em>{RATING}</em></a>'
                f'<a href="{TRUSTPILOT["url"]}" target="_blank" rel="noopener">{TP_ICON}<span><b>Trustpilot</b>{stars(5)}</span><em>{TRUSTPILOT["rating"]}</em></a>'
@@ -357,6 +365,7 @@ def book():
       <iframe class="booking" title="Book your 15-minute call" data-src="{SITE['booking_url']}" scrolling="no"></iframe>
     </div>
   </div>
+  {book_vsl_below()}
   <p class="book-alt wrap">Can't find a time that works? Call or text <a href="tel:{SITE['phone_intl']}">{SITE['phone']}</a> and we'll sort one out.</p>
 </section>
 </main>
@@ -520,17 +529,11 @@ def free_website():
     ratings = (f'<a href="#reviews">{G_LOGO}<span><b>Google</b>{stars(5)}</span><em>{RATING}</em></a>'
                f'<a href="#reviews">{TP_ICON}<span><b>Trustpilot</b>{stars(5)}</span><em>{TRUSTPILOT["rating"]}</em></a>'
                f'<a href="#reviews">{FB_LOGO}<span><b>Facebook</b>{stars(5)}</span><em>{FACEBOOK["rating"]}</em></a>')
-    if SITE.get("vsl_url"):
-        # The thumbnail opens the quiz; the video itself plays on /book once they've answered.
-        media = f'<button type="button" class="lp-poster" data-quiz-open aria-label="Watch the video">{vsl_poster_inner()}</button>'
-        step = "<b><u>Step 1:</u></b> Watch this quick video to see what we do and how we help you grow"
-        cta = "Click to see how it works"
-    else:
-        # Until the VSL is recorded: no video promised.
-        media = (f'<img class="lp-poster-img" src="/assets/img/lp-mst.webp" width="885" height="543" '
-                 f'alt="A plumber approving his new website on WhatsApp, next to the site on a phone">')
-        step = "<b><u>Step 1:</u></b> Answer a few quick questions, then pick a time for your free call"
-        cta = "See if you qualify"
+    # Kai Stone style: a blurred still with a big play button. Clicking it (or the button) opens the quiz; the
+    # video itself comes after (below the calendar on /book, on /booked and in the follow-up messages).
+    media = f'<button type="button" class="lp-poster" data-quiz-open aria-label="Watch the video">{vsl_poster_inner()}</button>'
+    step = "<b><u>Step 1:</u></b> Watch this quick video to see what we do and how we help you grow"
+    cta = "Click to see how it works"
     return f"""
 <main class="lp lp-k">
 <section class="lp-k-hero">

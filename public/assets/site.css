@@ -896,3 +896,12 @@ html.qz-on{overflow:hidden}
 .book-intro video{display:block;width:100%;aspect-ratio:9/16;object-fit:cover}
 @media (max-width:560px){.book-intro{max-width:300px}}
 @media (max-width:900px){.book-frame{order:-1}}
+
+/* Landing page poster: blurred screenshot, big pulsing play button (30 Oct 2026) */
+.lp-poster .vp-btn{width:112px;height:112px;animation:vp-pulse 2s ease-out infinite}
+.lp-poster .vp-btn svg{width:50px;height:50px;margin-left:7px}
+@keyframes vp-pulse{0%{box-shadow:0 0 0 0 rgba(20,211,138,.55),0 10px 30px rgba(0,0,0,.35)}70%{box-shadow:0 0 0 26px rgba(20,211,138,0),0 10px 30px rgba(0,0,0,.35)}100%{box-shadow:0 0 0 0 rgba(20,211,138,0),0 10px 30px rgba(0,0,0,.35)}}
+@media (prefers-reduced-motion:reduce){.lp-poster .vp-btn{animation:none}}
+@media (max-width:560px){.lp-poster .vp-btn{width:76px;height:76px}.lp-poster .vp-btn svg{width:34px;height:34px;margin-left:5px}}
+.book-vsl-below{max-width:860px;margin-top:48px;text-align:center}
+.book-vsl-below h2{font-size:clamp(24px,3vw,32px);margin:6px 0 18px}

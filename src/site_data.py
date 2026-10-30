@@ -22,7 +22,7 @@ SITE = {
     "vsl_url": "",
     # Optional still for the VSL thumbnail on /free-website (e.g. "/assets/img/vsl-poster.webp", a frame of Tim talking).
     # Empty = a branded poster drawn in CSS.
-    "vsl_poster": "",
+    "vsl_poster": "/assets/img/vsl-poster.webp",  # blurred screenshot of our homepage; swap for a blurred frame of the VSL
     # Short "here's what happens now" video at the top of /book (portrait, ~35 seconds, Trade Scale style).
     # Self-hosted MP4 under /assets/video/ (no third-party cookies), plus a still for the poster. Empty = no video.
     "book_video": "",
