@@ -406,26 +406,37 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
     if (idx < n || idx >= 2 * n) go(n + (idx % n), false);
   };
 
-  // Seven visible dots (+1 hidden buffer each side). Every move slides the whole row one step in the direction of
-  // travel, so it feels like moving along an endless strip while the pill stays in the middle.
-  const offsets = [-4, -3, -2, -1, 0, 1, 2, 3, 4];
-  dots.innerHTML = '<span class="rd-track">' + offsets.map((o) => {
-    const a = Math.abs(o);
-    if (a === 4) return '<span class="rd d4" aria-hidden="true"></span>';
-    return `<button type="button" class="rd d${a}" data-o="${o}" ${o === 0
-      ? 'aria-current="true" aria-label="Current review"'
-      : `aria-label="${o < 0 ? 'Previous' : 'Next'} review${a > 1 ? 's' : ''}"`}></button>`;
-  }).join('') + '</span>';
-  const track = dots.firstElementChild;
+  // Instagram-style dots (Tim, 30 Oct 2026). Fixed slots either side: dot, dot, smaller, smallest. The wide pill
+  // starts in the middle; the first swipe in a direction just moves the pill one slot (the dots stay put); swiping
+  // further that way slides the whole row along while the pill stays at that slot. Swiping back moves the pill back.
+  const STEP = 20; // px between slot centres (8px dot + 12px gap)
+  const SLOTS = [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5];
+  dots.innerHTML = '<div class="rd-row">' + SLOTS.map((s) => {
+    const a = Math.abs(s);
+    return a === 5 ? '<span class="rd s5" aria-hidden="true"></span>' : `<button type="button" class="rd s${a}" data-s="${s}"></button>`;
+  }).join('') + '</div><span class="rd-pill" aria-hidden="true"></span>';
+  const row = dots.querySelector('.rd-row');
+  const pill = dots.querySelector('.rd-pill');
+  let p = 0; // which slot the pill is on: -1, 0 or 1
+  const place = () => {
+    pill.style.left = `calc(50% + ${p * STEP}px)`;
+    dots.querySelectorAll('button').forEach((b) => {
+      const d = Number(b.dataset.s) - p;
+      if (d === 0) { b.setAttribute('aria-current', 'true'); b.setAttribute('aria-label', 'Current review'); }
+      else { b.removeAttribute('aria-current'); b.setAttribute('aria-label', `${d < 0 ? 'Previous' : 'Next'} review${Math.abs(d) > 1 ? 's' : ''}`); }
+    });
+  };
   const bump = (dir) => {
-    track.classList.remove('next', 'prev');
-    void track.offsetWidth;
-    track.classList.add(dir > 0 ? 'next' : 'prev');
+    if (Math.abs(p + dir) <= 1) { p += dir; place(); return; }
+    row.classList.remove('shift-next', 'shift-prev');
+    void row.offsetWidth;
+    row.classList.add(dir > 0 ? 'shift-next' : 'shift-prev');
   };
   dots.querySelectorAll('button').forEach((b) => b.addEventListener('click', () => {
     settle();
-    go(idx + Number(b.dataset.o), true);
+    go(idx + Number(b.dataset.s) - p, true);
   }));
+  place();
 
   let last = idx;
   let raf = 0;
@@ -435,7 +446,8 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
     if (k === last) return;
     const d = k - last;
     last = k;
-    if (Math.abs(d) < n) bump(d); // the invisible jump from a clone back to the middle set moves by n: no bump
+    // the invisible jump from a clone back to the middle set moves by n: no dots change
+    if (Math.abs(d) < n) for (let i = 0; i < Math.abs(d); i++) bump(Math.sign(d));
   };
   let t;
   c.addEventListener('scroll', () => {
