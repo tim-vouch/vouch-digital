@@ -194,25 +194,39 @@ if (booker) {
   const esc = (v) => String(v).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   let days = [], day = 0, slot = null;
 
+  // Tapping a time shows the confirm button right under that row (no scrolling down to a button at the bottom).
+  const COLS = 3;
   const render = () => {
     const d = days[day];
+    const hhmm = (s) => fmt(s, { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
+    const idx = d.slots.indexOf(slot);
+    const after = idx < 0 ? -1 : Math.min(Math.floor(idx / COLS) * COLS + COLS - 1, d.slots.length - 1);
+    const pick = idx < 0 ? '' : `
+      <div class="bk-pick">
+        ${known ? '' : `<div class="bk-fields">
+          <input name="name" placeholder="Your name" autocomplete="name" aria-label="Your name" value="${esc(lead.name || '')}">
+          <input name="phone" type="tel" inputmode="tel" placeholder="Mobile number" autocomplete="tel" aria-label="Mobile number" value="${esc(lead.phone || '')}">
+          <input name="email" type="email" placeholder="Email address" autocomplete="email" aria-label="Email address" value="${esc(lead.email || '')}">
+        </div>`}
+        <button type="button" class="bk-btn">Book ${fmt(slot, { weekday: 'short' })} ${hhmm(slot)} →</button>
+        <p class="bk-msg" role="alert"></p>
+      </div>`;
     booker.innerHTML = `
       <p class="bk-title"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Book your free 15-minute call</p>
       <div class="bk-days" role="group" aria-label="Choose a day">${days.map((x, i) => `
         <button type="button" class="bk-day" data-i="${i}" aria-pressed="${i === day}">
           <small>${fmt(x.slots[0], { weekday: 'short' })}</small><b>${fmt(x.slots[0], { day: 'numeric' })}</b><small>${fmt(x.slots[0], { month: 'short' })}</small></button>`).join('')}</div>
-      <div class="bk-times" role="group" aria-label="Choose a time">${d.slots.map((s) => `
-        <button type="button" class="bk-time" data-slot="${s}" aria-pressed="${s === slot}">${fmt(s, { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })}</button>`).join('')}</div>
-      ${known ? '' : `<div class="bk-fields">
-        <input name="name" placeholder="Your name" autocomplete="name" aria-label="Your name" value="${esc(lead.name || '')}">
-        <input name="phone" type="tel" inputmode="tel" placeholder="Mobile number" autocomplete="tel" aria-label="Mobile number" value="${esc(lead.phone || '')}">
-        <input name="email" type="email" placeholder="Email address" autocomplete="email" aria-label="Email address" value="${esc(lead.email || '')}">
-      </div>`}
-      <button type="button" class="bk-btn" ${slot ? '' : 'disabled'}>Book My Call</button>
-      <p class="bk-msg" role="alert"></p>`;
+      <div class="bk-times" role="group" aria-label="Choose a time">${d.slots.map((s, i) => `
+        <button type="button" class="bk-time" data-slot="${s}" aria-pressed="${s === slot}">${hhmm(s)}</button>${i === after ? pick : ''}`).join('')}</div>
+      ${idx < 0 ? '<p class="bk-msg" role="alert"></p>' : ''}`;
     booker.querySelectorAll('.bk-day').forEach((b) => b.addEventListener('click', () => { keep(); day = +b.dataset.i; slot = null; render(); }));
-    booker.querySelectorAll('.bk-time').forEach((b) => b.addEventListener('click', () => { keep(); slot = b.dataset.slot; render(); }));
-    booker.querySelector('.bk-btn').addEventListener('click', book);
+    booker.querySelectorAll('.bk-time').forEach((b) => b.addEventListener('click', () => {
+      keep(); slot = b.dataset.slot === slot ? null : b.dataset.slot; render();
+      const p = booker.querySelector('.bk-pick');
+      if (p) p.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }));
+    const btn = booker.querySelector('.bk-btn');
+    if (btn) btn.addEventListener('click', book);
   };
   // keep anything typed into the fields when the box re-renders
   const keep = () => booker.querySelectorAll('.bk-fields input').forEach((i) => { lead[i.name] = i.value; });
@@ -257,7 +271,7 @@ if (booker) {
       if (data.error === 'slot_taken') { slot = null; msg.textContent = ''; await load(); booker.querySelector('.bk-msg').textContent = 'Sorry, that time has just gone. Please pick another.'; return; }
       throw new Error(data.error || 'book');
     } catch (_) {
-      btn.disabled = false; btn.textContent = 'Book My Call';
+      btn.disabled = false; btn.textContent = 'Try again →';
       msg.textContent = 'Something went wrong. Please try again, or call or text us and we\'ll book you in.';
     }
   };
