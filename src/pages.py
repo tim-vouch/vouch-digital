@@ -348,7 +348,7 @@ def book():
 <main>
 <section class="book-hero book-light">
   <div class="wrap">
-    <h1>Wait<span data-first></span>! Here's What Happens Next...</h1>
+    <h1>Wait<span data-first></span>! There's 1 More Step <span aria-hidden="true">👇</span></h1>
     <p class="muted">Watch this quick video, then pick a time for your free call below.</p>
     <div class="rating-row book-ratings lp-ratings">{ratings}</div>
     {book_intro()}
