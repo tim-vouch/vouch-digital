@@ -507,7 +507,7 @@ def lp_quiz():
       <input type="hidden" name="work"><input type="hidden" name="state"><input type="hidden" name="timeline"><input type="hidden" name="turnover">
       <label class="hp" aria-hidden="true">Leave this empty<input type="text" name="company_url" tabindex="-1" autocomplete="off"></label>
     </form>
-    <p class="qz-note">We'll only use your details about your free call. <a href="/privacy">Privacy policy</a></p>
+    <p class="qz-note" hidden><a href="/privacy" target="_blank" rel="noopener">Privacy policy</a></p>
   </div>
 </div>"""
 

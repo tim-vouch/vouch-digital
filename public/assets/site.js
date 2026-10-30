@@ -68,6 +68,8 @@ if (quiz) {
     bar.querySelector('em').textContent = pct + '%';
     bar.setAttribute('aria-valuenow', pct);
     back.style.visibility = i ? 'visible' : 'hidden';
+    // UK GDPR: link the privacy policy where we ask for contact details (not on the first questions)
+    quiz.querySelector('.qz-note').hidden = !s.querySelector('input');
     (s.querySelector('input') || s.querySelector('button')).focus({ preventScroll: true });
   };
   const open = () => {
