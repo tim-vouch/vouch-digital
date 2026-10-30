@@ -195,7 +195,8 @@ if (quiz) {
       paint(f);
     };
     big.addEventListener('click', () => { big.hidden = true; v.play().catch(() => { big.hidden = false; }); });
-    v.addEventListener('play', () => { vids.forEach((o) => { if (o !== v && !o.paused) o.pause(); }); sync(); show(); });
+    // starting the video shows nothing on top: the first seconds (the hook) play clean; a tap brings the controls
+    v.addEventListener('play', () => { vids.forEach((o) => { if (o !== v && !o.paused) o.pause(); }); sync(); });
     v.addEventListener('pause', () => { sync(); if (!v.ended && big.hidden) show(true); });
     v.addEventListener('timeupdate', () => { if (!dragging) paint(v.currentTime / v.duration || 0); });
     v.addEventListener('click', () => { if (big.hidden) show(); });
