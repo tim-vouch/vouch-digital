@@ -364,32 +364,66 @@ if (pks.length) {
   onScroll();
 }
 
-// Reviews carousel (mobile and desktop): one dot per position the row can scroll to (one per review on a phone,
-// fewer on desktop where three show at once). Worked out live, so it stays right after fonts load or a resize.
+// Reviews carousel: an endless loop that doesn't move by itself (Tim, 30 Oct 2026). It opens on the middle review,
+// centred, with neighbours either side. The reviews are cloned once before and once after; when you scroll into a
+// clone it quietly jumps back to the same review in the middle set, so you never reach an end. The dots are a fixed
+// window of five with the long "pill" always in the middle (Instagram style), so it always feels like there's more.
 document.querySelectorAll('.rev-carousel').forEach((c) => {
   const dots = c.parentElement.querySelector('.rev-dots');
+  const originals = [...c.children];
+  const n = originals.length;
+  if (!dots || n < 3) { if (dots) dots.hidden = true; return; }
+  const cloneSet = () => originals.map((el) => {
+    const k = el.cloneNode(true);
+    k.setAttribute('aria-hidden', 'true');
+    k.inert = true;
+    return k;
+  });
+  c.prepend(...cloneSet());
+  c.append(...cloneSet());
   const cards = [...c.children];
-  if (!dots || cards.length < 2) return;
-  let stops = [];
-  const build = () => {
-    const max = c.scrollWidth - c.clientWidth;
-    stops = [...new Set(cards.map((el) => Math.round(Math.min(el.offsetLeft - cards[0].offsetLeft, max))))];
-    dots.hidden = stops.length < 2;
-    dots.innerHTML = stops.map((_, i) => `<button type="button" aria-label="Show reviews, position ${i + 1} of ${stops.length}"></button>`).join('');
-    [...dots.children].forEach((b, i) => b.addEventListener('click', () => c.scrollTo({ left: stops[i], behavior: 'smooth' })));
-    update();
+  let idx = n + Math.floor(n / 2); // middle review of the middle set
+
+  const leftFor = (i) => {
+    const r = cards[i].getBoundingClientRect();
+    const cr = c.getBoundingClientRect();
+    return c.scrollLeft + (r.left - cr.left) - (c.clientWidth - r.width) / 2;
   };
-  const update = () => {
-    const x = c.scrollLeft;
-    let best = 0;
-    stops.forEach((s, i) => { if (Math.abs(s - x) < Math.abs(stops[best] - x)) best = i; });
-    [...dots.children].forEach((b, i) => b.setAttribute('aria-current', String(i === best)));
+  const go = (i, smooth) => { idx = i; c.scrollTo({ left: leftFor(i), behavior: smooth ? 'smooth' : 'instant' }); };
+  const nearest = () => {
+    const mid = c.getBoundingClientRect().left + c.clientWidth / 2;
+    let best = 0, bestD = Infinity;
+    cards.forEach((el, i) => {
+      const r = el.getBoundingClientRect();
+      const d = Math.abs(r.left + r.width / 2 - mid);
+      if (d < bestD) { bestD = d; best = i; }
+    });
+    return best;
   };
-  c.addEventListener('scroll', update, { passive: true });
+  // Once scrolling settles in a clone, jump (invisibly) to the same review in the middle set.
+  const settle = () => {
+    idx = nearest();
+    if (idx < n || idx >= 2 * n) go(n + (idx % n), false);
+  };
+
+  const offsets = [-2, -1, 0, 1, 2];
+  dots.innerHTML = offsets.map((o) => `<button type="button" class="d${Math.abs(o)}" ${o === 0
+    ? 'aria-current="true" aria-label="Current review"'
+    : `aria-label="${o < 0 ? 'Previous' : 'Next'} review${Math.abs(o) > 1 ? 's' : ''}"`}></button>`).join('');
+  [...dots.children].forEach((b, k) => b.addEventListener('click', () => {
+    settle();
+    go(idx + offsets[k], true);
+    dots.classList.remove('tick'); void dots.offsetWidth; dots.classList.add('tick');
+  }));
+
   let t;
-  window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(build, 150); });
-  window.addEventListener('load', build);
-  build();
+  c.addEventListener('scroll', () => { clearTimeout(t); t = setTimeout(settle, 140); }, { passive: true });
+  if ('onscrollend' in window) c.addEventListener('scrollend', settle);
+  let rt;
+  window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => go(idx, false), 150); });
+  const start = () => go(idx, false);
+  start();
+  window.addEventListener('load', start);
 });
 
 // Cookie consent + Meta pixel. The pixel only loads after the visitor clicks Accept (UK PECR / UK GDPR).

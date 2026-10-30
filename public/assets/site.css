@@ -1033,3 +1033,15 @@ html{scroll-padding-top:20px}
 .vt-media:-webkit-full-screen{border-radius:0;aspect-ratio:auto;background:#000}
 .vt-media:-webkit-full-screen video{object-fit:contain}
 .vt-media:fullscreen .vt-bar{padding:40px 24px 24px}
+
+/* Reviews: endless loop, centred card, Instagram-style dots (30 Oct 2026) */
+.rev-carousel{grid-auto-columns:calc((100% - 36px) / 3);scroll-snap-type:x mandatory}
+.rev-carousel .rev{scroll-snap-align:center}
+@media (max-width:980px){.rev-carousel{grid-auto-columns:82%}}
+.rev-dots{align-items:center;gap:8px}
+.rev-dots button{background:#cfd8d4;transition:transform .25s}
+.rev-dots .d0{width:28px;height:9px;background:var(--mint-dark)}
+.rev-dots .d1{width:9px;height:9px;opacity:.9}
+.rev-dots .d2{width:6px;height:6px;opacity:.55}
+.rev-dots.tick .d0{animation:dot-tick .3s ease-out}
+@keyframes dot-tick{from{transform:scaleX(.6)}to{transform:none}}
