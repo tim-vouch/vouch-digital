@@ -433,6 +433,24 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
   };
   c.addEventListener('scroll', update, { passive: true });
 
+  // Desktop: arrows either side (on phones you just swipe, so CSS hides them on touch screens). They sit on a
+  // wrapper round the carousel so they can hang just outside it.
+  const stage = document.createElement('div');
+  stage.className = 'rev-stage';
+  c.before(stage);
+  stage.appendChild(c);
+  const arrow = (dir, label, path) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'rev-arrow ' + (dir < 0 ? 'prev' : 'next');
+    b.setAttribute('aria-label', label);
+    b.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="${path}" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    b.addEventListener('click', () => c.scrollTo({ left: stop(nearest() + dir), behavior: 'smooth' }));
+    stage.appendChild(b);
+  };
+  arrow(-1, 'Previous review', 'M15 5l-7 7 7 7');
+  arrow(1, 'Next review', 'M9 5l7 7-7 7');
+
   const place = () => { measure(); c.scrollTo({ left: stop(home), behavior: 'instant' }); shown = home; };
   let t;
   window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(() => { home = shown; place(); }, 150); });

@@ -1047,3 +1047,20 @@ html{scroll-padding-top:20px}
 .rev-dots .rd.p4{width:5px;height:5px}
 .rev-dots .rd.p5{width:0;height:0;margin:0}
 @media (prefers-reduced-motion:reduce){.rev-dots .rd{transition:none}}
+/* Desktop (30 Oct 2026): exactly three reviews in a narrower band, the middle one centred, with arrows either side.
+   Phones keep one review with neighbours peeking and no arrows (swiping is natural there). */
+.rev-stage{position:relative}
+.rev-arrow{display:none}
+@media (min-width:981px){
+  .rev-stage{max-width:min(960px,calc(100% - 132px));margin:0 auto}
+  .rev-carousel{grid-auto-columns:calc((100% - 36px) / 3)}
+}
+@media (min-width:981px) and (hover:hover){
+  .rev-arrow{display:grid;place-items:center;position:absolute;top:50%;z-index:2;width:46px;height:46px;margin-top:-23px;padding:0;
+    border:1px solid var(--line);border-radius:50%;background:#fff;color:var(--ink,#04201b);cursor:pointer;
+    box-shadow:0 4px 14px rgba(4,32,27,.08);transition:background-color .15s,color .15s,border-color .15s}
+  .rev-arrow:hover{background:var(--mint-dark);border-color:var(--mint-dark);color:#fff}
+  .rev-arrow:focus-visible{outline:2px solid var(--mint-dark);outline-offset:3px}
+  .rev-arrow.prev{left:-66px}
+  .rev-arrow.next{right:-66px}
+}
