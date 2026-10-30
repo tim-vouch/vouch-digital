@@ -841,12 +841,26 @@ section.first{padding-top:144px}
 .lp-k-proof{padding:64px 0}
 .lp-k-proof .sec-head h2{font-size:clamp(28px,3.6vw,40px)}
 .lp-k-again{text-align:center;margin-top:36px}
-.vt-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:24px;margin-bottom:56px}
-.vt{width:min(400px,100%);background:#fff;border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
-.vt video{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;background:var(--deep)}
-.vt figcaption{padding:16px 18px 20px;display:grid;gap:6px}
-.vt blockquote{font-size:15px;font-weight:500}
-.vt small{color:var(--ink-soft);font-size:13px}
+/* Video testimonials (30 Oct 2026): portrait video with the client's result quote beside it */
+.vt-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin:0 auto 36px;max-width:980px}
+.vt{display:grid;grid-template-columns:minmax(0,46%) minmax(0,1fr);align-items:center;gap:22px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:14px;box-shadow:var(--shadow);margin:0}
+.vt-media{position:relative;border-radius:14px;overflow:hidden;background:var(--deep);aspect-ratio:9/16}
+.vt video{display:block;width:100%;height:100%;object-fit:cover}
+.vt-play{all:unset;cursor:pointer;position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(180deg,transparent 60%,rgba(0,0,0,.35))}
+.vt-play[hidden]{display:none}
+.vt-play .vp-btn{position:static;transform:none;width:72px;height:50px;border-radius:14px}
+.vt-play .vp-btn svg{width:28px;height:28px}
+.vt-play:hover .vp-btn{transform:scale(1.08)}
+.vt-play:focus-visible{outline:3px solid var(--mint);outline-offset:-3px}
+.vt-len{position:absolute;right:10px;bottom:10px;font-size:12px;font-weight:700;color:#fff;background:rgba(0,0,0,.55);padding:2px 7px;border-radius:6px}
+.vt figcaption{display:grid;gap:12px;padding-right:8px}
+.vt .stars{font-size:18px}
+.vt blockquote{font-family:var(--head);font-weight:700;font-size:clamp(19px,2vw,24px);line-height:1.25;color:var(--ink)}
+.vt-who{display:grid;gap:2px}
+.vt-who b{font-size:15px}
+.vt-who small{color:var(--ink-soft);font-size:13.5px}
+@media (max-width:860px){.vt-grid{grid-template-columns:1fr;max-width:520px}}
+@media (max-width:420px){.vt{gap:14px;padding:10px}.vt blockquote{font-size:17px}}
 .book-vsl{padding:40px 0 0;text-align:center}
 .book-vsl h2{font-size:clamp(24px,3vw,34px);margin:6px 0 20px}
 .book-vsl .svc-video{max-width:860px}

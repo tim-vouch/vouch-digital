@@ -139,6 +139,15 @@ if (quiz) {
   });
 }
 
+// Video testimonials: press play to load and play (with controls); only one plays at a time
+document.querySelectorAll('.vt-play').forEach((b) => b.addEventListener('click', () => {
+  const v = b.parentElement.querySelector('video');
+  document.querySelectorAll('.vt video').forEach((o) => { if (o !== v) o.pause(); });
+  v.controls = true;
+  b.hidden = true;
+  v.play().catch(() => {});
+}));
+
 // VSL: click-to-play, so nothing loads from the video host until the visitor presses play
 document.querySelectorAll('.vsl-play').forEach((b) => b.addEventListener('click', () => {
   const f = document.createElement('iframe');

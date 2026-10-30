@@ -249,6 +249,7 @@ def home():
     <div class="rev-top">
       <div><p class="eyebrow">What our clients say</p><h2>Plumbers who vouch for us</h2></div>
     </div>
+    {lp_video_tests()}
     <div class="rev-grid rev-carousel" tabindex="0" aria-label="Google reviews">{revs}</div>
     <div class="rev-dots" aria-label="Choose review"></div>
   </div>
@@ -505,12 +506,22 @@ def lp_quiz():
 
 
 def lp_video_tests():
+    """Client video testimonials: still + red play button, the client's result quote beside it. Self-hosted MP4,
+    nothing loads until play is pressed (no third-party cookies)."""
     if not TESTIMONIAL_VIDEOS:
         return ""
+    play = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6.5v11l9-5.5z"/></svg>'
     cards = "".join(f"""
       <figure class="vt">
-        <video controls preload="none" playsinline poster="{v['poster']}"><source src="{v['src']}" type="video/mp4"></video>
-        <figcaption><blockquote>“{v['quote']}”</blockquote>{stars(5)}<b>{v['name']}</b><small>{v['business']}</small></figcaption>
+        <div class="vt-media">
+          <video preload="none" playsinline poster="{v['poster']}" aria-label="Video testimonial from {v['name']}, {v['business']}"><source src="{v['src']}" type="video/mp4"></video>
+          <button type="button" class="vt-play" aria-label="Play {v['name']}'s video"><span class="vp-btn">{play}</span><span class="vt-len">{v.get('length', '')}</span></button>
+        </div>
+        <figcaption>
+          {stars(5)}
+          <blockquote>“{v['quote']}”</blockquote>
+          <p class="vt-who"><b>{v['name']}</b><small>{v['business']}</small></p>
+        </figcaption>
       </figure>""" for v in TESTIMONIAL_VIDEOS)
     return f'<div class="vt-grid">{cards}\n    </div>'
 
@@ -540,8 +551,8 @@ def free_website():
 
 <section class="lp-k-proof tint" id="reviews">
   <div class="wrap">
-    {lp_video_tests()}
     <div class="sec-head"><h2>Plumbers who vouch for us</h2></div>
+    {lp_video_tests()}
     <div class="rev-grid rev-carousel lp-revs" tabindex="0" aria-label="Google reviews">{lp_reviews()}</div>
     <div class="rev-dots" aria-label="Choose review"></div>
     <p class="lp-k-again"><a class="lp-k-btn" href="/book-call" data-quiz-open>{cta}</a></p>
