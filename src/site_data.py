@@ -12,10 +12,10 @@ SITE = {
     "domain": "https://vouchdigital.co.uk",
     "area": "the UK",
     # GHL booking calendar for the 15-minute demo call. GHL's own domain (always works), not link.vouchdigital.co.uk
-    "booking_url": "https://api.leadconnectorhq.com/widget/booking/xbAVu7ah9p5NXexCdiO8",
+    "booking_url": "https://api.leadconnectorhq.com/widget/booking/DrMkJxzFYMwX68pGXSZt",  # "15 Minute Chat with Tim" (30 Oct 2026)
     # False = a placeholder box on /book instead of the calendar (it was failing to load on 30 Oct 2026).
     # Set True once the GHL booking link above is checked and working.
-    "calendar_ready": False,
+    "calendar_ready": True,
     # Keep True until the site is live on vouchdigital.co.uk
     "noindex": False,
     # Meta (Facebook) pixel. Only loads after a visitor accepts cookies (see the consent code in site.js).
