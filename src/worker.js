@@ -22,6 +22,12 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
+    if (url.pathname === '/api/slots') return handleSlots(env);
+    if (url.pathname === '/api/book') {
+      if (request.method !== 'POST') return new Response('Method not allowed', { status: 405 });
+      return handleBook(request, env);
+    }
+
     if (url.pathname === '/api/enquiry') {
       if (request.method !== 'POST') return new Response('Method not allowed', { status: 405 });
       return handleEnquiry(request, env);
@@ -83,6 +89,86 @@ async function handleEnquiry(request, env) {
   return res.ok ? json({ ok: true }) : json({ ok: false, error: 'upstream' }, 502);
 }
 
-function json(body, status = 200) {
-  return new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } });
+// ---------- Booking box on /book (Trade Scale style), via the GHL API ----------
+// Needs secret GHL_TOKEN (a GHL Private Integration key with calendars + contacts scopes), set in Cloudflare.
+// Without it /api/slots returns 503 and the page falls back to GHL's own calendar widget.
+const GHL_API = 'https://services.leadconnectorhq.com';
+const CALENDAR_ID = 'DrMkJxzFYMwX68pGXSZt'; // "15 Minute Chat with Tim"
+const LOCATION_ID = 'L3s5HpDyg41gJv8rwS4n'; // Vouch Digital sub-account
+const TIMEZONE = 'Europe/London';
+const CALL_MINUTES = 15;
+const MAX_DAYS = 4;
+
+async function ghl(env, path, init = {}) {
+  const headers = { Authorization: `Bearer ${env.GHL_TOKEN}`, Version: '2021-04-15', Accept: 'application/json' };
+  if (init.body) headers['Content-Type'] = 'application/json';
+  const res = await fetch(GHL_API + path, { ...init, headers });
+  let data = {};
+  try { data = await res.json(); } catch { /* empty body */ }
+  return { ok: res.ok, status: res.status, data };
+}
+
+async function freeSlots(env) {
+  const start = Date.now();
+  const end = start + 14 * 864e5;
+  const r = await ghl(env, `/calendars/${CALENDAR_ID}/free-slots?startDate=${start}&endDate=${end}&timezone=${encodeURIComponent(TIMEZONE)}`);
+  if (!r.ok) return null;
+  return Object.keys(r.data)
+    .filter((k) => /^\d{4}-\d{2}-\d{2}$/.test(k))
+    .sort()
+    .map((date) => ({ date, slots: (r.data[date] && r.data[date].slots) || [] }))
+    .filter((d) => d.slots.length)
+    .slice(0, MAX_DAYS);
+}
+
+async function handleSlots(env) {
+  if (!env.GHL_TOKEN) return json({ ok: false, error: 'not_configured' }, 503, true);
+  const days = await freeSlots(env);
+  if (!days) return json({ ok: false, error: 'upstream' }, 502, true);
+  return json({ ok: true, timezone: TIMEZONE, days }, 200, true);
+}
+
+async function handleBook(request, env) {
+  if (!env.GHL_TOKEN) return json({ ok: false, error: 'not_configured' }, 503, true);
+  let body;
+  try { body = await request.json(); } catch { return json({ ok: false, error: 'bad_request' }, 400, true); }
+  const get = (k) => String(body[k] || '').trim().slice(0, 200);
+  const name = get('name'), email = get('email'), business = get('business'), slot = get('slot');
+  let phone = get('phone').replace(/[^\d+]/g, '');
+  if (/^0\d{10}$/.test(phone)) phone = '+44' + phone.slice(1); // UK mobile -> +44 so GHL matches the quiz contact
+  if (name.length < 2 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || phone.replace(/\D/g, '').length < 10 || !slot) {
+    return json({ ok: false, error: 'missing_fields' }, 400, true);
+  }
+
+  // Only book a time GHL still lists as free (someone else may have just taken it)
+  const days = await freeSlots(env);
+  if (!days) return json({ ok: false, error: 'upstream' }, 502, true);
+  if (!days.some((d) => d.slots.includes(slot))) return json({ ok: false, error: 'slot_taken' }, 409, true);
+
+  const [firstName, ...rest] = name.split(/\s+/);
+  const contact = await ghl(env, '/contacts/upsert', {
+    method: 'POST',
+    body: JSON.stringify({ locationId: LOCATION_ID, firstName, lastName: rest.join(' '), name, email, phone,
+      companyName: business || undefined, source: 'Website booking' }),
+  });
+  const contactId = contact.data && contact.data.contact && contact.data.contact.id;
+  if (!contact.ok || !contactId) return json({ ok: false, error: 'contact' }, 502, true);
+
+  const startMs = Date.parse(slot);
+  const appt = await ghl(env, '/calendars/events/appointments', {
+    method: 'POST',
+    body: JSON.stringify({
+      calendarId: CALENDAR_ID, locationId: LOCATION_ID, contactId,
+      startTime: slot, endTime: new Date(startMs + CALL_MINUTES * 60000).toISOString(),
+      title: `Vouch Digital x ${name}: free website call`, appointmentStatus: 'confirmed', toNotify: true,
+    }),
+  });
+  if (!appt.ok) return json({ ok: false, error: appt.status === 409 || appt.status === 422 ? 'slot_taken' : 'appointment' }, 502, true);
+  return json({ ok: true, start: slot, email }, 200, true);
+}
+
+function json(body, status = 200, noStore = false) {
+  const headers = { 'Content-Type': 'application/json' };
+  if (noStore) headers['Cache-Control'] = 'no-store';
+  return new Response(JSON.stringify(body), { status, headers });
 }

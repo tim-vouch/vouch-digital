@@ -157,11 +157,11 @@ document.querySelectorAll('.vsl-play').forEach((b) => b.addEventListener('click'
   if (h && first) h.textContent = (h.closest('.booked-hero') ? ', ' : ' ') + first;
 }
 
-// Booking page: load the GHL calendar with the visitor's details pre-filled
-const booking = document.querySelector('iframe.booking');
-if (booking) {
-  let lead = {};
-  try { lead = JSON.parse(sessionStorage.getItem('vouch_lead') || '{}'); } catch (_) {}
+// Booking page: GHL's own calendar widget, pre-filled with the visitor's details (fallback for the booking box)
+const getLead = () => { try { return JSON.parse(sessionStorage.getItem('vouch_lead') || '{}'); } catch (_) { return {}; } };
+const ukPhone = (p) => { const d = String(p || '').replace(/[^\d+]/g, ''); return /^0\d{10}$/.test(d) ? '+44' + d.slice(1) : d; };
+function loadGhlCalendar(booking) {
+  const lead = getLead();
   const [first = '', ...rest] = String(lead.name || '').trim().split(/\s+/);
   const params = new URLSearchParams();
   if (first) params.set('first_name', first);
@@ -169,15 +169,97 @@ if (booking) {
   if (lead.name) params.set('full_name', String(lead.name).trim());
   if (lead.business) params.set('company_name', String(lead.business).trim());
   if (lead.email) params.set('email', lead.email);
-  if (lead.phone) {
-    // UK mobiles: 07700 900123 -> +447700900123 so GHL matches the same contact
-    const digits = String(lead.phone).replace(/[^\d+]/g, '');
-    params.set('phone', /^0\d{10}$/.test(digits) ? '+44' + digits.slice(1) : digits);
-  }
+  if (lead.phone) params.set('phone', ukPhone(lead.phone)); // +44 so GHL matches the same contact
   const qs = params.toString();
   // GHL's resize script expects the id format <calendarId>_<timestamp>
   booking.id = booking.dataset.src.split('/').pop() + '_' + Date.now();
   booking.src = booking.dataset.src + (qs ? '?' + qs : '');
+}
+document.querySelectorAll('iframe.booking').forEach(loadGhlCalendar);
+
+// Booking page: our own booking box (Trade Scale style). Day buttons, time buttons, one "Book My Call".
+// Quiz leads book in one tap (details come from the quiz); anyone else fills in name, mobile and email.
+const booker = document.getElementById('booker');
+if (booker) {
+  const TZ = 'Europe/London';
+  const lead = getLead();
+  const known = lead.name && lead.email && lead.phone;
+  const fallback = () => {
+    const tpl = document.getElementById('booker-fallback');
+    booker.replaceWith(tpl.content.cloneNode(true));
+    document.querySelectorAll('iframe.booking:not([src])').forEach(loadGhlCalendar);
+  };
+  const fmt = (iso, opts) => new Intl.DateTimeFormat('en-GB', { timeZone: TZ, ...opts }).format(new Date(iso));
+  const esc = (v) => String(v).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  let days = [], day = 0, slot = null;
+
+  const render = () => {
+    const d = days[day];
+    booker.innerHTML = `
+      <p class="bk-title"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Book your free 15-minute call</p>
+      <div class="bk-days" role="group" aria-label="Choose a day">${days.map((x, i) => `
+        <button type="button" class="bk-day" data-i="${i}" aria-pressed="${i === day}">
+          <small>${fmt(x.slots[0], { weekday: 'short' })}</small><b>${fmt(x.slots[0], { day: 'numeric' })}</b><small>${fmt(x.slots[0], { month: 'short' })}</small></button>`).join('')}</div>
+      <div class="bk-times" role="group" aria-label="Choose a time">${d.slots.map((s) => `
+        <button type="button" class="bk-time" data-slot="${s}" aria-pressed="${s === slot}">${fmt(s, { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })}</button>`).join('')}</div>
+      ${known ? '' : `<div class="bk-fields">
+        <input name="name" placeholder="Your name" autocomplete="name" aria-label="Your name" value="${esc(lead.name || '')}">
+        <input name="phone" type="tel" inputmode="tel" placeholder="Mobile number" autocomplete="tel" aria-label="Mobile number" value="${esc(lead.phone || '')}">
+        <input name="email" type="email" placeholder="Email address" autocomplete="email" aria-label="Email address" value="${esc(lead.email || '')}">
+      </div>`}
+      <button type="button" class="bk-btn" ${slot ? '' : 'disabled'}>Book My Call</button>
+      <p class="bk-msg" role="alert"></p>
+      <p class="bk-tz">Times shown in UK time · 15 minutes on Google Meet</p>`;
+    booker.querySelectorAll('.bk-day').forEach((b) => b.addEventListener('click', () => { keep(); day = +b.dataset.i; slot = null; render(); }));
+    booker.querySelectorAll('.bk-time').forEach((b) => b.addEventListener('click', () => { keep(); slot = b.dataset.slot; render(); }));
+    booker.querySelector('.bk-btn').addEventListener('click', book);
+  };
+  // keep anything typed into the fields when the box re-renders
+  const keep = () => booker.querySelectorAll('.bk-fields input').forEach((i) => { lead[i.name] = i.value; });
+
+  const load = async () => {
+    try {
+      const r = await fetch('/api/slots', { cache: 'no-store' });
+      const data = await r.json();
+      if (!r.ok || !data.ok) throw new Error('slots');
+      days = data.days || [];
+      if (!days.length) {
+        booker.innerHTML = '<p class="bk-empty"><b>No times free this week.</b><br>Keep an eye on your phone: Tim will be in touch to find a time that suits you.</p>';
+        return;
+      }
+      day = Math.min(day, days.length - 1);
+      render();
+    } catch (_) { fallback(); }
+  };
+
+  const book = async () => {
+    keep();
+    const msg = booker.querySelector('.bk-msg');
+    const who = { name: (lead.name || '').trim(), phone: (lead.phone || '').trim(), email: (lead.email || '').trim(), business: lead.business || '' };
+    if (who.name.length < 2) { msg.textContent = 'Please enter your name.'; return; }
+    if (who.phone.replace(/\D/g, '').length < 10) { msg.textContent = 'Please enter your mobile number.'; return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(who.email)) { msg.textContent = 'Please check your email address.'; return; }
+    const btn = booker.querySelector('.bk-btn');
+    btn.disabled = true; btn.textContent = 'Booking…';
+    try {
+      const r = await fetch('/api/book', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...who, slot }) });
+      const data = await r.json().catch(() => ({}));
+      if (data.ok) {
+        try { sessionStorage.setItem('vouch_lead', JSON.stringify({ ...getLead(), ...who })); } catch (_) {}
+        try { if (window.fbq && localStorage.getItem('vouch_cookie_consent') === 'granted') window.fbq('track', 'Schedule'); } catch (_) {}
+        booker.innerHTML = `<div class="bk-done"><span class="bk-tick"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+          <h3>Your call is booked</h3>
+          <p>Scheduled for ${fmt(slot, { weekday: 'long', day: 'numeric', month: 'long' })} at ${fmt(slot, { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })}. We'll send a confirmation to ${esc(who.email)}.</p></div>`;
+        return;
+      }
+      if (data.error === 'slot_taken') { slot = null; msg.textContent = ''; await load(); booker.querySelector('.bk-msg').textContent = 'Sorry, that time has just gone. Please pick another.'; return; }
+      throw new Error(data.error || 'book');
+    } catch (_) {
+      btn.disabled = false; btn.textContent = 'Book My Call';
+      msg.textContent = 'Something went wrong. Please try again, or call or text us and we\'ll book you in.';
+    }
+  };
+  load();
 }
 
 // Pricing: monthly / annual toggle, applied to every plan card at once

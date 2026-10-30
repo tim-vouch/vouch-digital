@@ -336,7 +336,11 @@ def book():
                f'<a href="{TRUSTPILOT["url"]}" target="_blank" rel="noopener">{TP_ICON}<span><b>Trustpilot</b>{stars(5)}</span><em>{TRUSTPILOT["rating"]}</em></a>'
                f'<a href="{FACEBOOK["url"] or "#"}" target="_blank" rel="noopener">{FB_LOGO}<span><b>Facebook</b>{stars(5)}</span><em>{FACEBOOK["rating"]}</em></a>')
     if SITE.get("calendar_ready"):
-        cal = f'<iframe class="booking" title="Book your 15-minute call" data-src="{SITE['booking_url']}" scrolling="no"></iframe>'
+        # Our own Trade Scale-style booking box (times from GHL via /api/slots). If that fails (e.g. no GHL_TOKEN
+        # in Cloudflare), site.js swaps in GHL's own calendar widget from the template.
+        cal = (f'<div class="bk" id="booker" aria-live="polite"><p class="bk-loading">Loading available times…</p></div>'
+               f'<template id="booker-fallback"><iframe class="booking" title="Book your 15-minute call" '
+               f'data-src="{SITE['booking_url']}" scrolling="no"></iframe></template>')
     else:
         cal = '<div class="cal-ph"><p><b>Booking calendar</b><br>Pick a time for your free 15-minute call here.</p></div>'
     return f"""

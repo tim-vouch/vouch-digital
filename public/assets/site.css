@@ -953,3 +953,31 @@ html{scroll-padding-top:20px}
 .booked-pill{color:var(--mint-dark);border-color:rgba(11,181,116,.5);background:var(--mint-tint);margin-bottom:6px}
 .lp-next .book-alt{margin-top:24px}
 .booked-vsl .svc-video{max-width:860px;margin:0 auto}
+
+/* Booking box on /book (Trade Scale style, 30 Oct 2026) */
+.bk{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;max-width:460px;margin:0 auto;box-shadow:var(--shadow);min-height:180px}
+.bk-loading,.bk-empty{text-align:center;color:var(--ink-soft);padding:40px 10px}
+.bk-title{display:flex;align-items:center;justify-content:center;gap:8px;font-family:var(--head);font-weight:700;font-size:16px;color:var(--ink);padding-top:14px;border-top:1px solid var(--line);margin-bottom:16px}
+.bk-title svg{width:18px;height:18px;fill:none;stroke:var(--mint-dark);stroke-width:2;stroke-linecap:round}
+.bk-days{display:flex;gap:8px;margin-bottom:16px;overflow-x:auto}
+.bk-day{flex:0 0 auto;width:62px;display:grid;justify-items:center;gap:1px;padding:8px 4px;border:1px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;font:inherit;color:var(--ink)}
+.bk-day small{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-soft)}
+.bk-day b{font-family:var(--head);font-size:20px;line-height:1.1}
+.bk-day[aria-pressed="true"]{border:2px solid var(--deep);background:var(--mint-tint)}
+.bk-times{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.bk-time{font:inherit;font-family:var(--head);font-weight:600;font-size:15px;padding:10px 4px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);cursor:pointer}
+.bk-time:hover{border-color:var(--mint)}
+.bk-time[aria-pressed="true"]{background:var(--deep);border-color:var(--deep);color:#fff;box-shadow:0 0 0 2px var(--mint)}
+.bk-fields{display:grid;gap:8px;margin-bottom:12px}
+.bk-fields input{font:inherit;font-size:15px;padding:12px 14px;border:1px solid var(--line);border-radius:10px}
+.bk-fields input:focus{outline:2px solid var(--mint);border-color:transparent}
+.bk-btn{width:100%;font-family:var(--head);font-weight:800;font-size:16px;padding:15px;border:0;border-radius:10px;background:var(--mint);color:var(--deep);cursor:pointer}
+.bk-btn:disabled{background:#cfeee0;color:#5b7d70;cursor:default}
+.bk-msg{min-height:18px;font-size:14px;color:#b42318;text-align:center;margin-top:8px}
+.bk-tz{font-size:12px;color:var(--ink-soft);text-align:center}
+.bk-done{text-align:center;padding:24px 8px}
+.bk-tick{display:inline-grid;place-items:center;width:52px;height:52px;border-radius:50%;background:var(--mint-tint);margin-bottom:10px}
+.bk-tick svg{width:26px;height:26px;fill:none;stroke:var(--mint-dark);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.bk-done h3{font-size:20px;margin-bottom:6px}
+.bk-done p{color:var(--ink-soft);font-size:15px}
+.book-one .book-frame:has(.bk){background:none;border-radius:0;overflow:visible}
