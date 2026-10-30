@@ -54,13 +54,20 @@ async function handleEnquiry(request, env) {
   if (get('company_url') || Number(get('t')) < MIN_FILL_MS) return json({ ok: true });
 
   const SOURCES = { 'free-website': 'Free website landing page (Meta ads)' };
-  const WORK = { domestic: 'Domestic', mixed: 'Mostly domestic, some commercial', commercial: 'Commercial only' };
+  const WORK = { domestic: 'Domestic', mixed: 'Both domestic & commercial', commercial: 'Commercial only' };
+  // Landing page quiz answers (fixed lists, so nothing free-text gets through)
+  const STATE = { slow: 'Slow, needs jobs now', inconsistent: 'Okay, but not consistent', busy: 'Busy, booked solid', starting: 'Just starting' };
+  const TIMELINE = { now: 'Right away', '1-2m': 'Next month or two', later: 'Later this year', browsing: 'Just looking' };
+  const TURNOVER = { u5k: 'Under £5k/month', '5-15k': '£5k–£15k/month', '15-50k': '£15k–£50k/month', '50k+': '£50k+/month' };
   const lead = {
     name: get('name'),
     business_name: get('business'),
     phone: get('phone'),
     email: get('email'),
     work_type: WORK[get('work')] || '',
+    business_state: STATE[get('state')] || '',
+    timeline: TIMELINE[get('timeline')] || '',
+    monthly_turnover: TURNOVER[get('turnover')] || '',
     source: SOURCES[get('src')] || 'vouchdigital.co.uk form',
     page: request.headers.get('Referer') || '',
   };

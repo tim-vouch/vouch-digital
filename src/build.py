@@ -104,7 +104,7 @@ def header(path):
     <nav class="nav" id="nav">{links}</nav>
     <div class="head-cta">
       <a class="head-phone" href="tel:{SITE['phone_intl']}" aria-label="Call {SITE['phone']}">{icon('phone')} <span>{SITE['phone']}</span></a>
-      <a class="btn btn-mint" href="{'#start' if path == '/free-website' else '/book'}">Book a call {icon('arrow')}</a>
+      <a class="btn btn-mint" href="/book" data-quiz-open>Book a call {icon('arrow')}</a>
       <button class="menu-btn" aria-label="Menu" aria-controls="nav" aria-expanded="false">{icon('menu')}</button>
     </div>
   </div>

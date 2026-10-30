@@ -20,7 +20,14 @@ SITE = {
     # Video sales letter shown on /booked after someone books a call (Kai's "watch this before the call").
     # Paste the embed link (YouTube "embed" URL, Loom "embed" URL, etc.). Empty = a "video on its way" note instead.
     "vsl_url": "",
+    # Optional still for the VSL thumbnail on /free-website (e.g. "/assets/img/vsl-poster.webp", a frame of Tim talking).
+    # Empty = a branded poster drawn in CSS.
+    "vsl_poster": "",
 }
+
+# Video testimonials on /free-website (real clients only, with their permission).
+# Each: name, business, quote (their own words from the video), src (MP4 under /assets/video/), poster (still image).
+TESTIMONIAL_VIDEOS = []
 
 # Real Google reviews of Vouch Digital only. Never add invented reviews.
 # Live data: src/google_reviews.json, refreshed daily from Google Places by .github/workflows/update-reviews.yml.

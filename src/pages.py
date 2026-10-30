@@ -3,7 +3,7 @@ from html import escape
 
 from icons import icon
 from services_data import SERVICE_PAGES, GROUPS
-from site_data import SITE, REVIEWS, RATING, GOOGLE, FACEBOOK, TRUSTPILOT, FAQ_HOME, PLANS, EXTRAS, BILLING, EXCLUSIVE
+from site_data import SITE, REVIEWS, RATING, GOOGLE, FACEBOOK, TRUSTPILOT, FAQ_HOME, PLANS, EXTRAS, BILLING, EXCLUSIVE, TESTIMONIAL_VIDEOS
 
 
 TP_ICON = '<svg class="tp-ico" viewBox="0 0 48 48" aria-hidden="true"><path fill="#00B67A" d="M24 3l5.6 15.6H46L32.7 28.2 37.8 44 24 34.3 10.2 44l5.1-15.8L2 18.6h16.4z"/><path fill="#005128" d="M33.6 30.9l-1-2.7-8.6 6.1z"/></svg>'
@@ -310,6 +310,19 @@ def home():
 </main>"""
 
 
+def book_vsl():
+    if not SITE.get("vsl_url"):
+        return ""
+    return f"""
+<section class="book-vsl">
+  <div class="wrap">
+    <p class="eyebrow">Step 2</p>
+    <h2>Watch this quick video, then pick a time below</h2>
+    {vsl_player()}
+  </div>
+</section>"""
+
+
 def book():
     ratings = (f'<a href="#">{G_LOGO}<span><b>Google</b>{stars(5)}</span><em>{RATING}</em></a>'
                f'<a href="{TRUSTPILOT["url"]}" target="_blank" rel="noopener">{TP_ICON}<span><b>Trustpilot</b>{stars(5)}</span><em>{TRUSTPILOT["rating"]}</em></a>'
@@ -328,6 +341,7 @@ def book():
     <div class="rating-row book-ratings">{ratings}</div>
   </div>
 </section>
+{book_vsl()}
 <section class="book">
   <div class="wrap book-grid">
     <div class="book-info">
@@ -392,34 +406,6 @@ def lp_cases(only=None):
     return out
 
 
-def lp_form():
-    def field(ic, name, label, typ="text", auto=""):
-        ac = f' autocomplete="{auto}"' if auto else ""
-        return (f'<label class="field">{icon(ic)}<input type="{typ}" name="{name}" placeholder="{label}" '
-                f'aria-label="{label}" required{ac}></label>')
-    return f"""
-    <form class="enquiry lp-form" id="start" action="/api/enquiry" method="post" novalidate>
-      <p class="lp-step">Step 1 of 2</p>
-      <h2>Book your free website call</h2>
-      <p class="small">15 minutes. We'll look at your Google profile and website before we speak, so the call is useful.</p>
-      {field("user", "name", "Your name", auto="name")}
-      {field("building", "business", "Business name", auto="organization")}
-      {field("phone", "phone", "Mobile number", "tel", "tel")}
-      {field("mail", "email", "Email address", "email", "email")}
-      <label class="field">{icon("tool")}<select name="work" aria-label="The type of work you mainly do" required>
-        <option value="">What work do you mainly do?</option>
-        <option value="domestic">Domestic (homeowners)</option>
-        <option value="mixed">Mostly domestic, some commercial</option>
-        <option value="commercial">Commercial only</option>
-      </select></label>
-      <input type="hidden" name="src" value="free-website"><input type="hidden" name="t" value="">
-      <label class="hp" aria-hidden="true">Leave this empty<input type="text" name="company_url" tabindex="-1" autocomplete="off"></label>
-      <button class="btn btn-mint btn-block" type="submit">Next: pick a call time {icon('arrow')}</button>
-      <p class="form-msg" role="status" aria-live="polite"></p>
-      <p class="form-note">No obligation. We'll only use your details about this call. <a href="/privacy">Privacy policy</a></p>
-    </form>"""
-
-
 def lp_stack():
     """Offer stack. Cut from /free-website on 30 Oct 2026 (Hormozi: shorter converts better). Kept to re-test."""
     p = PLANS[0]
@@ -445,71 +431,146 @@ def lp_stack():
 </section>"""
 
 
+def vsl_player(cls="lp-vsl"):
+    """The VSL as a click-to-play facade: nothing loads from the video host until the visitor presses play."""
+    vsl = SITE.get("vsl_url")
+    if not vsl:
+        return ""
+    sep = "&" if "?" in vsl else "?"
+    return (f'<div class="svc-video {cls}"><button type="button" class="vsl-play" data-embed="{vsl}{sep}autoplay=1" '
+            f'aria-label="Play the video">{vsl_poster_inner()}</button></div>')
+
+
+def vsl_poster_inner():
+    if SITE.get("vsl_poster"):
+        art = f'<img src="{SITE["vsl_poster"]}" alt="" loading="lazy">'
+    else:
+        art = (f'<span class="vp-art"><span class="vp-copy"><b>How we win plumbers more jobs</b>'
+               f'<small>A quick walkthrough with Tim, founder of Vouch Digital</small></span>'
+               f'<img src="/assets/img/mascot-sm.webp" alt="" width="320" height="431" loading="lazy"></span>')
+    return f'{art}<span class="vp-btn" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>'
+
+
+QUIZ = [
+    # (field, question, [(value, label)]) for choices, or (field, question, input type, placeholder, autocomplete)
+    ("work", "What kind of work do you do?", [
+        ("domestic", "Domestic (homeowners)"), ("commercial", "Commercial"),
+        ("mixed", "Both domestic &amp; commercial"), ("not", "I'm not a plumber or heating engineer")]),
+    ("state", "How's business right now?", [
+        ("slow", "Slow, I need jobs now"), ("inconsistent", "Okay, but not consistent"),
+        ("busy", "Busy, booked solid"), ("starting", "Just starting my business")]),
+    ("timeline", "When do you want your new website and system live?", [
+        ("now", "Right away"), ("1-2m", "In the next month or two"),
+        ("later", "Later this year"), ("browsing", "Just seeing what's out there")]),
+    ("turnover", "Roughly what does your business turn over a month?", [
+        ("u5k", "Under £5,000"), ("5-15k", "£5,000 to £15,000"),
+        ("15-50k", "£15,000 to £50,000"), ("50k+", "£50,000+")]),
+    ("phone", "Your mobile number", "tel", "07700 900123", "tel"),
+    ("email", "What's your best email?", "email", "you@yourbusiness.co.uk", "email"),
+    ("name", "Your name", "text", "First and last name", "name"),
+    ("business", "What's your business called?", "text", "e.g. Smith Plumbing &amp; Heating", "organization"),
+]
+# Endowed-progress bar (as on Kai Stone's quiz): starts half full and creeps up, so it always feels nearly done.
+QUIZ_PROGRESS = [50, 60, 68, 76, 84, 90, 94, 98]
+
+
+def lp_quiz():
+    steps = ""
+    last = len(QUIZ) - 1
+    for i, q in enumerate(QUIZ):
+        field, question = q[0], q[1]
+        if isinstance(q[2], list):
+            body = "".join(f'<button type="button" class="qz-choice" data-value="{v}">{t}</button>' for v, t in q[2])
+            body = f'<div class="qz-choices">{body}</div>'
+        else:
+            _, _, typ, ph, auto = q
+            btn = "Yes, I want more jobs" if i == last else "Continue"
+            mode = ' inputmode="tel"' if typ == "tel" else ""
+            body = (f'<input class="qz-input" type="{typ}" name="{field}" placeholder="{ph}" autocomplete="{auto}"{mode} '
+                    f'aria-label="{question}"><p class="qz-err" role="alert"></p>'
+                    f'<button type="button" class="qz-next">{btn}</button>')
+        steps += (f'<div class="qz-step" data-field="{field}" data-progress="{QUIZ_PROGRESS[i]}" hidden>'
+                  f'<h3 id="qz-q{i}">{question}</h3>{body}</div>')
+    steps += f"""<div class="qz-step qz-end" data-end hidden>
+        <h3>Thanks for your interest</h3>
+        <p>We only work with domestic plumbing and heating businesses, so we're not the right fit for you. If that changes, call or text {SITE['phone']}.</p>
+        <button type="button" class="qz-next" data-quiz-close>Close</button></div>"""
+    return f"""
+<div class="qz" id="quiz" hidden>
+  <div class="qz-box" role="dialog" aria-modal="true" aria-labelledby="qz-title">
+    <button type="button" class="qz-x" data-quiz-close aria-label="Close">{icon('x')}</button>
+    <p class="qz-title" id="qz-title">Get your FREE website, plus the system that wins plumbers more jobs, for just <b>£197/month</b></p>
+    <div class="qz-top"><button type="button" class="qz-back">← Back</button>
+    <div class="qz-bar" role="progressbar" aria-label="Progress" aria-valuemin="0" aria-valuemax="100"><span></span><em></em></div></div>
+    <form class="qz-form" action="/api/enquiry" method="post" novalidate>
+      {steps}
+      <input type="hidden" name="src" value="free-website"><input type="hidden" name="t" value="">
+      <input type="hidden" name="work"><input type="hidden" name="state"><input type="hidden" name="timeline"><input type="hidden" name="turnover">
+      <label class="hp" aria-hidden="true">Leave this empty<input type="text" name="company_url" tabindex="-1" autocomplete="off"></label>
+    </form>
+    <p class="qz-note">We'll only use your details about your free call. <a href="/privacy">Privacy policy</a></p>
+  </div>
+</div>"""
+
+
+def lp_video_tests():
+    if not TESTIMONIAL_VIDEOS:
+        return ""
+    cards = "".join(f"""
+      <figure class="vt">
+        <video controls preload="none" playsinline poster="{v['poster']}"><source src="{v['src']}" type="video/mp4"></video>
+        <figcaption><blockquote>“{v['quote']}”</blockquote>{stars(5)}<b>{v['name']}</b><small>{v['business']}</small></figcaption>
+      </figure>""" for v in TESTIMONIAL_VIDEOS)
+    return f'<div class="vt-grid">{cards}\n    </div>'
+
+
 def free_website():
-    """Hormozi's layout (30 Oct 2026): headline, subheadline, proof image, form, then 3 bullets answering the
-    biggest objections, then social proof underneath. Razor: if it doesn't raise the opt-in rate of qualified
-    leads, cut it. Ben Heath 10.2 kept: header navigation, proof, one action with every CTA going to the form."""
+    """Kai Stone's layout (30 Oct 2026): one headline with the price, the VSL thumbnail, one button that opens a
+    multi-step quiz popup, then video testimonials and Google reviews. Every CTA opens the same quiz."""
     ratings = (f'<a href="#reviews">{G_LOGO}<span><b>Google</b>{stars(5)}</span><em>{RATING}</em></a>'
                f'<a href="#reviews">{TP_ICON}<span><b>Trustpilot</b>{stars(5)}</span><em>{TRUSTPILOT["rating"]}</em></a>'
                f'<a href="#reviews">{FB_LOGO}<span><b>Facebook</b>{stars(5)}</span><em>{FACEBOOK["rating"]}</em></a>')
-    # The three biggest objections, most common first.
-    objections = "".join(f'<li><span class="tick">{icon("check")}</span><div><h3>{t}</h3><p>{d}</p></div></li>' for t, d in [
-        ("No catch, no contract",
-         "£197 a month, everything included. The website is your free joining bonus, and you can cancel anytime."),
-        ("Done for you",
-         "A 15-minute call and a short form. We design, build and run it all while you're out on jobs."),
-        ("No fake promises",
-         "We'll never promise you a number of jobs. Just a website as good as your work, and genuine Google reviews."),
-    ])
+    if SITE.get("vsl_url"):
+        # The thumbnail opens the quiz; the video itself plays on /book once they've answered.
+        media = f'<button type="button" class="lp-poster" data-quiz-open aria-label="Watch the video">{vsl_poster_inner()}</button>'
+        step = "<b><u>Step 1:</u></b> Watch this quick video to see what we do and how we help you grow"
+        cta = "Click to see how it works"
+    else:
+        # Until the VSL is recorded: no video promised.
+        media = (f'<img class="lp-poster-img" src="/assets/img/lp-mst.webp" width="885" height="543" '
+                 f'alt="A plumber approving his new website on WhatsApp, next to the site on a phone">')
+        step = "<b><u>Step 1:</u></b> Answer a few quick questions, then pick a time for your free call"
+        cta = "See if you qualify"
     return f"""
-<main class="lp">
-<section class="hero dark lp-hero">
+<main class="lp lp-k">
+<section class="lp-k-hero">
   <div class="wrap">
-    <div class="lp-copy">
-      <p class="lp-pill">For plumbing &amp; heating business owners</p>
-      <h1>A <span class="accent">FREE</span> website built to win boiler installs</h1>
-      <p class="lede">Join the Vouch System for £197 a month and we'll design and build your new website for free <span class="nw">(normally £1,499)</span>. Done for you, live in 3–5 days, no contract.</p>
-      <figure class="lp-shot"><img src="/assets/img/lp-mst.webp" width="885" height="543" alt="A plumber approving his new website on WhatsApp, next to the site on a phone">
-      <figcaption>The website we built for Andres at MST Plumbing and Heating, West London.</figcaption></figure>
-    </div>
-    {lp_form()}
+    <h1>We Help Plumbers Get More Jobs With AI, Smart Websites, and 5-Star Reviews For Just</h1>
+    <p class="lp-k-price">£197/month <span aria-hidden="true">👇</span></p>
+    <p class="lp-k-free">+ your new website <b>FREE</b> (normally £1,499) · No contract</p>
+    <div class="lp-k-media">{media}</div>
+    <p class="lp-k-step">{step}</p>
+    <a class="lp-k-btn" href="/book" data-quiz-open>{cta}</a>
+    <div class="rating-row lp-ratings">{ratings}</div>
   </div>
 </section>
 
-<section class="lp-objections">
-  <div class="wrap"><ul>{objections}</ul></div>
-</section>
-
-<section class="lp-proof tint" id="reviews">
+<section class="lp-k-proof tint" id="reviews">
   <div class="wrap">
-    <div class="sec-head"><p class="eyebrow">Real plumbers, real results</p><h2>Plumbers who vouch for us</h2>
-    <div class="rating-row lp-ratings">{ratings}</div></div>
-    <div class="lp-cases one">{lp_cases(only="lp-flotech.webp")}
-    </div>
+    {lp_video_tests()}
+    <div class="sec-head"><p class="eyebrow">Google reviews</p><h2>Plumbers who vouch for us</h2></div>
     <div class="rev-grid rev-carousel lp-revs" tabindex="0" aria-label="Google reviews">{lp_reviews()}</div>
     <div class="rev-dots" aria-label="Choose review"></div>
+    <p class="lp-k-again"><a class="lp-k-btn" href="/book" data-quiz-open>{cta}</a></p>
   </div>
 </section>
-
-<section class="dark final has-mascot">
-  <div class="wrap">
-    <div class="final-copy">
-    <p class="eyebrow">15-minute call</p>
-    <h2>Ready for your free website?</h2>
-    <p class="muted">Book a quick call. We'll look at your Google profile and website together and show you exactly what we'd build.</p>
-    <div class="row"><a class="btn btn-mint" href="#start">Book my free website call {icon('arrow')}</a></div>
-    </div>
-    {mascot()}
-  </div>
-</section>
+{lp_quiz()}
 </main>"""
 
 
 def booked():
-    vsl = SITE.get("vsl_url")
-    if vsl:
-        video = (f'<div class="svc-video lp-vsl"><iframe src="{vsl}" title="Watch before our call" '
-                 f'allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>')
+    if SITE.get("vsl_url"):
+        video = vsl_player()
     else:
         video = (f'<div class="lp-vsl-wait"><p><b>Your video is on its way.</b> Tim will text you a short walkthrough '
                  f'video before your call. Please give it a watch.</p></div>')

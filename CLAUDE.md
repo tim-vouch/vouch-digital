@@ -10,12 +10,16 @@ engineers across the UK**. Plumbers only since 14 Oct 2026 (electricians removed
 wins plumbers more jobs, £197/month, everything included, no contract. Every button is "Book a call" → /book
 (GHL calendar). The old "Find My Missed Jobs" free-audit pitch is retired; don't bring it back.
 
-**Meta ads funnel (since 30 Oct 2026):** ad → `/free-website` (landing page matching the ad, one short form with a
-domestic/commercial question) → `/book` (GHL calendar, pre-filled) → `/booked` (thank-you page with the VSL, Kai
-Stone's "watch this before the call"). Both new pages are noindex and live in `src/pages.py`. The landing page follows Hormozi's short layout (headline, subheadline, proof image, form, 3 objection bullets, then proof underneath); his razor applies: if a section doesn't raise the opt-in rate of qualified leads, cut it. The offer stack (`lp_stack()`) was cut and is kept to re-test. Commercial-only leads
-see a polite "not a fit" message and don't fire the Lead pixel event. `/booked` fires the pixel's Schedule event
-(consent only). Put the VSL embed URL in `SITE["vsl_url"]`. In GHL, set the calendar's confirmation to redirect to
-https://vouchdigital.co.uk/booked.
+**Meta ads funnel (since 30 Oct 2026):** ad → `/free-website` → quiz popup → `/book` (VSL above the GHL calendar,
+pre-filled) → `/booked` (thank-you page, VSL again). The landing page copies Kai Stone's: one headline with the price,
+the VSL thumbnail, one button; every CTA (and the header "Book a call" on that page) opens the quiz (`lp_quiz()` /
+`QUIZ` in `src/pages.py`). The quiz bar starts at 50% and creeps up (endowed progress, `QUIZ_PROGRESS`). Not a plumber
+or commercial-only → polite exit, nothing sent, no Lead event. Answers go to GHL via `/api/enquiry` (whitelisted in
+`src/worker.js`). Below: video testimonials (`TESTIMONIAL_VIDEOS` in `src/site_data.py`, MP4s in
+`public/assets/video/`, keep each well under 25 MB) and Google reviews. The VSL is set in `SITE["vsl_url"]` (embed
+URL) and plays click-to-load only; until it's set the page shows the MST image and "See if you qualify" instead of
+promising a video. `/booked` fires the pixel's Schedule event (consent only). In GHL, set the calendar's confirmation
+to redirect to https://vouchdigital.co.uk/booked. Both pages are noindex.
 
 ## How it's built
 - `src/site_data.py` — business facts, homepage FAQ, plans. Single source of truth.
