@@ -1065,12 +1065,17 @@ html{scroll-padding-top:20px}
 
 /* Reviews dots v4: Instagram behaviour, every dot glides to its new place, size and colour (30 Oct 2026) */
 .rev-dots{position:relative;display:block;width:100%;height:14px;margin:22px auto 0;padding:0;overflow:visible;-webkit-mask-image:none;mask-image:none}
-/* v5 (iPhone smoothness): only transform and opacity animate (the phone's GPU does those without redrawing the page).
-   Grey dots are fixed 8px circles sized with scale(); the mint pill is its own element that slides over them. */
-.rev-dots .rd,.rev-dots .rd-pill{position:absolute;left:50%;top:50%;width:8px;height:8px;margin:0;padding:0;border:0;border-radius:999px;
-  background:#cfd8d4;cursor:pointer;will-change:transform;-webkit-tap-highlight-color:transparent;
-  transition:transform .3s cubic-bezier(.25,.8,.3,1),opacity .2s linear}
-.rev-dots .rd.on{opacity:0;cursor:default}
-.rev-dots .rd-pill{width:24px;background:var(--mint-dark);pointer-events:none;z-index:1}
+.rev-dots .rd{position:absolute;left:50%;top:50%;margin:0;padding:0;border:0;border-radius:999px;background:#cfd8d4;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  transition:transform .4s cubic-bezier(.2,.75,.25,1),width .4s cubic-bezier(.2,.75,.25,1),height .4s cubic-bezier(.2,.75,.25,1),background-color .15s linear}
+.rev-dots .rd.on{background:var(--mint-dark);cursor:default}
 .rev-dots .rd-now{transition:none!important}
-@media (prefers-reduced-motion:reduce){.rev-dots .rd,.rev-dots .rd-pill{transition:none}}
+@media (prefers-reduced-motion:reduce){.rev-dots .rd{transition:none}}
+/* Reviews carousel v2 (30 Oct 2026): our own swipe carousel. The track moves with a GPU transform (smooth on iPhone);
+   up/down swipes still scroll the page (touch-action). */
+.rev-carousel.loop{display:block;overflow:hidden;overflow:clip;touch-action:pan-y;padding-bottom:4px;cursor:grab;
+  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.rev-carousel.loop.dragging{cursor:grabbing}
+.rev-carousel.loop .rev-track{position:relative;display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 36px) / 3);gap:18px;
+  will-change:transform;-webkit-backface-visibility:hidden;backface-visibility:hidden}
+@media (max-width:980px){.rev-carousel.loop .rev-track{grid-auto-columns:82%}}

@@ -364,10 +364,12 @@ if (pks.length) {
   onScroll();
 }
 
-// Reviews carousel: an endless loop that doesn't move by itself (Tim, 30 Oct 2026). It opens on the middle review,
-// centred, with neighbours either side. The reviews are cloned once before and once after; when you scroll into a
-// clone it quietly jumps back to the same review in the middle set, so you never reach an end. The dots are a fixed
-// window of five with the long "pill" always in the middle (Instagram style), so it always feels like there's more.
+// Reviews carousel v2 (Tim, 30 Oct 2026): an endless loop that doesn't move by itself and opens on the middle review.
+// It is our own swipe carousel, not the browser's scrolling: the reviews sit on a track that we move with a GPU
+// transform, so it looks the same on iPhone Safari as in desktop Chrome. (v1 used native scrolling with invisible
+// jumps, which iPhone momentum scrolling turned glitchy.) Swipe or drag a card, flick for speed, trackpad sideways,
+// arrow keys or tap a dot. Reviews are cloned before and after; when a move ends in a clone, the track jumps to the
+// same review in the middle copy, which can't be seen. The dots move once per move, together with the cards.
 document.querySelectorAll('.rev-carousel').forEach((c) => {
   const dots = c.parentElement.querySelector('.rev-dots');
   const originals = [...c.children];
@@ -379,66 +381,132 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
     k.inert = true;
     return k;
   });
-  c.prepend(...cloneSet());
-  c.append(...cloneSet());
-  const cards = [...c.children];
-  let idx = n + Math.floor(n / 2); // middle review of the middle set
+  const track = document.createElement('div');
+  track.className = 'rev-track';
+  track.append(...cloneSet(), ...originals, ...cloneSet());
+  c.appendChild(track);
+  c.classList.add('loop');
+  const cards = [...track.children];
 
-  const leftFor = (i) => {
-    const r = cards[i].getBoundingClientRect();
-    const cr = c.getBoundingClientRect();
-    return c.scrollLeft + (r.left - cr.left) - (c.clientWidth - r.width) / 2;
+  let want = n + Math.floor(n / 2); // the review we're on (or heading to); the dots show this one
+  let x = 0;                        // the track's position, px
+  let animating = false;
+  let at;
+  // card positions on the track, measured with sub-pixel precision (offsetLeft rounds, which leaves cards 1-3px off)
+  const at0 = (i) => cards[i].getBoundingClientRect().left - track.getBoundingClientRect().left;
+  const step = () => at0(1) - at0(0);
+  const xFor = (i) => c.clientWidth / 2 - (at0(i) + cards[i].getBoundingClientRect().width / 2);
+  const EASE = 'cubic-bezier(.2,.75,.25,1)';
+  const set = (px, ms) => {
+    x = px;
+    track.style.transition = ms ? `transform ${ms}ms ${EASE}` : 'none';
+    track.style.transform = `translate3d(${px}px,0,0)`;
   };
-  const go = (i, smooth) => { idx = i; c.scrollTo({ left: leftFor(i), behavior: smooth ? 'smooth' : 'instant' }); };
-  const nearest = () => {
-    const mid = c.getBoundingClientRect().left + c.clientWidth / 2;
-    let best = 0, bestD = Infinity;
-    cards.forEach((el, i) => {
-      const r = el.getBoundingClientRect();
-      const d = Math.abs(r.left + r.width / 2 - mid);
-      if (d < bestD) { bestD = d; best = i; }
-    });
-    return best;
+  const current = () => new DOMMatrixReadOnly(getComputedStyle(track).transform).m41;
+  // back to the same review in the middle copy (identical content, so the jump is invisible)
+  const recentre = () => {
+    if (want >= n && want < 2 * n) return;
+    const k = want < n ? n : -n;
+    want += k;
+    set(x - k * step(), 0);
   };
-  // The dots follow the swipe live, but with a dead zone: the next dot only lights once the swipe is 60% of the way
-  // to the next review, and only goes back once it's 60% back. Without it, a finger wobbling around the halfway
-  // point on a phone flipped the pill back and forth.
-  // Once scrolling settles (and the finger is off) in a clone, jump invisibly to the same review in the middle set.
-  let shown = idx; // the review the dots currently show
   let moveDots = () => {};
-  let touching = false; // a finger is on the carousel: never jump under it
-  let gliding = false;  // a dot was tapped: the dots already moved, so ignore the scroll it causes
-  const centreOf = (i) => { const r = cards[i].getBoundingClientRect(); return r.left + r.width / 2; };
-  const watch = () => {
-    if (gliding) return;
-    const mid = c.getBoundingClientRect().left + c.clientWidth / 2;
-    for (let guard = 0; guard < n; guard++) {
-      const a = shown > 0 ? shown - 1 : shown + 1;
-      const step = Math.abs(centreOf(shown) - centreOf(a)) || 1;
-      const f = (mid - centreOf(shown)) / step; // how far past the shown review, in reviews
-      if (f > 0.6 && shown < cards.length - 1) { moveDots(1); shown++; }
-      else if (f < -0.6 && shown > 0) { moveDots(-1); shown--; }
-      else break;
-    }
+  const goTo = (i, ms = 450) => {
+    i = Math.max(0, Math.min(cards.length - 1, i));
+    if (i !== want) moveDots(i - want);
+    want = i;
+    const tx = xFor(i);
+    clearTimeout(at);
+    if (Math.abs(tx - x) < 0.5 || !ms) { animating = false; set(tx, 0); recentre(); return; }
+    animating = true;
+    set(tx, ms);
+    at = setTimeout(() => { animating = false; recentre(); }, ms + 40);
   };
-  const settle = () => {
-    if (touching) return;
-    gliding = false;
-    const k = nearest();
-    const d = k - shown;
-    if (d && Math.abs(d) < n) moveDots(d); // the invisible jump between copies moves by n: no dots change
-    idx = shown = k;
-    if (idx < n || idx >= 2 * n) { go(n + (idx % n), false); shown = idx; }
+  // stop a move part-way (a finger grabbed the cards, or another move starts) and carry on from where it is
+  const freeze = (grab) => {
+    if (!animating) return;
+    clearTimeout(at);
+    animating = false;
+    set(current(), 0);
+    let k = want, best = Infinity;
+    cards.forEach((_, i) => { const d = Math.abs(xFor(i) - x); if (d < best) { best = d; k = i; } });
+    if (grab && k !== want) { moveDots(k - want); want = k; }
+    const shift = k < n ? n : k >= 2 * n ? -n : 0;
+    if (shift) { want += shift; set(x - shift * step(), 0); }
   };
 
-  // Instagram-style dots (Tim, 30 Oct 2026, v4 matched to a screen recording of Instagram). One dot per review along
-  // an endless strip. Either side of the window centre: dot, dot, smaller, smallest. The flat mint pill is the current
-  // review and lives on the centre slot or one either side of it. Moving within that range just hands the pill to the
-  // next dot (the grey dots stay put); moving past it slides the whole strip one step and the pill stays on its slot.
-  // Every dot animates its own position, size and colour, so a swipe glides rather than snapping.
+  // ---- swipe / drag (touch, pen and mouse) ----
+  let drag = null;
+  let dragged = false;
+  c.addEventListener('pointerdown', (e) => {
+    if (e.button > 0) return;
+    freeze(true);
+    drag = { id: e.pointerId, px: e.clientX, py: e.clientY, x, on: false, hist: [[e.timeStamp, e.clientX]] };
+  });
+  c.addEventListener('pointermove', (e) => {
+    if (!drag || e.pointerId !== drag.id) return;
+    const dx = e.clientX - drag.px, dy = e.clientY - drag.py;
+    if (!drag.on) {
+      if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+      if (Math.abs(dy) > Math.abs(dx)) { drag = null; return; } // up/down: leave it to the page
+      drag.on = true;
+      try { c.setPointerCapture(e.pointerId); } catch (_) { /* pointer already gone */ }
+      c.classList.add('dragging');
+    }
+    drag.hist.push([e.timeStamp, e.clientX]);
+    if (drag.hist.length > 5) drag.hist.shift();
+    set(drag.x + dx, 0);
+  });
+  const release = (e) => {
+    if (!drag || e.pointerId !== drag.id) return;
+    const d0 = drag;
+    drag = null;
+    if (!d0.on) return;
+    c.classList.remove('dragging');
+    dragged = true;
+    setTimeout(() => { dragged = false; }, 60);
+    const moved = x - d0.x;
+    const [t0, x0] = d0.hist[0];
+    const last = d0.hist[d0.hist.length - 1];
+    const dt = last[0] - t0;
+    const v = dt > 0 && e.timeStamp - last[0] < 100 ? (last[1] - x0) / dt : 0; // px per ms, 0 if the finger stopped
+    let d = -Math.round((moved + v * 150) / step());
+    if (!d && Math.abs(v) > 0.3 && Math.abs(moved) > 12) d = moved < 0 ? 1 : -1; // a quick flick moves one
+    d = Math.max(1 - n, Math.min(n - 1, d));
+    goTo(want + d);
+  };
+  c.addEventListener('pointerup', release);
+  c.addEventListener('pointercancel', release);
+  c.addEventListener('click', (e) => { if (dragged) { e.preventDefault(); e.stopPropagation(); } }, true);
+  c.addEventListener('dragstart', (e) => e.preventDefault());
+
+  // ---- trackpad sideways swipe (one review per gesture) and arrow keys ----
+  let wheelSum = 0, wheelLock = false, wt;
+  c.addEventListener('wheel', (e) => {
+    if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+    e.preventDefault();
+    clearTimeout(wt);
+    wt = setTimeout(() => { wheelLock = false; wheelSum = 0; }, 200);
+    if (wheelLock) return;
+    wheelSum += e.deltaX;
+    if (Math.abs(wheelSum) > 30) { wheelLock = true; freeze(false); goTo(want + Math.sign(wheelSum)); }
+  }, { passive: false });
+  c.addEventListener('keydown', (e) => {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    e.preventDefault();
+    freeze(false);
+    goTo(want + (e.key === 'ArrowRight' ? 1 : -1));
+  });
+  c.addEventListener('scroll', () => { c.scrollLeft = 0; }); // focus can't scroll the hidden overflow
+
+  // ---- Instagram-style dots (Tim, 30 Oct 2026, matched to a screen recording of Instagram) ----
+  // One dot per review along an endless strip. Either side of the window centre: dot, dot, smaller, smallest. The
+  // flat mint pill is the current review and sits on the centre slot or one either side of it. Moving within that
+  // range hands the pill to the next dot (the grey dots stay put); moving past it slides the strip one step and the
+  // pill stays on its slot. Every dot animates its own place, size and colour, in step with the cards.
   const DOT = 8, GAP = 9, PILL = 24;
   const SIZE = [DOT, DOT, DOT, 6, 4, 0]; // by distance from the window centre; 5 = hidden buffer
-  let v = 0; // the current review, counted along the endless strip
+  let v = 0; // the current review along the endless strip
   let w = 0; // the window centre (the pill is at w-1, w or w+1)
   const els = new Map();
   const make = (i) => {
@@ -447,38 +515,34 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
     b.className = 'rd';
     b.addEventListener('click', () => {
       if (i === v) return;
-      settle();
-      const d = i - v;
-      moveDots(d); // tapping a dot moves the dots straight away
-      shown = idx + d;
-      gliding = true;
-      go(idx + d, true);
+      freeze(false);
+      goTo(want + (i - v));
     });
     dots.appendChild(b);
     els.set(i, b);
     return b;
   };
   const layout = (fresh) => {
-    const ids = [];
-    for (let i = w - 5; i <= w + 5; i++) ids.push(i);
     els.forEach((b, i) => { if (i < w - 5 || i > w + 5) { b.remove(); els.delete(i); } });
     const wid = (i) => (i === v ? PILL : SIZE[Math.abs(i - w)]);
-    // lay the visible run (w-4..w+4) out edge to edge with even gaps, centred; one pill is always in it, so its
-    // total width never changes and dots that keep their size keep their place
+    const ht = (i) => (i === v ? DOT : SIZE[Math.abs(i - w)]);
+    // lay the visible run (w-4..w+4) edge to edge with even gaps, centred; it always holds the pill, so its total
+    // width never changes and dots that keep their size keep their place
     let total = -GAP;
     for (let i = w - 4; i <= w + 4; i++) total += wid(i) + GAP;
-    let x = -total / 2;
+    let px = -total / 2;
     const centre = {};
-    for (let i = w - 4; i <= w + 4; i++) { centre[i] = x + wid(i) / 2; x += wid(i) + GAP; }
-    centre[w - 5] = centre[w - 4] - GAP; centre[w + 5] = centre[w + 4] + GAP;
-    ids.forEach((i) => {
+    for (let i = w - 4; i <= w + 4; i++) { centre[i] = px + wid(i) / 2; px += wid(i) + GAP; }
+    centre[w - 5] = centre[w - 4] - GAP;
+    centre[w + 5] = centre[w + 4] + GAP;
+    for (let i = w - 5; i <= w + 5; i++) {
       const isNew = !els.has(i);
       const b = isNew ? make(i) : els.get(i);
       if (isNew || fresh) b.classList.add('rd-now'); // appear in place without animating
       const r = Math.abs(i - w);
-      // transform only (pixels + scale): the cheapest thing for an iPhone to animate
-      const s = i === v ? 1 : SIZE[r] / DOT;
-      b.style.transform = `translate(${centre[i] - DOT / 2}px, ${-DOT / 2}px) scale(${s})`;
+      b.style.width = wid(i) + 'px';
+      b.style.height = ht(i) + 'px';
+      b.style.transform = `translate(${centre[i] - wid(i) / 2}px, ${-ht(i) / 2}px)`; // pixels only (Safari)
       b.classList.toggle('on', i === v);
       b.tabIndex = r === 5 ? -1 : 0;
       b.setAttribute('aria-hidden', r === 5 ? 'true' : 'false');
@@ -488,10 +552,9 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
         const d = i - v;
         b.setAttribute('aria-label', `${d < 0 ? 'Previous' : 'Next'} review${Math.abs(d) > 1 ? 's' : ''}`);
       }
-    });
-    if (fresh) pill.classList.add('rd-now');
-    pill.style.transform = `translate(${centre[v] - PILL / 2}px, ${-DOT / 2}px)`;
-    requestAnimationFrame(() => dots.querySelectorAll('.rd-now').forEach((b) => b.classList.remove('rd-now')));
+    }
+    requestAnimationFrame(() => requestAnimationFrame(() =>
+      dots.querySelectorAll('.rd-now').forEach((b) => b.classList.remove('rd-now'))));
   };
   const bump = (dir) => {
     v += dir;
@@ -499,30 +562,16 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
     if (v < w - 1) w = v + 1;
     layout(false);
   };
+  moveDots = (d) => { for (let i = 0; i < Math.abs(d); i++) bump(Math.sign(d)); };
   dots.innerHTML = '';
-  const pill = document.createElement('span'); // the mint pill: slides over the grey dots
-  pill.className = 'rd-pill';
-  pill.setAttribute('aria-hidden', 'true');
-  dots.appendChild(pill);
   layout(true);
 
-  moveDots = (d) => { for (let i = 0; i < Math.abs(d); i++) bump(Math.sign(d)); };
-  let t;
-  let raf = 0;
-  c.addEventListener('scroll', () => {
-    if (!raf) raf = requestAnimationFrame(() => { raf = 0; watch(); });
-    clearTimeout(t); t = setTimeout(settle, 120);
-  }, { passive: true });
-  c.addEventListener('touchstart', () => { touching = true; gliding = false; }, { passive: true });
-  const lift = () => { touching = false; clearTimeout(t); t = setTimeout(settle, 120); };
-  c.addEventListener('touchend', lift, { passive: true });
-  c.addEventListener('touchcancel', lift, { passive: true });
-  if ('onscrollend' in window) c.addEventListener('scrollend', settle);
+  const place = () => { freeze(false); clearTimeout(at); animating = false; set(xFor(want), 0); };
   let rt;
-  window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => go(idx, false), 150); });
-  const start = () => go(idx, false);
-  start();
-  window.addEventListener('load', start);
+  window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(place, 120); });
+  place();
+  window.addEventListener('load', place);
+  if (document.fonts) document.fonts.ready.then(place);
 });
 
 // Cookie consent + Meta pixel. The pixel only loads after the visitor clicks Accept (UK PECR / UK GDPR).
