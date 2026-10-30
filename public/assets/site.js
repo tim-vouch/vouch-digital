@@ -389,43 +389,72 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
   c.prepend(...before);
   c.append(...after);
   const cards = [...c.children];
-  const step = () => (cards[1].offsetLeft - cards[0].offsetLeft) || 1;
-  const stop = (i) => i * step();
+  // Each review is centred with the one before and after peeking in (scroll-snap-align:center in site.css).
+  // Where the scroll position puts each card centred, measured once and again on resize.
+  let base = 0, gap = 1;
+  const measure = () => {
+    const cr = c.getBoundingClientRect();
+    const r0 = cards[0].getBoundingClientRect(), r1 = cards[1].getBoundingClientRect();
+    base = c.scrollLeft + r0.left - cr.left + r0.width / 2 - c.clientWidth / 2;
+    gap = (r1.left - r0.left) || 1;
+  };
+  const stop = (i) => base + i * gap;
   const clamp = (i) => Math.max(0, Math.min(cards.length - 1, i));
-  let home = mid * n; // first review of the middle copy
-  let shown = home;   // the card the dots show
+  const nearest = () => clamp(Math.round((c.scrollLeft - base) / gap));
+  let home = mid * n + Math.floor(n / 2); // the middle review of the middle copy
+  let shown = -1;                          // the card the dots show
 
-  // ---- Dots: an endless strip (one dot per card, so it never runs out) ----
-  // The mint pill always sits in the middle and the strip slides under it, fading out at both ends, so it reads as
-  // "there's always more". Only the two animations that were smooth on Tim's iPhone before the loop are used: the
-  // pill's width (as before) and one slide of the whole strip (a GPU transform). Nothing is created, removed or redrawn.
-  const DOT = 8, GAP = 9, PILL = 24;
-  const strip = document.createElement('div');
-  strip.className = 'rd-strip now';
-  strip.innerHTML = cards.map(() => '<button type="button" tabindex="-1" aria-hidden="true"></button>').join('');
-  const btns = [...strip.children];
-  btns.forEach((b, i) => b.addEventListener('click', () => c.scrollTo({ left: stop(i), behavior: 'smooth' })));
+  // ---- Dots: an endless strip, the mint pill fixed in the middle ----
+  // Tim's iPhone recording (30 Oct 2026) showed why every earlier version looked janky there: while you're swiping,
+  // iPhone Safari only animates size changes (width/height) at half speed and late, while slides (transforms) run
+  // smoothly, so pill and dots fell out of step. So nothing here changes size: the pill never moves or resizes, and
+  // the dots only slide, scale and fade (all GPU), flowing under the pill. Either side: dot, dot, dot, smaller,
+  // smallest, so it always looks like there's more.
+  const SP = 17, PAD = 8;   // dot spacing (centre to centre); extra room each side for the 24px pill
+  const R = 7;              // dots kept either side of the pill (a pool of 15, reused as you go)
+  const scaleAt = (a) => (a <= 3 ? 1 : a === 4 ? 0.75 : a === 5 ? 0.5 : 0);
   dots.hidden = false;
   dots.innerHTML = '';
   dots.setAttribute('aria-hidden', 'true'); // decoration: the carousel itself scrolls with the keyboard
-  dots.appendChild(strip);
-  const show = (i) => {
-    if (btns[shown]) btns[shown].removeAttribute('aria-current');
-    shown = i;
-    btns[i].setAttribute('aria-current', 'true');
-    strip.style.transform = `translate3d(${dots.clientWidth / 2 - (i * (DOT + GAP) + PILL / 2)}px,0,0)`;
+  const pool = [];
+  for (let k = 0; k < 2 * R + 1; k++) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.tabIndex = -1;
+    b.className = 'rd';
+    b.addEventListener('click', () => c.scrollTo({ left: stop(clamp(Number(b.dataset.i))), behavior: 'smooth' }));
+    dots.appendChild(b);
+    pool.push(b);
+  }
+  const pill = document.createElement('span');
+  pill.className = 'rd-pill';
+  dots.appendChild(pill);
+  const show = (cur, animate) => {
+    const was = shown;
+    shown = cur;
+    for (let j = cur - R; j <= cur + R; j++) {
+      const b = pool[((j % pool.length) + pool.length) % pool.length];
+      const d = j - cur, a = Math.abs(d);
+      const wrapped = b.dataset.i !== String(j); // this dot just came round from the far end: place it, don't animate
+      b.dataset.i = j;
+      b.classList.toggle('rd-now', !animate || wrapped);
+      b.style.transform = `translate3d(${d * SP + Math.sign(d) * PAD}px,0,0) scale(${scaleAt(a)})`;
+      b.style.opacity = d === 0 ? '0' : '1';
+    }
+    if (animate && was !== -1 && pill.animate) {
+      pill.animate([{ transform: 'scaleX(.82)' }, { transform: 'none' }], { duration: 300, easing: 'ease-out' });
+    }
   };
   const update = () => {
-    const i = clamp(Math.round(c.scrollLeft / step()));
-    if (i !== shown) show(i);
+    const i = nearest();
+    if (i !== shown) show(i, true);
   };
   c.addEventListener('scroll', update, { passive: true });
 
   const place = () => {
-    strip.classList.add('now'); // no animation when (re)placing
+    measure();
     c.scrollTo({ left: stop(home), behavior: 'instant' });
-    show(home);
-    requestAnimationFrame(() => requestAnimationFrame(() => strip.classList.remove('now')));
+    show(home, false);
   };
   let t;
   window.addEventListener('resize', () => {
