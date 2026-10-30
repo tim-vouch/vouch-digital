@@ -349,7 +349,7 @@ def book():
 <section class="book-hero book-light">
   <div class="wrap">
     <h1>Wait<span data-first></span>! There's 1&nbsp;More&nbsp;Step&nbsp;<span aria-hidden="true">👇</span></h1>
-    <p class="muted">Watch this quick video on what happens next,<br>then pick a time for your free call below.</p>
+    <p class="muted">Watch this quick video on what happens next.<br>Then pick a time for your free call below.</p>
     <div class="rating-row book-ratings lp-ratings">{ratings}</div>
     {book_intro()}
   </div>
