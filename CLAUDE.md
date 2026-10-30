@@ -10,8 +10,8 @@ engineers across the UK**. Plumbers only since 14 Oct 2026 (electricians removed
 wins plumbers more jobs, £197/month, everything included, no contract. Every button is "Book a call" → /book
 (GHL calendar). The old "Find My Missed Jobs" free-audit pitch is retired; don't bring it back.
 
-**Meta ads funnel (since 30 Oct 2026):** ad → `/free-website` → quiz popup → `/book` (VSL above the GHL calendar,
-pre-filled) → `/booked` (thank-you page, VSL again). The landing page copies Kai Stone's: one headline with the price,
+**Meta ads funnel (since 30 Oct 2026):** ad → `/free-website` → quiz popup → `/book` (a ~35-second portrait "what happens now" clip of Tim,
+`SITE["book_video"]`, self-hosted MP4, above the pre-filled GHL calendar; Trade Scale style) → `/booked` (thank-you page, VSL again). The landing page copies Kai Stone's: one headline with the price,
 the VSL thumbnail, one button; every CTA (and the header "Book a call" on that page) opens the quiz (`lp_quiz()` /
 `QUIZ` in `src/pages.py`). The quiz is one question (type of work) then mobile, email, name and business; extra qualifying questions were cut on 30 Oct 2026 to keep friction low until ads prove out. The bar starts at 60%, creeps up and its stripes scroll right (endowed progress, `QUIZ_PROGRESS`). No privacy link inside the quiz at Tim's choice (footer links it). Not a plumber
 or commercial-only → polite exit, nothing sent, no Lead event. Answers go to GHL via `/api/enquiry` (whitelisted in

@@ -310,17 +310,14 @@ def home():
 </main>"""
 
 
-def book_vsl():
-    if not SITE.get("vsl_url"):
+def book_intro():
+    """Trade Scale style: a ~35-second portrait clip of Tim saying what happens next, right above the calendar.
+    The full VSL is not here (it would slow booking down); it goes out by text and email and sits on /booked."""
+    if not SITE.get("book_video"):
         return ""
-    return f"""
-<section class="book-vsl">
-  <div class="wrap">
-    <p class="eyebrow">Step 2</p>
-    <h2>Watch this quick video, then pick a time below</h2>
-    {vsl_player()}
-  </div>
-</section>"""
+    poster = f' poster="{SITE["book_video_poster"]}"' if SITE.get("book_video_poster") else ""
+    return (f'<div class="book-intro"><video controls playsinline preload="metadata"{poster}>'
+            f'<source src="{SITE["book_video"]}" type="video/mp4"></video></div>')
 
 
 def book():
@@ -332,16 +329,20 @@ def book():
         "We show you how the 2 systems would work for your business.",
         "No hard sell. If it's not right for you, we'll tell you.",
     ])
+    if SITE.get("book_video"):
+        head = ('<h1>Book a call below the video</h1><p class="muted">Tim will be in touch shortly to talk about your '
+                'business and show you how we can help you win more work.</p>')
+    else:
+        head = '<h1>Book your 15-minute call</h1><p class="muted">Pick a time that suits you. 15 minutes on Google Meet.</p>'
     return f"""
 <main>
 <section class="dark book-hero">
   <div class="wrap">
-    <h1>Book your 15-minute call</h1>
-    <p class="muted">Pick a time that suits you. 15 minutes on Google Meet.</p>
+    {head}
     <div class="rating-row book-ratings">{ratings}</div>
+    {book_intro()}
   </div>
 </section>
-{book_vsl()}
 <section class="book">
   <div class="wrap book-grid">
     <div class="book-info">
