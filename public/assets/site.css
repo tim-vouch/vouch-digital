@@ -1011,3 +1011,10 @@ html{scroll-padding-top:20px}
 .bk-pick .bk-fields{margin:0}
 .bk-pick .bk-msg{margin:0;min-height:0}
 @keyframes bk-in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+
+/* Testimonial play buttons: brand mint, quieter than the red quiz button; fullscreen fits the screen (30 Oct 2026) */
+.vt-play .vp-btn{background:var(--mint)}
+.vt-play .vp-btn svg{fill:var(--deep)}
+.vt-play:hover .vp-btn{background:#2be09a}
+.vt video:fullscreen{object-fit:contain;background:#000}
+.vt video:-webkit-full-screen{object-fit:contain;background:#000}

@@ -514,12 +514,12 @@ def lp_video_tests():
     cards = "".join(f"""
       <figure class="vt">
         <div class="vt-media">
-          <video preload="none" playsinline poster="{v['poster']}" aria-label="Video testimonial from {v['name']}, {v['business']}"><source src="{v['src']}" type="video/mp4"></video>
+          <video preload="none" playsinline disablepictureinpicture controlslist="nodownload noplaybackrate" poster="{v['poster']}" aria-label="Video testimonial from {v['name']}, {v['business']}"><source src="{v['src']}" type="video/mp4"></video>
           <button type="button" class="vt-play" aria-label="Play {v['name']}'s video"><span class="vp-btn">{play}</span><span class="vt-len">{v.get('length', '')}</span></button>
         </div>
         <figcaption>
           {stars(5)}
-          <blockquote>“{v['quote']}”</blockquote>
+          <blockquote>“{'<br>'.join(v['quote']) if isinstance(v['quote'], list) else v['quote']}”</blockquote>
           <p class="vt-who"><b>{v['name']}</b><small>{v['business']}</small></p>
         </figcaption>
       </figure>""" for v in TESTIMONIAL_VIDEOS)

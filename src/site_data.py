@@ -35,12 +35,13 @@ SITE = {
 # Video testimonials on /book-form (real clients only, with their permission).
 # Each: name, business, quote (their own words from the video), src (MP4 under /assets/video/), poster (still image).
 TESTIMONIAL_VIDEOS = [
-    # quote = the client's own words from the video (a result, not the "I'd recommend" hook line)
+    # quote = the client's own words from the video, exactly as said (a result, not the "I'd recommend" hook line).
+    # A list shows each line on its own line.
     {"name": "Darren", "business": "Flotech Heating and Plumbing",
      "quote": "We now have reached 210 5.0★ reviews, which is a fantastic result.",
      "src": "/assets/video/testimonial-darren.mp4", "poster": "/assets/img/testimonial-darren.webp", "length": "1:09"},
     {"name": "Selvin", "business": "MJ Services",
-     "quote": "My phone ain't stop ringing.",
+     "quote": ["Everything that you promised.", "My phone ain't stop ringing."],
      "src": "/assets/video/testimonial-selvin.mp4", "poster": "/assets/img/testimonial-selvin.webp", "length": "0:26"},
 ]
 
