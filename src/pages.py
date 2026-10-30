@@ -329,6 +329,8 @@ def book_vsl_below():
 
 
 def book():
+    """Trade Scale (Dale) layout, one column: heading, short ratings line, Tim's ~35-second clip if set, then the
+    calendar straight underneath. 'What happens on the call' sits below the calendar, not beside it."""
     ratings = (f'<a href="#">{G_LOGO}<span><b>Google</b>{stars(5)}</span><em>{RATING}</em></a>'
                f'<a href="{TRUSTPILOT["url"]}" target="_blank" rel="noopener">{TP_ICON}<span><b>Trustpilot</b>{stars(5)}</span><em>{TRUSTPILOT["rating"]}</em></a>'
                f'<a href="{FACEBOOK["url"] or "#"}" target="_blank" rel="noopener">{FB_LOGO}<span><b>Facebook</b>{stars(5)}</span><em>{FACEBOOK["rating"]}</em></a>')
@@ -338,35 +340,36 @@ def book():
         "No hard sell. If it's not right for you, we'll tell you.",
     ])
     if SITE.get("book_video"):
-        head = ('<h1>Book a call below the video</h1><p class="muted">Tim will be in touch shortly to talk about your '
-                'business and show you how we can help you win more work.</p>')
+        h1 = "Book a call below the video"
+        sub = "Tim will be in touch shortly to talk about your business and show you how we can help you win more work."
     else:
-        head = '<h1>Book your 15-minute call</h1><p class="muted">Pick a time that suits you. 15 minutes on Google Meet.</p>'
+        h1 = "Pick a time for your free call below"
+        sub = "15 minutes on Google Meet. Can't book right now? No worries, Tim will be in touch shortly."
     return f"""
 <main>
 <section class="dark book-hero">
   <div class="wrap">
-    {head}
+    <h1 data-thanks>{h1}</h1>
+    <p class="muted">{sub}</p>
     <div class="rating-row book-ratings">{ratings}</div>
     {book_intro()}
   </div>
 </section>
-<section class="book">
-  <div class="wrap book-grid">
-    <div class="book-info">
-      <h2>What happens on the call</h2>
-      <ul class="book-points">{points}</ul>
+<section class="book book-one">
+  <div class="wrap">
+    <div class="book-frame">
+      <iframe class="booking" title="Book your 15-minute call" data-src="{SITE['booking_url']}" scrolling="no"></iframe>
+    </div>
+    <p class="book-alt">Can't find a time that works? Call or text <a href="tel:{SITE['phone_intl']}">{SITE['phone']}</a> and we'll sort one out.</p>
+    <div class="book-after">
+      <div><h2>What happens on the call</h2><ul class="book-points">{points}</ul></div>
       <div class="worst-case">
         <p class="wc-lbl">Worst case?</p>
         <p>You spend 15 minutes and leave with a clear list of what to fix on your Google profile and website. Do it yourself, and we never work together. No hard feelings.</p>
       </div>
     </div>
-    <div class="book-frame">
-      <iframe class="booking" title="Book your 15-minute call" data-src="{SITE['booking_url']}" scrolling="no"></iframe>
-    </div>
   </div>
   {book_vsl_below()}
-  <p class="book-alt wrap">Can't find a time that works? Call or text <a href="tel:{SITE['phone_intl']}">{SITE['phone']}</a> and we'll sort one out.</p>
 </section>
 </main>
 <script src="https://link.msgsndr.com/js/form_embed.js" defer></script>"""
@@ -457,7 +460,7 @@ def vsl_poster_inner():
         art = (f'<span class="vp-art"><span class="vp-copy"><b>How we win plumbers more jobs</b>'
                f'<small>A quick walkthrough with Tim, founder of Vouch Digital</small></span>'
                f'<img src="/assets/img/mascot-sm.webp" alt="" width="320" height="431" loading="lazy"></span>')
-    return f'{art}<span class="vp-btn" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>'
+    return f'{art}<span class="vp-btn" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 6.5v11l9-5.5z"/></svg></span>'
 
 
 QUIZ = [
