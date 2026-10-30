@@ -1034,41 +1034,7 @@ html{scroll-padding-top:20px}
 .vt-media:-webkit-full-screen video{object-fit:contain}
 .vt-media:fullscreen .vt-bar{padding:40px 24px 24px}
 
-/* Reviews: endless loop, centred card, Instagram-style dots (30 Oct 2026) */
-.rev-carousel{grid-auto-columns:calc((100% - 36px) / 3);scroll-snap-type:x mandatory}
-.rev-carousel .rev{scroll-snap-align:center}
-@media (max-width:980px){.rev-carousel{grid-auto-columns:82%}}
-.rev-dots{align-items:center;gap:8px}
-.rev-dots button{background:#cfd8d4;transition:transform .25s}
-.rev-dots .d0{width:28px;height:9px;background:var(--mint-dark)}
-.rev-dots .d1{width:9px;height:9px;opacity:.9}
-.rev-dots .d2{width:6px;height:6px;opacity:.55}
-.rev-dots.tick .d0{animation:dot-tick .3s ease-out}
-@keyframes dot-tick{from{transform:scaleX(.6)}to{transform:none}}
-
-/* Reviews dots v2: 7 visible, the row slides one step on every move (30 Oct 2026) */
-.rev-dots{gap:0;overflow:hidden;width:max-content;margin-left:auto;margin-right:auto;padding:0 2px;
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent);mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent)}
-.rd-track{display:flex;align-items:center;gap:8px;--step:17px}
-.rev-dots .rd{flex:none;padding:0;border:0;border-radius:999px;background:#cfd8d4;cursor:pointer;width:9px;height:9px}
-.rev-dots .rd.d0{width:28px;background:var(--mint-dark);cursor:default}
-.rev-dots .rd.d2{width:7px;height:7px;opacity:.75}
-.rev-dots .rd.d3{width:5px;height:5px;opacity:.5}
-.rev-dots .rd.d4{width:4px;height:4px;opacity:.3}
-.rd-track.next{animation:rd-next .32s cubic-bezier(.22,1,.36,1)}
-.rd-track.prev{animation:rd-prev .32s cubic-bezier(.22,1,.36,1)}
-.rd-track.next .d0,.rd-track.prev .d0{animation:rd-pill .32s ease-out}
-@keyframes rd-next{from{transform:translateX(var(--step))}to{transform:none}}
-@keyframes rd-prev{from{transform:translateX(calc(var(--step) * -1))}to{transform:none}}
-@keyframes rd-pill{from{width:9px;background:#cfd8d4}to{width:28px}}
-@media (prefers-reduced-motion:reduce){.rd-track.next,.rd-track.prev,.rd-track .d0{animation:none!important}}
-
-/* Reviews dots v4: Instagram behaviour, every dot glides to its new place, size and colour (30 Oct 2026) */
-.rev-dots{position:relative;display:block;width:100%;height:14px;margin:22px auto 0;padding:0;overflow:visible;-webkit-mask-image:none;mask-image:none}
-.rev-dots .rd{position:absolute;left:50%;top:50%;margin:0;padding:0;border:0;border-radius:999px;background:#cfd8d4;cursor:pointer;
-  -webkit-tap-highlight-color:transparent;
-  transition:none} /* v3: redrawn every frame from the scroll position, so no transitions */
-.rev-dots .rd.on{background:var(--mint-dark);cursor:default}
-.rev-dots .rd-now{transition:none!important}
-@media (prefers-reduced-motion:reduce){.rev-dots .rd{transition:none}}
+/* Reviews (30 Oct 2026): back to the pre-loop look Tim liked on iPhone (plain scroll-snap, one dot per review, the
+   current one a wide pill), now endless (site.js repeats the reviews) and one review per swipe like Instagram. */
+.rev-carousel .rev{scroll-snap-stop:always}
 

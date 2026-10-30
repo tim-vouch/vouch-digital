@@ -364,20 +364,16 @@ if (pks.length) {
   onScroll();
 }
 
-// Reviews carousel v3 (Tim, 30 Oct 2026): feels endless, never moves by itself.
-// The phone's own scrolling (CSS scroll-snap) does the swiping, so it's as smooth on iPhone as any app. Two earlier
-// versions were janky on real iPhones: v1 secretly jumped the scroll position to loop (fights iOS momentum), v2 moved
-// the cards with our own touch code. So now there are no jumps at all: the reviews are repeated many times over and
-// it opens in the middle copy, which is further than anyone will ever swipe either way.
-// The dots are tied straight to the scroll position and redrawn every frame (no CSS transitions to fight): the mint
-// pill stays in the middle and, as you swipe, it shrinks into a dot while the next dot grows into the pill and the
-// row flows past, Instagram style, with the dots shrinking away at both ends.
+// Reviews carousel (Tim, 30 Oct 2026): exactly the pre-loop carousel Tim liked on iPhone (the phone's own scrolling,
+// scroll-snap, one dot per review with the current one a wide pill), made to feel endless: the reviews are repeated
+// 11 times and it opens on the first review of the middle copy, so it never needs to jump and you never reach an end.
+// One review per swipe (scroll-snap-stop in site.css). The dots show which review you're on (wrapping 7 -> 1).
 document.querySelectorAll('.rev-carousel').forEach((c) => {
   const dots = c.parentElement.querySelector('.rev-dots');
   const originals = [...c.children];
   const n = originals.length;
-  if (!dots || n < 3) { if (dots) dots.hidden = true; return; }
-  const COPIES = 11; // copies of the reviews; the middle one is the real one
+  if (!dots || n < 2) return;
+  const COPIES = 11;
   const mid = Math.floor(COPIES / 2);
   const before = [], after = [];
   for (let k = 0; k < COPIES; k++) {
@@ -393,77 +389,32 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
   c.prepend(...before);
   c.append(...after);
   const cards = [...c.children];
-  const home = mid * n + Math.floor(n / 2); // the middle review of the middle copy
-
-  // scroll position of card i when it's centred, worked out once (and again on resize) from two cards
-  let x0 = 0, step = 1;
-  const measure = () => {
-    const cr = c.getBoundingClientRect();
-    const at = (i) => { const r = cards[i].getBoundingClientRect(); return c.scrollLeft + r.left - cr.left + r.width / 2 - c.clientWidth / 2; };
-    x0 = at(0);
-    step = at(1) - x0 || 1;
+  const stop = (i) => cards[i].offsetLeft - cards[0].offsetLeft;
+  const nearest = () => Math.max(0, Math.min(cards.length - 1, Math.round(c.scrollLeft / (stop(1) || 1))));
+  dots.hidden = false;
+  dots.innerHTML = originals.map((_, i) => `<button type="button" aria-label="Show review ${i + 1} of ${n}"></button>`).join('');
+  const btns = [...dots.children];
+  btns.forEach((b, k) => b.addEventListener('click', () => {
+    const i = nearest();
+    let d = k - (i % n);
+    if (d > n / 2) d -= n;
+    if (d < -n / 2) d += n;
+    c.scrollTo({ left: stop(i + d), behavior: 'smooth' });
+  }));
+  let shown = -1;
+  const update = () => {
+    const k = nearest() % n;
+    if (k === shown) return;
+    shown = k;
+    btns.forEach((b, i) => b.setAttribute('aria-current', String(i === k)));
   };
-  const pos = () => (c.scrollLeft - x0) / step; // which card is centred, as a fraction (12.4 = 40% from card 12 to 13)
-  const goTo = (i, smooth) => c.scrollTo({ left: x0 + i * step, behavior: smooth ? 'smooth' : 'instant' });
-
-  // ---- dots ----
-  const DOT = 8, PILL = 24, SP = 17; // dot size, pill width, dot spacing (centre to centre)
-  const GREY = [207, 216, 212], MINT = [11, 181, 116];
-  const R = 6; // dots drawn either side of the pill
-  const pool = [];
-  dots.innerHTML = '';
-  for (let k = 0; k < 2 * R + 2; k++) {
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.className = 'rd';
-    b.addEventListener('click', () => { const j = Number(b.dataset.i); if (j !== Math.round(pos())) goTo(j, true); });
-    dots.appendChild(b);
-    pool.push(b);
-  }
-  // size by distance from the middle, smoothly: full size up to 2 away, then 6px, 4px, gone
-  const shrink = (a) => (a <= 2 ? 1 : a <= 3 ? 1 - 0.25 * (a - 2) : a <= 4 ? 0.75 - 0.25 * (a - 3) : a <= 5 ? 0.5 * (5 - a) : 0);
-  const draw = () => {
-    const dpr = window.devicePixelRatio || 1;
-    const p = pos();
-    const base = Math.floor(p) - R;
-    const cur = Math.round(p);
-    pool.forEach((b, k) => {
-      const j = base + k;
-      const d = j - p;                       // distance from the middle, in dots
-      const a = Math.abs(d);
-      const t = Math.max(0, 1 - a);          // 1 = this dot is the pill, 0 = plain dot
-      const s = shrink(a);
-      const w = (DOT + (PILL - DOT) * t) * s;
-      const h = DOT * s;
-      const cx = d * SP + Math.sign(d) * Math.min(a, 1) * (PILL - DOT) / 2; // neighbours make room for the pill
-      const col = GREY.map((g, i) => Math.round(g + (MINT[i] - g) * t));
-      b.dataset.i = j;
-      const px = (v) => Math.round(v * dpr) / dpr; // whole screen pixels, so the dots stay crisp while they move
-      b.style.width = px(w) + 'px';
-      b.style.height = px(h) + 'px';
-      b.style.transform = `translate(${px(cx - w / 2)}px, ${px(-h / 2)}px)`;
-      b.style.background = `rgb(${col})`;
-      b.style.visibility = s > 0 && j >= 0 && j < cards.length ? 'visible' : 'hidden';
-      const here = j === cur;
-      b.tabIndex = here || s < 1 ? -1 : 0;
-      if (here) { b.setAttribute('aria-current', 'true'); b.setAttribute('aria-label', 'Current review'); }
-      else {
-        b.removeAttribute('aria-current');
-        b.setAttribute('aria-label', `${j < cur ? 'Previous' : 'Next'} review${Math.abs(j - cur) > 1 ? 's' : ''}`);
-      }
-    });
-  };
-  let raf = 0;
-  c.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; draw(); }); }, { passive: true });
-
-  const start = () => { measure(); goTo(home, false); draw(); };
-  let rt;
-  window.addEventListener('resize', () => {
-    clearTimeout(rt);
-    rt = setTimeout(() => { const i = Math.round(pos()); measure(); goTo(i, false); draw(); }, 120);
-  });
-  start();
-  window.addEventListener('load', start);
+  c.addEventListener('scroll', update, { passive: true });
+  let home = mid * n; // first review of the middle copy
+  const place = () => { c.scrollTo({ left: stop(home), behavior: 'instant' }); update(); };
+  let t;
+  window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(() => { home = nearest(); place(); }, 150); });
+  window.addEventListener('load', () => { if (nearest() === home) place(); }); // unless they've already swiped
+  place();
 });
 
 // Cookie consent + Meta pixel. The pixel only loads after the visitor clicks Accept (UK PECR / UK GDPR).
