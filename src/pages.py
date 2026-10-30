@@ -311,10 +311,11 @@ def home():
 
 
 def book_intro():
-    """Trade Scale style: a ~35-second portrait clip of Tim saying what happens next, right above the calendar.
-    The full VSL is not here (it would slow booking down); it goes out by text and email and sits on /booked."""
+    """Trade Scale style: Tim's ~30-second portrait clip, right above the calendar. Placeholder until recorded.
+    The full VSL is not here (it would slow booking down); it goes out by message and sits on /booked."""
     if not SITE.get("book_video"):
-        return ""
+        return ('<div class="book-intro book-ph"><span class="vp-btn" aria-hidden="true"><svg viewBox="0 0 24 24">'
+                '<path d="M9 6.5v11l9-5.5z"/></svg></span><p>Tim\'s 30-second video<br><small>coming soon</small></p></div>')
     poster = f' poster="{SITE["book_video_poster"]}"' if SITE.get("book_video_poster") else ""
     return (f'<div class="book-intro"><video controls playsinline preload="metadata"{poster}>'
             f'<source src="{SITE["book_video"]}" type="video/mp4"></video></div>')
@@ -329,45 +330,28 @@ def book_vsl_below():
 
 
 def book():
-    """Trade Scale (Dale) layout, one column: heading, short ratings line, Tim's ~35-second clip if set, then the
-    calendar straight underneath. 'What happens on the call' sits below the calendar, not beside it."""
+    """'Wait, here's what happens next' (Chris Dylan): Tim's 30-second clip, then the calendar straight under it,
+    nothing else to distract (Trade Scale layout)."""
     ratings = (f'<a href="#">{G_LOGO}<span><b>Google</b>{stars(5)}</span><em>{RATING}</em></a>'
                f'<a href="{TRUSTPILOT["url"]}" target="_blank" rel="noopener">{TP_ICON}<span><b>Trustpilot</b>{stars(5)}</span><em>{TRUSTPILOT["rating"]}</em></a>'
                f'<a href="{FACEBOOK["url"] or "#"}" target="_blank" rel="noopener">{FB_LOGO}<span><b>Facebook</b>{stars(5)}</span><em>{FACEBOOK["rating"]}</em></a>')
-    points = "".join(f'<li><span class="tick">{icon("check")}</span>{t}</li>' for t in [
-        "We look at your Google profile and website together.",
-        "We show you how the 2 systems would work for your business.",
-        "No hard sell. If it's not right for you, we'll tell you.",
-    ])
-    if SITE.get("book_video"):
-        h1 = "Book a call below the video"
-        sub = "Tim will be in touch shortly to talk about your business and show you how we can help you win more work."
+    if SITE.get("calendar_ready"):
+        cal = f'<iframe class="booking" title="Book your 15-minute call" data-src="{SITE['booking_url']}" scrolling="no"></iframe>'
     else:
-        h1 = "Pick a time for your free call below"
-        sub = "15 minutes on Google Meet. Can't book right now? No worries, Tim will be in touch shortly."
+        cal = '<div class="cal-ph"><p><b>Booking calendar</b><br>Pick a time for your free 15-minute call here.</p></div>'
     return f"""
 <main>
 <section class="dark book-hero">
   <div class="wrap">
-    <h1 data-thanks>{h1}</h1>
-    <p class="muted">{sub}</p>
+    <h1>Wait, here's what happens next</h1>
+    <p class="muted" data-thanks>Watch this quick video, then pick a time for your free call below.</p>
     <div class="rating-row book-ratings">{ratings}</div>
     {book_intro()}
   </div>
 </section>
 <section class="book book-one">
   <div class="wrap">
-    <div class="book-frame">
-      <iframe class="booking" title="Book your 15-minute call" data-src="{SITE['booking_url']}" scrolling="no"></iframe>
-    </div>
-    <p class="book-alt">Can't find a time that works? Call or text <a href="tel:{SITE['phone_intl']}">{SITE['phone']}</a> and we'll sort one out.</p>
-    <div class="book-after">
-      <div><h2>What happens on the call</h2><ul class="book-points">{points}</ul></div>
-      <div class="worst-case">
-        <p class="wc-lbl">Worst case?</p>
-        <p>You spend 15 minutes and leave with a clear list of what to fix on your Google profile and website. Do it yourself, and we never work together. No hard feelings.</p>
-      </div>
-    </div>
+    <div class="book-frame">{cal}</div>
   </div>
   {book_vsl_below()}
 </section>
@@ -535,17 +519,15 @@ def free_website():
     # Kai Stone style: a blurred still with a big play button. Clicking it (or the button) opens the quiz; the
     # video itself comes after (below the calendar on /book, on /booked and in the follow-up messages).
     media = f'<button type="button" class="lp-poster" data-quiz-open aria-label="Watch the video">{vsl_poster_inner()}</button>'
-    step = "<b><u>Step 1:</u></b> Watch this quick video to see what we do and how we help you grow"
     cta = "Click to see how it works"
     return f"""
 <main class="lp lp-k">
 <section class="lp-k-hero">
   <div class="wrap">
-    <h1>We Help Plumbers Get More Jobs With AI, Smart Websites, and 5-Star Reviews For Just</h1>
+    <h1>We Help Plumbers Win More Boiler Installs, Get Found on Google &amp; ChatGPT, and Stop Losing Jobs to Missed Calls For Just</h1>
     <p class="lp-k-price">£197/month <span aria-hidden="true">👇</span></p>
     <p class="lp-k-free">+ your new website <b>FREE</b> (normally £1,499) · No contract</p>
     <div class="lp-k-media">{media}</div>
-    <p class="lp-k-step">{step}</p>
     <a class="lp-k-btn" href="/book" data-quiz-open>{cta}</a>
     <div class="rating-row lp-ratings">{ratings}</div>
   </div>

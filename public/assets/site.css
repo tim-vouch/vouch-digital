@@ -918,3 +918,13 @@ html.qz-on{overflow:hidden}
 .book-after{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:40px;align-items:start}
 .book-after h2{font-size:22px;font-weight:800;margin-bottom:12px}
 @media (max-width:700px){.book-after{grid-template-columns:1fr}}
+
+/* /book placeholders until Tim's clip and the working calendar are in (30 Oct 2026) */
+.book-ph{position:relative;aspect-ratio:9/16;display:grid;place-items:end center;background:linear-gradient(160deg,#0b3a31,#04201b);border:2px dashed rgba(20,211,138,.45)}
+.book-ph p{color:rgba(255,255,255,.85);font-family:var(--head);font-weight:700;font-size:18px;padding:0 0 28px;text-align:center}
+.book-ph small{font-family:var(--body);font-weight:500;font-size:14px;color:rgba(255,255,255,.6)}
+.cal-ph{min-height:520px;display:grid;place-items:center;border:2px dashed #b9dccd;border-radius:16px;background:#fff;text-align:center;color:var(--ink-soft);padding:24px}
+.cal-ph b{font-family:var(--head);font-size:22px;color:var(--ink)}
+.book-hero .muted[data-thanks]{font-size:17px}
+.lp-k-media + .lp-k-btn{margin-top:30px}
+@media (max-width:560px){.lp-k-hero h1{font-size:25px}.lp-k-media + .lp-k-btn{margin-top:22px}}
