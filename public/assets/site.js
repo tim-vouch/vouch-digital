@@ -68,6 +68,7 @@ if (quiz) {
     bar.querySelector('em').textContent = pct + '%';
     bar.setAttribute('aria-valuenow', pct);
     back.style.visibility = i ? 'visible' : 'hidden';
+    quiz.querySelector('.qz-title').hidden = i > 0; // Kai Stone style: big title on the first question only
     (s.querySelector('input') || s.querySelector('button')).focus({ preventScroll: true });
   };
   const open = () => {

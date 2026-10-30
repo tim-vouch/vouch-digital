@@ -981,3 +981,8 @@ html{scroll-padding-top:20px}
 .bk-done h3{font-size:20px;margin-bottom:6px}
 .bk-done p{color:var(--ink-soft);font-size:15px}
 .book-one .book-frame:has(.bk){background:none;border-radius:0;overflow:visible}
+
+/* Quiz title, Kai style (first question only) */
+.qz-title{font-family:var(--head);font-weight:800;font-size:28px;line-height:1.15;color:var(--deep);margin:6px 30px 18px}
+.qz-title b{display:block;color:var(--mint-dark);font-size:34px;margin-top:6px}
+@media (max-width:560px){.qz-title{font-size:23px;margin:4px 30px 14px;text-align:center}.qz-title b{font-size:28px}}

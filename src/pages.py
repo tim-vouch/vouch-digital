@@ -491,7 +491,7 @@ def lp_quiz():
 <div class="qz" id="quiz" hidden>
   <div class="qz-box" role="dialog" aria-modal="true" aria-labelledby="qz-title">
     <button type="button" class="qz-x" data-quiz-close aria-label="Close">{icon('x')}</button>
-    <p class="qz-title" id="qz-title">Get your FREE website, plus the system that wins plumbers more jobs, for just <b>£197/month</b></p>
+    <p class="qz-title" id="qz-title">We Help Plumbers Get More Jobs For Just <b>£197/month</b></p>
     <div class="qz-top"><button type="button" class="qz-back">← Back</button>
     <div class="qz-bar" role="progressbar" aria-label="Progress" aria-valuemin="0" aria-valuemax="100"><span></span><em></em></div></div>
     <form class="qz-form" action="/api/enquiry" method="post" novalidate>
