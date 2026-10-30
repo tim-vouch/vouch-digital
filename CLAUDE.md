@@ -15,7 +15,7 @@ wins plumbers more jobs, £197/month, everything included, no contract. Every bu
 the VSL thumbnail, one button; every CTA (and the header "Book a call" on that page) opens the quiz (`lp_quiz()` /
 `QUIZ` in `src/pages.py`). The quiz is one question (type of work) then mobile, email, name and business; extra qualifying questions were cut on 30 Oct 2026 to keep friction low until ads prove out. The bar starts at 60%, creeps up and its stripes scroll right (endowed progress, `QUIZ_PROGRESS`). No privacy link inside the quiz at Tim's choice (footer links it). Not a plumber
 or commercial-only → polite exit, nothing sent, no Lead event. Answers go to GHL via `/api/enquiry` (whitelisted in
-`src/worker.js`). Below: video testimonials (`TESTIMONIAL_VIDEOS` in `src/site_data.py`, MP4s in
+`src/worker.js`): with `GHL_TOKEN` set, the Worker upserts the contact straight into GHL tagged `website quiz` and `work: domestic`/`work: both domestic & commercial` (workflows start from that tag); `GHL_WEBHOOK_URL` is only the older fallback. Below: video testimonials (`TESTIMONIAL_VIDEOS` in `src/site_data.py`, MP4s in
 `public/assets/video/`, keep each well under 25 MB) and Google reviews. The landing page thumbnail is a blurred still (`SITE["vsl_poster"]`, now a blurred homepage screenshot; swap for a blurred VSL frame) with a pulsing play button that opens the quiz. The VSL itself is `SITE["vsl_url"]` (embed URL, click-to-load) and shows under the calendar on /book and on /booked. Don't run ads before `vsl_url` is set: the thumbnail promises a video. `/booked` fires the pixel's Schedule event (consent only). Since 30 Oct 2026 (Tim's choice) the GHL calendar shows its own thank-you message inside the widget, so /book is the
 final page and /booked is unused (kept in case); Meta therefore gets no Schedule event from the site. To track bookings
 later, use a GHL workflow: Appointment booked → Facebook Conversion API. Both pages are noindex. /free-website, /book and /booked have a looks-only header and footer (`FUNNEL` in `src/build.py`; on /book the button is "Pick a time" → calendar): no menu, no phone, logo not linked, buttons open the quiz, privacy and terms open in a new tab.
@@ -70,5 +70,5 @@ Mascot (Tim's own artwork): `public/assets/img/mascot.webp`, used via `mascot()`
 - [ ] Real logo file and hero photo
 - [x] All pages built: services + 5 service pages, /plumbers, about, faq, contact, privacy, terms (inner pages in `src/pages_more.py`, legal text in `src/legal/`)
 - [x] 301 redirects from old `/services/*-for-plumbers` URLs (in `src/worker.js`)
-- [ ] `GHL_WEBHOOK_URL` secret set and a test lead received in GHL
+- [ ] `GHL_TOKEN` secret set in Cloudflare (runtime) and a test lead + test booking received in GHL (replaces the never-set `GHL_WEBHOOK_URL`)
 - [x] DNS moved to Cloudflare with all records kept (5 Oct 2026); site live on vouchdigital.co.uk and www

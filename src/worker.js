@@ -79,6 +79,22 @@ async function handleEnquiry(request, env) {
   };
   if (!lead.name || !lead.business_name || !lead.phone || !lead.email) return json({ ok: false, error: 'missing_fields' }, 400);
 
+  // Preferred (since 30 Oct 2026): create/update the contact straight in GHL with the API key (GHL_TOKEN), tagged so
+  // GHL workflows can start from the tag "website quiz". The inbound webhook (GHL_WEBHOOK_URL) is the older route.
+  if (env.GHL_TOKEN) {
+    let phone = lead.phone.replace(/[^\d+]/g, '');
+    if (/^0\d{10}$/.test(phone)) phone = '+44' + phone.slice(1); // same format as bookings, so it's one contact
+    const [firstName, ...rest] = lead.name.split(/\s+/);
+    const tags = ['website quiz'];
+    if (lead.work_type) tags.push('work: ' + lead.work_type.toLowerCase());
+    const r = await ghl(env, '/contacts/upsert', {
+      method: 'POST',
+      body: JSON.stringify({ locationId: LOCATION_ID, firstName, lastName: rest.join(' '), name: lead.name,
+        email: lead.email, phone, companyName: lead.business_name, source: lead.source, tags }),
+    });
+    return r.ok ? json({ ok: true }) : json({ ok: false, error: 'upstream' }, 502);
+  }
+
   if (!env.GHL_WEBHOOK_URL) return json({ ok: false, error: 'not_configured' }, 503);
 
   const res = await fetch(env.GHL_WEBHOOK_URL, {
