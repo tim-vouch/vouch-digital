@@ -95,13 +95,11 @@ NAV = [("Services", "/services"), ("Pricing", "/pricing"),
 
 # Ad landing pages: one action only (Hormozi). The header and footer stay for looks and the legal details, but
 # nothing navigates away: no menu, no phone, logo not linked, every button opens the quiz, legal pages open in a new tab.
-FUNNEL = {"/book-form", "/book-call", "/booked"}
+FUNNEL = {"/book-form", "/book-call"}
 QUIZ_CTA = 'Click to see how it works'
 
 
 def funnel_cta(path):
-    if path == "/booked":  # booked already: nothing more to click
-        return ""
     if path == "/book-call":  # already past the quiz: the one action is picking a time
         return f'<a class="btn btn-mint" href="#calendar">Pick a time {icon("arrow")}</a>'
     return f'<a class="btn btn-mint" href="/book-call" data-quiz-open>{QUIZ_CTA} {icon("arrow")}</a>'
@@ -190,7 +188,7 @@ def main():
         '<?xml version="1.0" encoding="UTF-8"?>'
         f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>\n', encoding="utf-8")
     (OUT / "robots.txt").write_text(
-        "User-agent: *\nAllow: /\nDisallow: /book-form\nDisallow: /book-call\nDisallow: /booked\n\n" f"Sitemap: {SITE['domain']}/sitemap.xml\n", encoding="utf-8")
+        "User-agent: *\nAllow: /\nDisallow: /book-form\nDisallow: /book-call\n\n" f"Sitemap: {SITE['domain']}/sitemap.xml\n", encoding="utf-8")
     print("built sitemap.xml, robots.txt")
 
 

@@ -313,7 +313,7 @@ def home():
 
 def book_intro():
     """Trade Scale style: Tim's ~30-second portrait clip, right above the calendar. Placeholder until recorded.
-    The full VSL is not here (it would slow booking down); it goes out by message and sits on /booked."""
+    The full VSL is not here (it would slow booking down); it goes out on WhatsApp after booking."""
     if not SITE.get("book_video"):
         return ('<div class="book-intro book-ph"><span class="vp-btn" aria-hidden="true"><svg viewBox="0 0 24 24">'
                 '<path d="M9 6.5v11l9-5.5z"/></svg></span><p>Tim\'s 30-second video<br><small>coming soon</small></p></div>')
@@ -364,7 +364,7 @@ def book():
 <script src="https://link.msgsndr.com/js/form_embed.js" defer></script>"""
 
 
-# ---------- Meta ads funnel (Oct 2026): ad → /free-website (form) → /book (calendar) → /booked (VSL) ----------
+# ---------- Meta ads funnel (Oct 2026): ad → /book-form (quiz) → /book-call (clip + booking box); the VSL goes out on WhatsApp ----------
 # Kai Stone's flow: they book, then watch the video before the call so they arrive pre-sold.
 # Ben Heath (10.2): match the ad, lots of proof, one action, every CTA goes back to the same form.
 
@@ -522,7 +522,7 @@ def free_website():
                f'<a href="#reviews">{TP_ICON}<span><b>Trustpilot</b>{stars(5)}</span><em>{TRUSTPILOT["rating"]}</em></a>'
                f'<a href="#reviews">{FB_LOGO}<span><b>Facebook</b>{stars(5)}</span><em>{FACEBOOK["rating"]}</em></a>')
     # Kai Stone style: a blurred still with a big play button. Clicking it (or the button) opens the quiz; the
-    # video itself comes after (below the calendar on /book, on /booked and in the follow-up messages).
+    # video itself comes after (below the calendar on /book-call and on WhatsApp).
     media = f'<button type="button" class="lp-poster" data-quiz-open aria-label="Watch the video">{vsl_poster_inner()}</button>'
     cta = "Click to see how it works"
     return f"""
@@ -548,56 +548,6 @@ def free_website():
   </div>
 </section>
 {lp_quiz()}
-</main>"""
-
-
-def booked():
-    """After booking (GHL redirects here). Dale/Kai: the 5-minute VSL goes out on WhatsApp straight away, so this page
-    points them to it, sets expectations, and lets Meta count the booking (Schedule event, consent only)."""
-    fallback = ""
-    if SITE.get("vsl_url"):
-        fallback = f"""
-<section class="lp-next booked-vsl">
-  <div class="wrap">
-    <div class="sec-head"><p class="eyebrow">Can't find the message?</p><h2>Watch the video here</h2></div>
-    {vsl_player()}
-  </div>
-</section>"""
-    steps = "".join(f'<li><span class="j-num">{n}</span><div><h3>{t}</h3><p>{d}</p></div></li>' for n, (t, d) in enumerate([
-        ("Check your WhatsApp", "I've just sent you a message with your call time and a short video."),
-        ("Watch the 5-minute video", "It shows exactly how it all works, so our call can be short and useful."),
-        ("Jump on the call", "15 minutes on Google Meet. The link is in your confirmation email and WhatsApp."),
-    ], 1))
-    return f"""
-<main class="lp" data-break-frame data-pixel-event="Schedule">
-<section class="book-hero book-light booked-hero">
-  <div class="wrap">
-    <p class="lp-pill booked-pill">{icon('check')} You're booked in</p>
-    <h1>Thanks<span data-first></span>! Now Check Your WhatsApp...</h1>
-    <p class="muted">I've just sent you a WhatsApp with a 5-minute video showing exactly how it all works. Please give it a watch before our call. If you watch it and decide it's not for you, just reply to the message and I'll cancel the call. No hard feelings.</p>
-  </div>
-</section>
-<section class="lp-next tint">
-  <div class="wrap">
-    <div class="sec-head"><p class="eyebrow">What happens next</p><h2>Before our call</h2></div>
-    <ol class="lp-next-list">{steps}</ol>
-    <p class="book-alt">Need to move your call? Just reply to the WhatsApp and we'll sort it.</p>
-  </div>
-</section>{fallback}
-<section class="lp-proof">
-  <div class="wrap">
-    <div class="sec-head"><p class="eyebrow">While you wait</p><h2>What we've done for plumbers like you</h2></div>
-    <div class="lp-cases">{lp_cases()}
-    </div>
-  </div>
-</section>
-<section class="reviews rev-band lp-revs tint">
-  <div class="wrap">
-    <div class="rev-top"><div><p class="eyebrow">Google reviews</p><h2>Plumbers who vouch for us</h2></div></div>
-    <div class="rev-grid rev-carousel" tabindex="0" aria-label="Google reviews">{lp_reviews()}</div>
-    <div class="rev-dots" aria-label="Choose review"></div>
-  </div>
-</section>
 </main>"""
 
 
@@ -627,9 +577,6 @@ ALL = [
      "title": "Get a FREE website built to win boiler installs | Vouch Digital",
      "desc": "Join the Vouch System for £197 a month and get your new website free (normally £1,499). "
              "Done for you, no contract."},
-    {"path": "/booked", "body": booked, "noindex": True,
-     "title": "You're booked in | Vouch Digital",
-     "desc": "Your call with Vouch Digital is booked. Watch this short video before we speak."},
     {"path": "/privacy", "body": legal("privacy", "Privacy Policy"),
      "title": "Privacy Policy | Vouch Digital",
      "desc": "How Vouch Digital (Bolotin Ltd) collects, uses and protects personal data."},
