@@ -93,15 +93,21 @@ NAV = [("Services", "/services"), ("Pricing", "/pricing"),
        ("About", "/about"), ("FAQ", "/faq"), ("Contact", "/contact")]
 
 
-def head_cta(path):
-    # Ad landing page: one action only, so no phone number and the same CTA as the page (opens the quiz).
-    if path == "/free-website":
-        return f'<a class="btn btn-mint" href="/book" data-quiz-open>Click to see how it works {icon("arrow")}</a>'
-    return (f'<a class="head-phone" href="tel:{SITE['phone_intl']}" aria-label="Call {SITE['phone']}">{icon('phone')} '
-            f'<span>{SITE['phone']}</span></a>\n      <a class="btn btn-mint" href="/book">Book a call {icon('arrow')}</a>')
+# Ad landing pages: one action only (Hormozi). The header and footer stay for looks and the legal details, but
+# nothing navigates away: no menu, no phone, logo not linked, every button opens the quiz, legal pages open in a new tab.
+FUNNEL = {"/free-website"}
+QUIZ_CTA = 'Click to see how it works'
 
 
 def header(path):
+    if path in FUNNEL:
+        return f"""
+<header class="site-head funnel-head">
+  <div class="wrap">
+    <span class="logo"><img src="/assets/img/logo.webp" alt="Vouch Digital" width="112" height="48"></span>
+    <div class="head-cta"><a class="btn btn-mint" href="/book" data-quiz-open>{QUIZ_CTA} {icon("arrow")}</a></div>
+  </div>
+</header>"""
     links = "".join(
         f'<a href="{href}"{" aria-current=page" if href == path or path.startswith(href + "/") else ""}>{name}</a>'
         for name, href in NAV)
@@ -111,28 +117,41 @@ def header(path):
     <a class="logo" href="/"><img src="/assets/img/logo.webp" alt="Vouch Digital" width="112" height="48"></a>
     <nav class="nav" id="nav">{links}</nav>
     <div class="head-cta">
-      {head_cta(path)}
+      <a class="head-phone" href="tel:{SITE['phone_intl']}" aria-label="Call {SITE['phone']}">{icon('phone')} <span>{SITE['phone']}</span></a>
+      <a class="btn btn-mint" href="/book">Book a call {icon('arrow')}</a>
       <button class="menu-btn" aria-label="Menu" aria-controls="nav" aria-expanded="false">{icon('menu')}</button>
     </div>
   </div>
 </header>"""
 
 
-def footer():
-    links = "".join(f'<a href="{h}">{n}</a>' for n, h in NAV)
+def footer(path=""):
+    funnel = path in FUNNEL
+    if funnel:
+        logo = '<span class="logo"><img src="/assets/img/logo.webp" alt="Vouch Digital" width="112" height="48" loading="lazy"></span>'
+        nav = ""
+        cta = f'<a class="btn btn-mint" href="/book" data-quiz-open>{QUIZ_CTA} {icon("arrow")}</a>'
+        contact = f'<a href="mailto:{SITE["email"]}">{SITE["email"]}</a>'
+        nt = ' target="_blank" rel="noopener"'
+    else:
+        logo = '<a class="logo" href="/"><img src="/assets/img/logo.webp" alt="Vouch Digital" width="112" height="48" loading="lazy"></a>'
+        nav = '<nav class="foot-nav">' + "".join(f'<a href="{h}">{n}</a>' for n, h in NAV) + '</nav>'
+        cta = f'<a class="btn btn-mint" href="/book">Book a call {icon("arrow")}</a>'
+        contact = f'<a href="tel:{SITE["phone_intl"]}">{SITE["phone"]}</a> · <a href="mailto:{SITE["email"]}">{SITE["email"]}</a>'
+        nt = ""
     return f"""
 <footer class="site-foot">
   <div class="wrap">
     <div class="foot-top">
-      <a class="logo" href="/"><img src="/assets/img/logo.webp" alt="Vouch Digital" width="112" height="48" loading="lazy"></a>
-      <nav class="foot-nav">{links}</nav>
-      <a class="btn btn-mint" href="/book">Book a call {icon('arrow')}</a>
+      {logo}
+      {nav}
+      {cta}
     </div>
     <div class="foot-legal">
       <p>Vouch Digital is a trading name of {SITE['legal_name']}. Registered in England and Wales, company number {SITE['company_no']}.<br>
       Registered office: {SITE['address']}. ICO registration: {SITE['ico']}.<br>
-      <a href="tel:{SITE['phone_intl']}">{SITE['phone']}</a> · <a href="mailto:{SITE['email']}">{SITE['email']}</a></p>
-      <p>© 2026 {SITE['legal_name']}. <a href="/privacy">Privacy Policy</a> · <a href="/terms">Terms</a> · <button type="button" class="link-btn" data-cookie-settings>Cookie settings</button></p>
+      {contact}</p>
+      <p>© 2026 {SITE['legal_name']}. <a href="/privacy"{nt}>Privacy Policy</a> · <a href="/terms"{nt}>Terms</a> · <button type="button" class="link-btn" data-cookie-settings>Cookie settings</button></p>
     </div>
   </div>
 </footer>
@@ -141,7 +160,7 @@ def footer():
 
 
 def render(path, title, desc, body, noindex=False):
-    return head(title, desc, path, noindex) + header(path) + body + footer()
+    return head(title, desc, path, noindex) + header(path) + body + footer(path)
 
 
 def write(path, html):

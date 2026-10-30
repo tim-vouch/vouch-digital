@@ -17,7 +17,7 @@ the VSL thumbnail, one button; every CTA (and the header "Book a call" on that p
 or commercial-only → polite exit, nothing sent, no Lead event. Answers go to GHL via `/api/enquiry` (whitelisted in
 `src/worker.js`). Below: video testimonials (`TESTIMONIAL_VIDEOS` in `src/site_data.py`, MP4s in
 `public/assets/video/`, keep each well under 25 MB) and Google reviews. The landing page thumbnail is a blurred still (`SITE["vsl_poster"]`, now a blurred homepage screenshot; swap for a blurred VSL frame) with a pulsing play button that opens the quiz. The VSL itself is `SITE["vsl_url"]` (embed URL, click-to-load) and shows under the calendar on /book and on /booked. Don't run ads before `vsl_url` is set: the thumbnail promises a video. `/booked` fires the pixel's Schedule event (consent only). In GHL, set the calendar's confirmation
-to redirect to https://vouchdigital.co.uk/booked. Both pages are noindex.
+to redirect to https://vouchdigital.co.uk/booked. Both pages are noindex. /free-website has a looks-only header and footer (`FUNNEL` in `src/build.py`): no menu, no phone, logo not linked, buttons open the quiz, privacy and terms open in a new tab.
 
 ## How it's built
 - `src/site_data.py` — business facts, homepage FAQ, plans. Single source of truth.

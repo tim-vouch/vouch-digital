@@ -524,7 +524,7 @@ def free_website():
 <main class="lp lp-k">
 <section class="lp-k-hero">
   <div class="wrap">
-    <h1>We Help Plumbers Win More Boiler Installs, Get Found on Google &amp; ChatGPT, and Stop Losing Jobs to Missed Calls For Just</h1>
+    <h1>We Help Plumbers Get More Jobs With 5-Star Reviews, Smart Websites, and Referrals For Just</h1>
     <p class="lp-k-price">£197/month <span aria-hidden="true">👇</span></p>
     <p class="lp-k-free">+ your new website <b>FREE</b> (normally £1,499) · No contract</p>
     <div class="lp-k-media">{media}</div>
