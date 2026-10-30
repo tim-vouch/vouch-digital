@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /book
+Disallow: /booked
 
 Sitemap: https://vouchdigital.co.uk/sitemap.xml

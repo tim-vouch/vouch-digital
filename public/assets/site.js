@@ -1,3 +1,7 @@
+// /booked: GHL's calendar may open the thank-you page inside its own iframe. Same site, so lift it to the full window.
+const framed = window.top !== window.self && document.querySelector('[data-break-frame]');
+if (framed) { try { window.top.location.href = location.href; } catch (_) { /* leave it */ } }
+
 // Mobile menu
 const menuBtn = document.querySelector('.menu-btn');
 const nav = document.getElementById('nav');
@@ -27,6 +31,13 @@ document.querySelectorAll('form.enquiry').forEach((form) => {
       // Save the lead to GHL. Even if this fails, the booking step still captures them.
       await fetch(form.action, { method: 'POST', body: data });
     } catch (_) { /* carry on to booking */ }
+    // Commercial-only businesses aren't a fit: say so politely, don't send them to the calendar,
+    // and don't tell Meta it was a lead (so the ads don't learn to find more of them).
+    if (data.get('work') === 'commercial') {
+      btn.disabled = false;
+      show('ok', "Thanks! We only work with domestic plumbing and heating businesses, so we're probably not the right fit. We've got your details and Tim will be in touch if we can help.");
+      return;
+    }
     try {
       sessionStorage.setItem('vouch_lead', JSON.stringify({
         name: data.get('name'), business: data.get('business'), email: data.get('email'), phone: data.get('phone'),
@@ -138,6 +149,9 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
     granted = true;
     window.fbq('consent', 'grant');
     window.fbq('track', 'PageView');
+    // Page-specific standard event, e.g. Schedule on /booked (someone booked a call)
+    const ev = document.querySelector('[data-pixel-event]')?.dataset.pixelEvent;
+    if (ev && !framed) window.fbq('track', ev);
   };
 
   // Remove Meta's cookies if someone withdraws consent

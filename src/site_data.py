@@ -17,6 +17,9 @@ SITE = {
     "noindex": False,
     # Meta (Facebook) pixel. Only loads after a visitor accepts cookies (see the consent code in site.js).
     "meta_pixel_id": "1737681243973132",
+    # Video sales letter shown on /booked after someone books a call (Kai's "watch this before the call").
+    # Paste the embed link (YouTube "embed" URL, Loom "embed" URL, etc.). Empty = a "video on its way" note instead.
+    "vsl_url": "",
 }
 
 # Real Google reviews of Vouch Digital only. Never add invented reviews.

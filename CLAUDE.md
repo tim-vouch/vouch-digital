@@ -10,6 +10,13 @@ engineers across the UK**. Plumbers only since 14 Oct 2026 (electricians removed
 wins plumbers more jobs, £197/month, everything included, no contract. Every button is "Book a call" → /book
 (GHL calendar). The old "Find My Missed Jobs" free-audit pitch is retired; don't bring it back.
 
+**Meta ads funnel (since 30 Oct 2026):** ad → `/free-website` (landing page matching the ad, one short form with a
+domestic/commercial question) → `/book` (GHL calendar, pre-filled) → `/booked` (thank-you page with the VSL, Kai
+Stone's "watch this before the call"). Both new pages are noindex and live in `src/pages.py`. Commercial-only leads
+see a polite "not a fit" message and don't fire the Lead pixel event. `/booked` fires the pixel's Schedule event
+(consent only). Put the VSL embed URL in `SITE["vsl_url"]`. In GHL, set the calendar's confirmation to redirect to
+https://vouchdigital.co.uk/booked.
+
 ## How it's built
 - `src/site_data.py` — business facts, homepage FAQ, plans. Single source of truth.
 - Google reviews and rating come from `src/google_reviews.json`, refreshed daily from Google Places by

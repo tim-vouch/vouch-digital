@@ -104,7 +104,7 @@ def header(path):
     <nav class="nav" id="nav">{links}</nav>
     <div class="head-cta">
       <a class="head-phone" href="tel:{SITE['phone_intl']}" aria-label="Call {SITE['phone']}">{icon('phone')} <span>{SITE['phone']}</span></a>
-      <a class="btn btn-mint" href="/book">Book a call {icon('arrow')}</a>
+      <a class="btn btn-mint" href="{'#start' if path == '/free-website' else '/book'}">Book a call {icon('arrow')}</a>
       <button class="menu-btn" aria-label="Menu" aria-controls="nav" aria-expanded="false">{icon('menu')}</button>
     </div>
   </div>
@@ -156,7 +156,7 @@ def main():
         '<?xml version="1.0" encoding="UTF-8"?>'
         f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>\n', encoding="utf-8")
     (OUT / "robots.txt").write_text(
-        "User-agent: *\nAllow: /\nDisallow: /book\n\n" f"Sitemap: {SITE['domain']}/sitemap.xml\n", encoding="utf-8")
+        "User-agent: *\nAllow: /\nDisallow: /book\nDisallow: /booked\n\n" f"Sitemap: {SITE['domain']}/sitemap.xml\n", encoding="utf-8")
     print("built sitemap.xml, robots.txt")
 
 

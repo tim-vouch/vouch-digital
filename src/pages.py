@@ -348,6 +348,231 @@ def book():
 <script src="https://link.msgsndr.com/js/form_embed.js" defer></script>"""
 
 
+# ---------- Meta ads funnel (Oct 2026): ad → /free-website (form) → /book (calendar) → /booked (VSL) ----------
+# Kai Stone's flow: they book, then watch the video before the call so they arrive pre-sold.
+# Ben Heath (10.2): match the ad, lots of proof, one action, every CTA goes back to the same form.
+
+# Reviews shown on the landing page: the same ones the ads use.
+LP_REVIEWERS = ("Paul", "Matt", "Daniel", "Aryan")
+
+
+def lp_reviews():
+    out = ""
+    for r in REVIEWS:
+        if not r["text"] or not r["name"].startswith(LP_REVIEWERS):
+            continue
+        first = escape(r["name"].split()[0])
+        out += f"""<figure class="rev">{stars(r['stars'])}<blockquote>“{escape(r['text'])}”</blockquote>
+          <figcaption class="who"><span>{first}<small>Google review</small></span>{G_LOGO}</figcaption></figure>"""
+    return out
+
+
+def lp_cases():
+    cases = [
+        ("lp-flotech.webp", 940, 530, "Flotech Heating and Plumbing",
+         "<em>12 new</em> Google reviews in his first week",
+         "Darren went from 195 to 200 reviews in a single day. He never has to worry about Google reviews again.",
+         "Darren's Google reviews, the day before and 24 hours later",
+         "Real client, real reviews. Results vary by business."),
+        ("lp-mst.webp", 885, 543, "MST Plumbing and Heating",
+         "A premium website, <em>done for him</em>",
+         "Custom-designed for Andres, with a premium feel to match the high-end London homes he works in.",
+         "Andres approving his new website on WhatsApp, next to the site on a phone",
+         "The site we built for MST Plumbing and Heating, West London."),
+    ]
+    out = ""
+    for img, w, h, biz, h3, text, alt, note in cases:
+        out += f"""
+      <article class="lp-case">
+        <img src="/assets/img/{img}" width="{w}" height="{h}" alt="{alt}" loading="lazy">
+        <div class="lp-case-copy"><p class="lp-biz">{biz}</p><h3>{h3}</h3><p>{text}</p><p class="lp-note">{note}</p></div>
+      </article>"""
+    return out
+
+
+def lp_form():
+    def field(ic, name, label, typ="text", auto=""):
+        ac = f' autocomplete="{auto}"' if auto else ""
+        return (f'<label class="field">{icon(ic)}<input type="{typ}" name="{name}" placeholder="{label}" '
+                f'aria-label="{label}" required{ac}></label>')
+    return f"""
+    <form class="enquiry lp-form" id="start" action="/api/enquiry" method="post" novalidate>
+      <p class="lp-step">Step 1 of 2</p>
+      <h2>Book your free 15-minute call</h2>
+      <p class="small">Tell us about your business, then pick a time that suits you.</p>
+      {field("user", "name", "Your name", auto="name")}
+      {field("building", "business", "Business name", auto="organization")}
+      {field("phone", "phone", "Mobile number", "tel", "tel")}
+      {field("mail", "email", "Email address", "email", "email")}
+      <label class="field">{icon("tool")}<select name="work" aria-label="The type of work you mainly do" required>
+        <option value="">What work do you mainly do?</option>
+        <option value="domestic">Domestic (homeowners)</option>
+        <option value="mixed">Mostly domestic, some commercial</option>
+        <option value="commercial">Commercial only</option>
+      </select></label>
+      <input type="hidden" name="src" value="free-website"><input type="hidden" name="t" value="">
+      <label class="hp" aria-hidden="true">Leave this empty<input type="text" name="company_url" tabindex="-1" autocomplete="off"></label>
+      <button class="btn btn-mint btn-block" type="submit">Next: pick a time {icon('arrow')}</button>
+      <p class="form-msg" role="status" aria-live="polite"></p>
+      <p class="form-note">No obligation. We'll only use your details about this call. <a href="/privacy">Privacy policy</a></p>
+    </form>"""
+
+
+def lp_stack():
+    p = PLANS[0]
+    free = "".join(f'<li class="free"><span class="tick">{icon("check")}</span><span><b>{EXTRAS[k][1]}</b>'
+                   f'<small>{EXTRAS[k][2]}</small></span><em><s>{EXTRAS[k][3]}</s> FREE</em></li>'
+                   for k in p["extras"])
+    items = "".join(f'<li><span class="tick">{icon("check")}</span><span><b>{n}</b><small>{d}</small></span></li>'
+                    for n, d in p["items"])
+    return f"""
+<section class="tint lp-stack">
+  <div class="wrap">
+    <div class="sec-head"><p class="eyebrow">What you get</p><h2>Everything in the Vouch System</h2>
+    <p>One plan, done for you. Your website comes free when you join.</p></div>
+    <div class="lp-stack-card">
+      <p class="lp-stack-lbl">Your joining bonus</p>
+      <ul>{free}</ul>
+      <p class="lp-stack-lbl">Every month, set up and run for you</p>
+      <ul>{items}</ul>
+      <div class="lp-price"><p><b>£{p['price']}</b><span>/month</span></p><p>No contract. Cancel anytime.</p></div>
+      <a class="btn btn-mint btn-block" href="#start">Book my free call {icon('arrow')}</a>
+    </div>
+  </div>
+</section>"""
+
+
+def free_website():
+    ratings = (f'<a href="#reviews">{G_LOGO}<span><b>Google</b>{stars(5)}</span><em>{RATING}</em></a>'
+               f'<a href="#reviews">{TP_ICON}<span><b>Trustpilot</b>{stars(5)}</span><em>{TRUSTPILOT["rating"]}</em></a>'
+               f'<a href="#reviews">{FB_LOGO}<span><b>Facebook</b>{stars(5)}</span><em>{FACEBOOK["rating"]}</em></a>')
+    ticks = "".join(f'<li><span class="tick">{icon("check")}</span>{t}</li>' for t in [
+        "Custom-designed for your business, live in 3–5 days",
+        "Genuine Google reviews from your real customers, on autopilot",
+        "£197 a month, everything included. No contract.",
+    ])
+    faq = "".join(f"<details><summary>{q}{icon('chevron')}</summary><p>{a}</p></details>" for q, a in FAQ_HOME)
+    return f"""
+<main class="lp">
+<section class="hero dark lp-hero">
+  <div class="wrap">
+    <div class="lp-copy">
+      <p class="lp-pill">For plumbing &amp; heating business owners</p>
+      <h1>A <span class="accent">FREE</span> website built to win boiler installs</h1>
+      <p class="lede">Join the Vouch System and we'll build your new website for free <span class="nw">(normally £1,499)</span>, then keep winning you work while you're out on jobs.</p>
+    </div>
+    {lp_form()}
+    <div class="lp-more">
+      <ul class="ticks">{ticks}</ul>
+      <div class="rating-row">{ratings}</div>
+    </div>
+  </div>
+</section>
+
+<section class="lp-proof">
+  <div class="wrap">
+    <div class="sec-head"><p class="eyebrow">Real plumbers, real results</p><h2>Here's what we've done for plumbers like you</h2></div>
+    <div class="lp-cases">{lp_cases()}
+    </div>
+  </div>
+</section>
+
+<section class="reviews rev-band lp-revs" id="reviews">
+  <div class="wrap">
+    <div class="rev-top"><div><p class="eyebrow">Google reviews</p><h2>Plumbers who vouch for us</h2></div>
+    <a class="btn btn-mint" href="#start">Book my free call {icon('arrow')}</a></div>
+    <div class="rev-grid rev-carousel" tabindex="0" aria-label="Google reviews">{lp_reviews()}</div>
+    <div class="rev-dots" aria-label="Choose review"></div>
+  </div>
+</section>
+
+{lp_stack()}
+
+{process_steps()}
+
+<section class="lp-honest">
+  <div class="wrap prose">
+    <p class="eyebrow">Straight talk</p>
+    <h2>No magic tricks. No fake promises.</h2>
+    <p>No agency (including ours) can promise you a set number of jobs, and you should run from anyone who does.</p>
+    <p>What we do: give you a website that looks as good as your work, a steady flow of genuine Google reviews, and a system that makes sure every enquiry gets an answer. We set it all up and keep it running. You keep doing great work and use the tools we give you.</p>
+    <a class="btn btn-mint" href="#start">Book my free call {icon('arrow')}</a>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="wrap">
+    <div class="intro">
+      <p class="eyebrow">Frequently asked questions</p>
+      <h2>Got questions? We've got straight answers.</h2>
+      <p>Anything else, call or text <a href="tel:{SITE['phone_intl']}">{SITE['phone']}</a>.</p>
+    </div>
+    <div>{faq}</div>
+  </div>
+</section>
+
+<section class="dark final has-mascot">
+  <div class="wrap">
+    <div class="final-copy">
+    <p class="eyebrow">15-minute call</p>
+    <h2>Ready for your free website?</h2>
+    <p class="muted">Book a quick call. We'll look at your Google profile and website together and show you exactly what we'd build.</p>
+    <div class="row"><a class="btn btn-mint" href="#start">Book my free call {icon('arrow')}</a>
+    <a class="btn btn-ghost" href="tel:{SITE['phone_intl']}">{icon('phone')} Call {SITE['phone']}</a></div>
+    </div>
+    {mascot()}
+  </div>
+</section>
+</main>"""
+
+
+def booked():
+    vsl = SITE.get("vsl_url")
+    if vsl:
+        video = (f'<div class="svc-video lp-vsl"><iframe src="{vsl}" title="Watch before our call" '
+                 f'allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>')
+    else:
+        video = (f'<div class="lp-vsl-wait"><p><b>Your video is on its way.</b> Tim will text you a short walkthrough '
+                 f'video before your call. Please give it a watch.</p></div>')
+    steps = "".join(f'<li><span class="j-num">{n}</span><div><h3>{t}</h3><p>{d}</p></div></li>' for n, (t, d) in enumerate([
+        ("Check your phone", "You'll get a text and an email confirming your call time."),
+        ("Watch the video", "It shows exactly what we'd set up for you, so our call can be short and useful."),
+        ("Jump on the call", "15 minutes on Google Meet at the time you picked. Bring any questions."),
+    ], 1))
+    return f"""
+<main class="lp" data-break-frame data-pixel-event="Schedule">
+<section class="dark book-hero lp-booked">
+  <div class="wrap">
+    <p class="lp-pill">{icon('check')} You're booked in</p>
+    <h1>One last thing: watch this video before our call</h1>
+    <p class="muted">It walks you through exactly what we'd build for your business, so you know if it's right for you before we speak. If you watch it and decide it's not for you, just text {SITE['phone']} and we'll cancel the call. No hard feelings.</p>
+    {video}
+  </div>
+</section>
+<section class="lp-next">
+  <div class="wrap">
+    <div class="sec-head"><p class="eyebrow">What happens next</p><h2>Before our call</h2></div>
+    <ol class="lp-next-list">{steps}</ol>
+  </div>
+</section>
+<section class="tint lp-proof">
+  <div class="wrap">
+    <div class="sec-head"><p class="eyebrow">While you wait</p><h2>What we've done for plumbers like you</h2></div>
+    <div class="lp-cases">{lp_cases()}
+    </div>
+  </div>
+</section>
+<section class="reviews rev-band lp-revs">
+  <div class="wrap">
+    <div class="rev-top"><div><p class="eyebrow">Google reviews</p><h2>Plumbers who vouch for us</h2></div></div>
+    <div class="rev-grid rev-carousel" tabindex="0" aria-label="Google reviews">{lp_reviews()}</div>
+    <div class="rev-dots" aria-label="Choose review"></div>
+    <p class="book-alt">Need to move your call? Call or text <a href="tel:{SITE['phone_intl']}">{SITE['phone']}</a>.</p>
+  </div>
+</section>
+</main>"""
+
+
 LEGAL_DIR = __import__("pathlib").Path(__file__).parent / "legal"
 
 
@@ -370,6 +595,13 @@ ALL = [
     {"path": "/book", "body": book, "noindex": True,
      "title": "Book a call | Vouch Digital",
      "desc": "Book a 15-minute call with Vouch Digital."},
+    {"path": "/free-website", "body": free_website, "noindex": True,
+     "title": "Get a FREE website built to win boiler installs | Vouch Digital",
+     "desc": "Join the Vouch System for £197 a month and get your new website free (normally £1,499). "
+             "Done for you, no contract."},
+    {"path": "/booked", "body": booked, "noindex": True,
+     "title": "You're booked in | Vouch Digital",
+     "desc": "Your call with Vouch Digital is booked. Watch this short video before we speak."},
     {"path": "/privacy", "body": legal("privacy", "Privacy Policy"),
      "title": "Privacy Policy | Vouch Digital",
      "desc": "How Vouch Digital (Bolotin Ltd) collects, uses and protects personal data."},

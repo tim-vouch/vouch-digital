@@ -53,12 +53,15 @@ async function handleEnquiry(request, env) {
   // Spam checks: honeypot filled, or submitted too fast. Pretend success so bots learn nothing.
   if (get('company_url') || Number(get('t')) < MIN_FILL_MS) return json({ ok: true });
 
+  const SOURCES = { 'free-website': 'Free website landing page (Meta ads)' };
+  const WORK = { domestic: 'Domestic', mixed: 'Mostly domestic, some commercial', commercial: 'Commercial only' };
   const lead = {
     name: get('name'),
     business_name: get('business'),
     phone: get('phone'),
     email: get('email'),
-    source: 'vouchdigital.co.uk audit form',
+    work_type: WORK[get('work')] || '',
+    source: SOURCES[get('src')] || 'vouchdigital.co.uk form',
     page: request.headers.get('Referer') || '',
   };
   if (!lead.name || !lead.business_name || !lead.phone || !lead.email) return json({ ok: false, error: 'missing_fields' }, 400);
