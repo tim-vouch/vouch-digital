@@ -166,10 +166,7 @@ def footer(path=""):
 
 
 def render(path, title, desc, body, noindex=False):
-    foot = footer(path)
-    if "rev-carousel" in body:  # the reviews carousel runs on Swiper (iPhone-smooth); load it first, only where needed
-        foot = foot.replace('<script src="/assets/site.js', '<script src="/assets/vendor/swiper.min.js?v=11.2.10" defer></script>\n<script src="/assets/site.js', 1)
-    return head(title, desc, path, noindex) + header(path) + body + foot
+    return head(title, desc, path, noindex) + header(path) + body + footer(path)
 
 
 def write(path, html):

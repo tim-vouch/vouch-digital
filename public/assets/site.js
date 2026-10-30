@@ -364,50 +364,80 @@ if (pks.length) {
   onScroll();
 }
 
-// Reviews carousel (Tim, 30 Oct 2026, final): runs on Swiper (assets/vendor/swiper.min.js, MIT), the carousel library
-// most mobile sites use, because every hand-made version (browser scrolling with jumps, our own swipe code, dots
-// resized while scrolling) looked perfect in desktop Chrome but janky on a real iPhone.
-// Each review is centred with the ones either side peeking in; one review per swipe. It feels endless: the reviews
-// are repeated 11 times and it opens in the middle, and the dots are Swiper's "dynamic bullets": the mint pill moves
-// among the middle three dots, then the strip slides while dots shrink away at both ends, so there's always more.
-// If Swiper fails to load, the carousel stays a plain swipeable row.
+// Reviews carousel (Tim, 30 Oct 2026): the pre-loop carousel that was smooth on Tim's iPhone (the phone's own
+// scrolling with scroll-snap; nothing of ours moves the cards), with three changes Tim asked for:
+//  - the reviews are copied 5 times either side and it opens on the middle review, centred, neighbours peeking in;
+//  - one review per swipe (scroll-snap-stop in site.css);
+//  - the pill starts in the middle and stays there: on a swipe it hands over to the next dot exactly as the pre-loop
+//    dots did (a .2s width change), while a dot shrinks away at one end and a new one grows in at the other, so the
+//    row flows and never ends. Only width/height/margin animate, the same kind of animation as the pre-loop dots.
 document.querySelectorAll('.rev-carousel').forEach((c) => {
   const dots = c.parentElement.querySelector('.rev-dots');
   const originals = [...c.children];
   const n = originals.length;
-  if (!window.Swiper || n < 2) { if (dots) dots.hidden = true; return; }
-  const COPIES = 11;
-  const mid = Math.floor(COPIES / 2);
-  const wrapper = document.createElement('div');
-  wrapper.className = 'swiper-wrapper';
-  for (let k = 0; k < COPIES; k++) {
-    originals.forEach((el) => {
-      const s = k === mid ? el : el.cloneNode(true);
-      if (k !== mid) s.setAttribute('aria-hidden', 'true'); // not inert: inert slides can't be swiped
-      s.classList.add('swiper-slide');
-      wrapper.appendChild(s);
+  if (!dots || n < 2) { if (dots) dots.hidden = true; return; }
+  const SIDE = 5; // copies either side
+  const copy = () => originals.map((el) => { const x = el.cloneNode(true); x.setAttribute('aria-hidden', 'true'); return x; });
+  for (let k = 0; k < SIDE; k++) { c.prepend(...copy()); c.append(...copy()); }
+  const cards = [...c.children];
+
+  let base = 0, gap = 1; // scroll position that centres card 0, and the distance between cards
+  const measure = () => {
+    const cr = c.getBoundingClientRect();
+    const r0 = cards[0].getBoundingClientRect(), r1 = cards[1].getBoundingClientRect();
+    base = c.scrollLeft + r0.left - cr.left + r0.width / 2 - c.clientWidth / 2;
+    gap = (r1.left - r0.left) || 1;
+  };
+  const clamp = (i) => Math.max(0, Math.min(cards.length - 1, i));
+  const stop = (i) => base + clamp(i) * gap;
+  const nearest = () => clamp(Math.round((c.scrollLeft - base) / gap));
+  let home = SIDE * n + Math.floor(n / 2); // the middle review of the middle copy
+  let shown = home;
+
+  // dots: positions -5..+5 around the pill (0); +-5 are collapsed to nothing, ready to grow in
+  const R = 5;
+  const row = [];
+  const mk = () => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'rd p5';
+    b.tabIndex = -1;
+    b.addEventListener('click', () => {
+      const rel = row.indexOf(b) - R;
+      if (rel) c.scrollTo({ left: stop(shown + rel), behavior: 'smooth' });
     });
-  }
-  c.appendChild(wrapper);
-  c.classList.add('swiper');
-  c.removeAttribute('tabindex');
-  if (dots) { dots.innerHTML = ''; dots.hidden = false; }
-  const { Pagination, Keyboard } = window.SwiperModules;
-  new window.Swiper(c, {
-    modules: [Pagination, Keyboard],
-    initialSlide: mid * n + Math.floor(n / 2), // the middle review of the middle copy
-    centeredSlides: true,
-    slidesPerView: 1.2,      // phones: one review, a slice of the next and previous either side
-    spaceBetween: 14,
-    speed: 380,
-    grabCursor: true,
-    keyboard: { enabled: true, onlyInViewport: true },
-    pagination: dots ? { el: dots, clickable: true, dynamicBullets: true, dynamicMainBullets: 3 } : false,
-    breakpoints: {
-      700: { slidesPerView: 2.2, spaceBetween: 18 },
-      1000: { slidesPerView: 3.2, spaceBetween: 18 },
-    },
+    return b;
+  };
+  const paint = () => row.forEach((b, k) => {
+    const p = Math.abs(k - R);
+    b.className = 'rd p' + Math.min(p, 5);
+    if (p === 0) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
   });
+  dots.innerHTML = '';
+  dots.hidden = false;
+  dots.setAttribute('aria-hidden', 'true'); // decoration: the carousel itself scrolls with the keyboard
+  for (let k = 0; k <= 2 * R; k++) { const b = mk(); row.push(b); dots.appendChild(b); }
+  paint();
+  const step = (dir) => {
+    if (dir > 0) { row.shift().remove(); const b = mk(); row.push(b); dots.appendChild(b); }
+    else { row.pop().remove(); const b = mk(); row.unshift(b); dots.prepend(b); }
+    paint();
+  };
+
+  const update = () => {
+    const i = nearest();
+    if (i === shown) return;
+    const d = i - shown;
+    shown = i;
+    for (let k = 0; k < Math.min(Math.abs(d), R); k++) step(Math.sign(d));
+  };
+  c.addEventListener('scroll', update, { passive: true });
+
+  const place = () => { measure(); c.scrollTo({ left: stop(home), behavior: 'instant' }); shown = home; };
+  let t;
+  window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(() => { home = shown; place(); }, 150); });
+  window.addEventListener('load', () => { if (shown === home) place(); }); // unless they've already swiped
+  place();
 });
 
 // Cookie consent + Meta pixel. The pixel only loads after the visitor clicks Accept (UK PECR / UK GDPR).
