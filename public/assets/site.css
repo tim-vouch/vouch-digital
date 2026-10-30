@@ -1037,13 +1037,15 @@ html{scroll-padding-top:20px}
 /* Reviews (30 Oct 2026): back to the pre-loop look Tim liked on iPhone (plain scroll-snap, one dot per review, the
    current one a wide pill), now endless (site.js repeats the reviews) and one review per swipe like Instagram. */
 .rev-carousel .rev{scroll-snap-stop:always}
-/* Instagram-style dots (the look Tim liked): an endless strip, dot, dot, smaller, smallest either side of a flat mint
-   pill; every dot glides to its new place, size and colour. Positioned in plain pixels (Safari can't animate calc). */
-.rev-dots{position:relative;display:block;width:100%;height:14px;margin:22px auto 0;padding:0;overflow:visible}
-.rev-dots .rd{position:absolute;left:50%;top:50%;margin:0;padding:0;border:0;border-radius:999px;background:#cfd8d4;cursor:pointer;
-  -webkit-tap-highlight-color:transparent;
-  transition:transform .3s cubic-bezier(.25,.8,.3,1),width .3s cubic-bezier(.25,.8,.3,1),height .3s cubic-bezier(.25,.8,.3,1),background-color .1s linear}
-.rev-dots .rd.on{background:var(--mint-dark);cursor:default}
-.rev-dots .rd.rd-now{transition:none}
-@media (prefers-reduced-motion:reduce){.rev-dots .rd{transition:none}}
+/* Dots: an endless strip, mint pill always in the middle, fading out at both ends (30 Oct 2026). Animates only the
+   pill's width and one GPU slide of the strip, the two things that were smooth on iPhone. */
+.rev-dots{position:relative;display:block;width:170px;height:12px;margin:22px auto 0;padding:0;overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 32%,#000 68%,transparent);mask-image:linear-gradient(90deg,transparent,#000 32%,#000 68%,transparent)}
+.rd-strip{position:absolute;left:0;top:2px;display:flex;align-items:center;gap:9px;will-change:transform;
+  transition:transform .3s cubic-bezier(.25,.8,.3,1)}
+.rd-strip button{flex:none;width:8px;height:8px;padding:0;border:0;border-radius:999px;background:#cfd8d4;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;transition:width .3s cubic-bezier(.25,.8,.3,1),background-color .3s}
+.rd-strip button[aria-current="true"]{width:24px;background:var(--mint-dark);cursor:default}
+.rd-strip.now,.rd-strip.now button{transition:none}
+@media (prefers-reduced-motion:reduce){.rd-strip,.rd-strip button{transition:none}}
 

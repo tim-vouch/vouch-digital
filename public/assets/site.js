@@ -395,77 +395,38 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
   let home = mid * n; // first review of the middle copy
   let shown = home;   // the card the dots show
 
-  // ---- Instagram-style dots: an endless strip that conveys "there's always more" ----
-  // Either side of the window centre: dot, dot, smaller, smallest. The flat mint pill is the current review and sits
-  // on the centre slot or one either side of it: moving within that range hands the pill to the next dot (the grey
-  // dots stay put); moving past it slides the strip one step while the pill stays on its slot.
+  // ---- Dots: an endless strip (one dot per card, so it never runs out) ----
+  // The mint pill always sits in the middle and the strip slides under it, fading out at both ends, so it reads as
+  // "there's always more". Only the two animations that were smooth on Tim's iPhone before the loop are used: the
+  // pill's width (as before) and one slide of the whole strip (a GPU transform). Nothing is created, removed or redrawn.
   const DOT = 8, GAP = 9, PILL = 24;
-  const SIZE = [DOT, DOT, DOT, 6, 4, 0]; // by distance from the window centre; 5 = hidden buffer
-  let v = 0; // current review along the endless strip
-  let w = 0; // window centre
-  const els = new Map();
-  const make = (i) => {
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.className = 'rd';
-    b.addEventListener('click', () => { if (i !== v) c.scrollTo({ left: stop(clamp(shown + (i - v))), behavior: 'smooth' }); });
-    dots.appendChild(b);
-    els.set(i, b);
-    return b;
-  };
-  const layout = (fresh) => {
-    els.forEach((b, i) => { if (i < w - 5 || i > w + 5) { b.remove(); els.delete(i); } });
-    const wid = (i) => (i === v ? PILL : SIZE[Math.abs(i - w)]);
-    const ht = (i) => (i === v ? DOT : SIZE[Math.abs(i - w)]);
-    let total = -GAP;
-    for (let i = w - 4; i <= w + 4; i++) total += wid(i) + GAP;
-    let px = -total / 2;
-    const centre = {};
-    for (let i = w - 4; i <= w + 4; i++) { centre[i] = px + wid(i) / 2; px += wid(i) + GAP; }
-    centre[w - 5] = centre[w - 4] - GAP;
-    centre[w + 5] = centre[w + 4] + GAP;
-    for (let i = w - 5; i <= w + 5; i++) {
-      const isNew = !els.has(i);
-      const b = isNew ? make(i) : els.get(i);
-      if (isNew || fresh) b.classList.add('rd-now');
-      const r = Math.abs(i - w);
-      b.style.width = wid(i) + 'px';
-      b.style.height = ht(i) + 'px';
-      b.style.transform = `translate(${centre[i] - wid(i) / 2}px, ${-ht(i) / 2}px)`;
-      b.classList.toggle('on', i === v);
-      b.tabIndex = r === 5 ? -1 : 0;
-      b.setAttribute('aria-hidden', r === 5 ? 'true' : 'false');
-      if (i === v) { b.setAttribute('aria-current', 'true'); b.setAttribute('aria-label', 'Current review'); }
-      else {
-        b.removeAttribute('aria-current');
-        const d = i - v;
-        b.setAttribute('aria-label', `${d < 0 ? 'Previous' : 'Next'} review${Math.abs(d) > 1 ? 's' : ''}`);
-      }
-    }
-    requestAnimationFrame(() => requestAnimationFrame(() =>
-      dots.querySelectorAll('.rd-now').forEach((b) => b.classList.remove('rd-now'))));
-  };
-  const bump = (dir) => {
-    v += dir;
-    if (v > w + 1) w = v - 1;
-    if (v < w - 1) w = v + 1;
-    layout(false);
-  };
+  const strip = document.createElement('div');
+  strip.className = 'rd-strip now';
+  strip.innerHTML = cards.map(() => '<button type="button" tabindex="-1" aria-hidden="true"></button>').join('');
+  const btns = [...strip.children];
+  btns.forEach((b, i) => b.addEventListener('click', () => c.scrollTo({ left: stop(i), behavior: 'smooth' })));
   dots.hidden = false;
   dots.innerHTML = '';
-  layout(true);
-
-  // The dots follow the swipe, with a dead zone so a finger wobbling at the halfway point can't flip them back and
-  // forth: the next dot lights at 60% of the way to the next review and only goes back at 60% back.
-  const watch = () => {
-    const p = c.scrollLeft / step();
-    while (p - shown > 0.6 && shown < cards.length - 1) { shown++; bump(1); }
-    while (shown - p > 0.6 && shown > 0) { shown--; bump(-1); }
+  dots.setAttribute('aria-hidden', 'true'); // decoration: the carousel itself scrolls with the keyboard
+  dots.appendChild(strip);
+  const show = (i) => {
+    if (btns[shown]) btns[shown].removeAttribute('aria-current');
+    shown = i;
+    btns[i].setAttribute('aria-current', 'true');
+    strip.style.transform = `translate3d(${dots.clientWidth / 2 - (i * (DOT + GAP) + PILL / 2)}px,0,0)`;
   };
-  let raf = 0;
-  c.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; watch(); }); }, { passive: true });
+  const update = () => {
+    const i = clamp(Math.round(c.scrollLeft / step()));
+    if (i !== shown) show(i);
+  };
+  c.addEventListener('scroll', update, { passive: true });
 
-  const place = () => { c.scrollTo({ left: stop(home), behavior: 'instant' }); shown = home; };
+  const place = () => {
+    strip.classList.add('now'); // no animation when (re)placing
+    c.scrollTo({ left: stop(home), behavior: 'instant' });
+    show(home);
+    requestAnimationFrame(() => requestAnimationFrame(() => strip.classList.remove('now')));
+  };
   let t;
   window.addEventListener('resize', () => {
     clearTimeout(t);
