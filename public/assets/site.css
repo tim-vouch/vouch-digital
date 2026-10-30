@@ -1018,3 +1018,18 @@ html{scroll-padding-top:20px}
 .vt-play:hover .vp-btn{background:#2be09a}
 .vt video:fullscreen{object-fit:contain;background:#000}
 .vt video:-webkit-full-screen{object-fit:contain;background:#000}
+
+/* Testimonials: our own minimal player bar (30 Oct 2026) */
+.vt-bar{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:8px;padding:28px 10px 10px;background:linear-gradient(transparent,rgba(0,0,0,.6))}
+.vt-bar[hidden]{display:none}
+.vt-bar button{all:unset;cursor:pointer;width:36px;height:36px;display:grid;place-items:center;border-radius:50%}
+.vt-bar button:focus-visible{outline:2px solid var(--mint)}
+.vt-pp svg{width:22px;height:22px;fill:#fff}
+.vt-fs svg{width:20px;height:20px}
+.vt-prog{flex:1;height:4px;border-radius:2px;background:rgba(255,255,255,.35);overflow:hidden}
+.vt-prog i{display:block;height:100%;width:0;background:var(--mint)}
+.vt-media:fullscreen{border-radius:0;aspect-ratio:auto;background:#000}
+.vt-media:fullscreen video{object-fit:contain}
+.vt-media:-webkit-full-screen{border-radius:0;aspect-ratio:auto;background:#000}
+.vt-media:-webkit-full-screen video{object-fit:contain}
+.vt-media:fullscreen .vt-bar{padding:40px 24px 24px}

@@ -139,18 +139,58 @@ if (quiz) {
   });
 }
 
-// Video testimonials: the play button just starts the video (no controls over it, so the hook is seen clean).
-// Tapping the playing video brings up the player controls; at the end it resets to the play button.
-document.querySelectorAll('.vt-play').forEach((b) => {
-  const v = b.parentElement.querySelector('video');
-  b.addEventListener('click', () => {
-    document.querySelectorAll('.vt video').forEach((o) => { if (o !== v) o.pause(); });
-    b.hidden = true;
-    v.play().catch(() => { v.controls = true; });
+// Video testimonials: our own minimal player (the browser's own controls add speed, cast, picture-in-picture and
+// volume buttons we can't remove). Big play button starts it clean; tapping the video shows a small bar with just
+// play/pause, a progress line and full screen. Starting one video pauses the others.
+{
+  const ICON = {
+    play: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg>',
+    pause: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>',
+    full: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>',
+  };
+  const vids = [...document.querySelectorAll('.vt video')];
+  document.querySelectorAll('.vt-media').forEach((m) => {
+    const v = m.querySelector('video');
+    const big = m.querySelector('.vt-play');
+    const bar = document.createElement('div');
+    bar.className = 'vt-bar';
+    bar.hidden = true;
+    bar.innerHTML = `<button type="button" class="vt-pp" aria-label="Pause">${ICON.pause}</button>
+      <span class="vt-prog" aria-hidden="true"><i></i></span>
+      <button type="button" class="vt-fs" aria-label="Full screen">${ICON.full}</button>`;
+    m.appendChild(bar);
+    const pp = bar.querySelector('.vt-pp');
+    const prog = bar.querySelector('.vt-prog i');
+    let timer;
+    const show = (stay) => {
+      bar.hidden = false;
+      clearTimeout(timer);
+      if (!stay && !v.paused) timer = setTimeout(() => { bar.hidden = true; }, 2500);
+    };
+    const sync = () => {
+      pp.innerHTML = v.paused ? ICON.play : ICON.pause;
+      pp.setAttribute('aria-label', v.paused ? 'Play' : 'Pause');
+    };
+    big.addEventListener('click', () => { big.hidden = true; v.play().catch(() => { big.hidden = false; }); });
+    v.addEventListener('play', () => { vids.forEach((o) => { if (o !== v && !o.paused) o.pause(); }); sync(); });
+    v.addEventListener('pause', () => { sync(); if (!v.ended && big.hidden) show(true); });
+    v.addEventListener('timeupdate', () => { prog.style.width = ((v.currentTime / v.duration) * 100 || 0) + '%'; });
+    v.addEventListener('click', () => { if (big.hidden) show(); });
+    pp.addEventListener('click', () => { if (v.paused) v.play().catch(() => {}); else v.pause(); show(); });
+    bar.querySelector('.vt-fs').addEventListener('click', () => {
+      if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+      else if (m.requestFullscreen) m.requestFullscreen().catch(() => {});
+      else if (v.webkitEnterFullscreen) v.webkitEnterFullscreen(); // iPhone: only the video itself can go full screen
+      show();
+    });
+    v.addEventListener('ended', () => {
+      bar.hidden = true;
+      v.currentTime = 0;
+      big.hidden = false;
+      if (document.fullscreenElement === m) document.exitFullscreen().catch(() => {});
+    });
   });
-  v.addEventListener('click', () => { if (!v.controls) v.controls = true; });
-  v.addEventListener('ended', () => { v.controls = false; v.currentTime = 0; b.hidden = false; });
-});
+}
 
 // VSL: click-to-play, so nothing loads from the video host until the visitor presses play
 document.querySelectorAll('.vsl-play').forEach((b) => b.addEventListener('click', () => {
