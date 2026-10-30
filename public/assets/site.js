@@ -364,10 +364,10 @@ if (pks.length) {
   onScroll();
 }
 
-// Reviews carousel (Tim, 30 Oct 2026): exactly the pre-loop carousel Tim liked on iPhone (the phone's own scrolling,
-// scroll-snap, one dot per review with the current one a wide pill), made to feel endless: the reviews are repeated
-// 11 times and it opens on the first review of the middle copy, so it never needs to jump and you never reach an end.
-// One review per swipe (scroll-snap-stop in site.css). The dots show which review you're on (wrapping 7 -> 1).
+// Reviews carousel (Tim, 30 Oct 2026): the pre-loop carousel Tim liked on iPhone (the phone's own scrolling with
+// scroll-snap, nothing of ours moving the cards), made endless: the reviews are repeated 11 times and it opens on the
+// first review of the middle copy, so it never has to jump (jumps were what made the earlier loop janky on iPhone)
+// and nobody reaches an end. One review per swipe (scroll-snap-stop in site.css).
 document.querySelectorAll('.rev-carousel').forEach((c) => {
   const dots = c.parentElement.querySelector('.rev-dots');
   const originals = [...c.children];
@@ -389,31 +389,89 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
   c.prepend(...before);
   c.append(...after);
   const cards = [...c.children];
-  const stop = (i) => cards[i].offsetLeft - cards[0].offsetLeft;
-  const nearest = () => Math.max(0, Math.min(cards.length - 1, Math.round(c.scrollLeft / (stop(1) || 1))));
-  dots.hidden = false;
-  dots.innerHTML = originals.map((_, i) => `<button type="button" aria-label="Show review ${i + 1} of ${n}"></button>`).join('');
-  const btns = [...dots.children];
-  btns.forEach((b, k) => b.addEventListener('click', () => {
-    const i = nearest();
-    let d = k - (i % n);
-    if (d > n / 2) d -= n;
-    if (d < -n / 2) d += n;
-    c.scrollTo({ left: stop(i + d), behavior: 'smooth' });
-  }));
-  let shown = -1;
-  const update = () => {
-    const k = nearest() % n;
-    if (k === shown) return;
-    shown = k;
-    btns.forEach((b, i) => b.setAttribute('aria-current', String(i === k)));
-  };
-  c.addEventListener('scroll', update, { passive: true });
+  const step = () => (cards[1].offsetLeft - cards[0].offsetLeft) || 1;
+  const stop = (i) => i * step();
+  const clamp = (i) => Math.max(0, Math.min(cards.length - 1, i));
   let home = mid * n; // first review of the middle copy
-  const place = () => { c.scrollTo({ left: stop(home), behavior: 'instant' }); update(); };
+  let shown = home;   // the card the dots show
+
+  // ---- Instagram-style dots: an endless strip that conveys "there's always more" ----
+  // Either side of the window centre: dot, dot, smaller, smallest. The flat mint pill is the current review and sits
+  // on the centre slot or one either side of it: moving within that range hands the pill to the next dot (the grey
+  // dots stay put); moving past it slides the strip one step while the pill stays on its slot.
+  const DOT = 8, GAP = 9, PILL = 24;
+  const SIZE = [DOT, DOT, DOT, 6, 4, 0]; // by distance from the window centre; 5 = hidden buffer
+  let v = 0; // current review along the endless strip
+  let w = 0; // window centre
+  const els = new Map();
+  const make = (i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'rd';
+    b.addEventListener('click', () => { if (i !== v) c.scrollTo({ left: stop(clamp(shown + (i - v))), behavior: 'smooth' }); });
+    dots.appendChild(b);
+    els.set(i, b);
+    return b;
+  };
+  const layout = (fresh) => {
+    els.forEach((b, i) => { if (i < w - 5 || i > w + 5) { b.remove(); els.delete(i); } });
+    const wid = (i) => (i === v ? PILL : SIZE[Math.abs(i - w)]);
+    const ht = (i) => (i === v ? DOT : SIZE[Math.abs(i - w)]);
+    let total = -GAP;
+    for (let i = w - 4; i <= w + 4; i++) total += wid(i) + GAP;
+    let px = -total / 2;
+    const centre = {};
+    for (let i = w - 4; i <= w + 4; i++) { centre[i] = px + wid(i) / 2; px += wid(i) + GAP; }
+    centre[w - 5] = centre[w - 4] - GAP;
+    centre[w + 5] = centre[w + 4] + GAP;
+    for (let i = w - 5; i <= w + 5; i++) {
+      const isNew = !els.has(i);
+      const b = isNew ? make(i) : els.get(i);
+      if (isNew || fresh) b.classList.add('rd-now');
+      const r = Math.abs(i - w);
+      b.style.width = wid(i) + 'px';
+      b.style.height = ht(i) + 'px';
+      b.style.transform = `translate(${centre[i] - wid(i) / 2}px, ${-ht(i) / 2}px)`;
+      b.classList.toggle('on', i === v);
+      b.tabIndex = r === 5 ? -1 : 0;
+      b.setAttribute('aria-hidden', r === 5 ? 'true' : 'false');
+      if (i === v) { b.setAttribute('aria-current', 'true'); b.setAttribute('aria-label', 'Current review'); }
+      else {
+        b.removeAttribute('aria-current');
+        const d = i - v;
+        b.setAttribute('aria-label', `${d < 0 ? 'Previous' : 'Next'} review${Math.abs(d) > 1 ? 's' : ''}`);
+      }
+    }
+    requestAnimationFrame(() => requestAnimationFrame(() =>
+      dots.querySelectorAll('.rd-now').forEach((b) => b.classList.remove('rd-now'))));
+  };
+  const bump = (dir) => {
+    v += dir;
+    if (v > w + 1) w = v - 1;
+    if (v < w - 1) w = v + 1;
+    layout(false);
+  };
+  dots.hidden = false;
+  dots.innerHTML = '';
+  layout(true);
+
+  // The dots follow the swipe, with a dead zone so a finger wobbling at the halfway point can't flip them back and
+  // forth: the next dot lights at 60% of the way to the next review and only goes back at 60% back.
+  const watch = () => {
+    const p = c.scrollLeft / step();
+    while (p - shown > 0.6 && shown < cards.length - 1) { shown++; bump(1); }
+    while (shown - p > 0.6 && shown > 0) { shown--; bump(-1); }
+  };
+  let raf = 0;
+  c.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; watch(); }); }, { passive: true });
+
+  const place = () => { c.scrollTo({ left: stop(home), behavior: 'instant' }); shown = home; };
   let t;
-  window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(() => { home = nearest(); place(); }, 150); });
-  window.addEventListener('load', () => { if (nearest() === home) place(); }); // unless they've already swiped
+  window.addEventListener('resize', () => {
+    clearTimeout(t);
+    t = setTimeout(() => { home = shown; place(); }, 150);
+  });
+  window.addEventListener('load', () => { if (shown === home) place(); }); // unless they've already swiped
   place();
 });
 
