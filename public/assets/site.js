@@ -154,7 +154,7 @@ document.querySelectorAll('.vsl-play').forEach((b) => b.addEventListener('click'
   let lead = {};
   try { lead = JSON.parse(sessionStorage.getItem('vouch_lead') || '{}'); } catch (_) {}
   const first = String(lead.name || '').trim().split(/\s+/)[0];
-  if (h && first) h.textContent = ' ' + first;
+  if (h && first) h.textContent = (h.closest('.booked-hero') ? ', ' : ' ') + first;
 }
 
 // Booking page: load the GHL calendar with the visitor's details pre-filled

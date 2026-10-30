@@ -11,13 +11,13 @@ wins plumbers more jobs, £197/month, everything included, no contract. Every bu
 (GHL calendar). The old "Find My Missed Jobs" free-audit pitch is retired; don't bring it back.
 
 **Meta ads funnel (since 30 Oct 2026):** ad → `/free-website` → quiz popup → `/book` ("Wait, here's what happens next": a ~30-second portrait clip of Tim,
-`SITE["book_video"]`, self-hosted MP4, above the pre-filled GHL calendar; Trade Scale style; placeholders until the clip is in and `SITE["calendar_ready"]` is True) → `/booked` (thank-you page, VSL again). The landing page copies Kai Stone's: one headline with the price,
+`SITE["book_video"]`, self-hosted MP4, above the pre-filled GHL calendar; Trade Scale style; placeholders until the clip is in and `SITE["calendar_ready"]` is True) → `/booked` ("Thanks Darren! Now check your WhatsApp...": the 5-minute VSL is sent on WhatsApp straight after booking; the page shows it too as a fallback once `vsl_url` is set). The landing page copies Kai Stone's: one headline with the price,
 the VSL thumbnail, one button; every CTA (and the header "Book a call" on that page) opens the quiz (`lp_quiz()` /
 `QUIZ` in `src/pages.py`). The quiz is one question (type of work) then mobile, email, name and business; extra qualifying questions were cut on 30 Oct 2026 to keep friction low until ads prove out. The bar starts at 60%, creeps up and its stripes scroll right (endowed progress, `QUIZ_PROGRESS`). No privacy link inside the quiz at Tim's choice (footer links it). Not a plumber
 or commercial-only → polite exit, nothing sent, no Lead event. Answers go to GHL via `/api/enquiry` (whitelisted in
 `src/worker.js`). Below: video testimonials (`TESTIMONIAL_VIDEOS` in `src/site_data.py`, MP4s in
 `public/assets/video/`, keep each well under 25 MB) and Google reviews. The landing page thumbnail is a blurred still (`SITE["vsl_poster"]`, now a blurred homepage screenshot; swap for a blurred VSL frame) with a pulsing play button that opens the quiz. The VSL itself is `SITE["vsl_url"]` (embed URL, click-to-load) and shows under the calendar on /book and on /booked. Don't run ads before `vsl_url` is set: the thumbnail promises a video. `/booked` fires the pixel's Schedule event (consent only). In GHL, set the calendar's confirmation
-to redirect to https://vouchdigital.co.uk/booked. Both pages are noindex. /free-website and /book have a looks-only header and footer (`FUNNEL` in `src/build.py`; on /book the button is "Pick a time" → calendar): no menu, no phone, logo not linked, buttons open the quiz, privacy and terms open in a new tab.
+to redirect to https://vouchdigital.co.uk/booked. Both pages are noindex. /free-website, /book and /booked have a looks-only header and footer (`FUNNEL` in `src/build.py`; on /book the button is "Pick a time" → calendar): no menu, no phone, logo not linked, buttons open the quiz, privacy and terms open in a new tab.
 
 ## How it's built
 - `src/site_data.py` — business facts, homepage FAQ, plans. Single source of truth.

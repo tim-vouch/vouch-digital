@@ -946,3 +946,10 @@ html{scroll-padding-top:20px}
 .book-one .cal-ph{border-color:#b9dccd}
 .book-light h1{max-width:22em}
 @media (max-width:900px){.book-light .book-ratings{flex-direction:row;flex-wrap:wrap;justify-content:center;gap:14px 20px}.book-light .book-ratings a{width:auto}}
+
+/* /booked, light (30 Oct 2026) */
+.booked-hero{padding-bottom:56px}
+.booked-hero .muted{max-width:38em;margin:0 auto;font-size:17px}
+.booked-pill{color:var(--mint-dark);border-color:rgba(11,181,116,.5);background:var(--mint-tint);margin-bottom:6px}
+.lp-next .book-alt{margin-top:24px}
+.booked-vsl .svc-video{max-width:860px;margin:0 auto}

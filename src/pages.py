@@ -547,45 +547,50 @@ def free_website():
 
 
 def booked():
+    """After booking (GHL redirects here). Dale/Kai: the 5-minute VSL goes out on WhatsApp straight away, so this page
+    points them to it, sets expectations, and lets Meta count the booking (Schedule event, consent only)."""
+    fallback = ""
     if SITE.get("vsl_url"):
-        video = vsl_player()
-    else:
-        video = (f'<div class="lp-vsl-wait"><p><b>Your video is on its way.</b> Tim will text you a short walkthrough '
-                 f'video before your call. Please give it a watch.</p></div>')
+        fallback = f"""
+<section class="lp-next booked-vsl">
+  <div class="wrap">
+    <div class="sec-head"><p class="eyebrow">Can't find the message?</p><h2>Watch the video here</h2></div>
+    {vsl_player()}
+  </div>
+</section>"""
     steps = "".join(f'<li><span class="j-num">{n}</span><div><h3>{t}</h3><p>{d}</p></div></li>' for n, (t, d) in enumerate([
-        ("Check your phone", "You'll get a text and an email confirming your call time."),
-        ("Watch the video", "It shows exactly what we'd set up for you, so our call can be short and useful."),
-        ("Jump on the call", "15 minutes on Google Meet at the time you picked. Bring any questions."),
+        ("Check your WhatsApp", "I've just sent you a message with your call time and a short video."),
+        ("Watch the 5-minute video", "It shows exactly how it all works, so our call can be short and useful."),
+        ("Jump on the call", "15 minutes on Google Meet. The link is in your confirmation email and WhatsApp."),
     ], 1))
     return f"""
 <main class="lp" data-break-frame data-pixel-event="Schedule">
-<section class="dark book-hero lp-booked">
+<section class="book-hero book-light booked-hero">
   <div class="wrap">
-    <p class="lp-pill">{icon('check')} You're booked in</p>
-    <h1>One last thing: watch this video before our call</h1>
-    <p class="muted">It walks you through exactly what we'd build for your business, so you know if it's right for you before we speak. If you watch it and decide it's not for you, just text {SITE['phone']} and we'll cancel the call. No hard feelings.</p>
-    {video}
+    <p class="lp-pill booked-pill">{icon('check')} You're booked in</p>
+    <h1>Thanks<span data-first></span>! Now Check Your WhatsApp...</h1>
+    <p class="muted">I've just sent you a WhatsApp with a 5-minute video showing exactly how it all works. Please give it a watch before our call. If you watch it and decide it's not for you, just reply to the message and I'll cancel the call. No hard feelings.</p>
   </div>
 </section>
-<section class="lp-next">
+<section class="lp-next tint">
   <div class="wrap">
     <div class="sec-head"><p class="eyebrow">What happens next</p><h2>Before our call</h2></div>
     <ol class="lp-next-list">{steps}</ol>
+    <p class="book-alt">Need to move your call? Just reply to the WhatsApp and we'll sort it.</p>
   </div>
-</section>
-<section class="tint lp-proof">
+</section>{fallback}
+<section class="lp-proof">
   <div class="wrap">
     <div class="sec-head"><p class="eyebrow">While you wait</p><h2>What we've done for plumbers like you</h2></div>
     <div class="lp-cases">{lp_cases()}
     </div>
   </div>
 </section>
-<section class="reviews rev-band lp-revs">
+<section class="reviews rev-band lp-revs tint">
   <div class="wrap">
     <div class="rev-top"><div><p class="eyebrow">Google reviews</p><h2>Plumbers who vouch for us</h2></div></div>
     <div class="rev-grid rev-carousel" tabindex="0" aria-label="Google reviews">{lp_reviews()}</div>
     <div class="rev-dots" aria-label="Choose review"></div>
-    <p class="book-alt">Need to move your call? Call or text <a href="tel:{SITE['phone_intl']}">{SITE['phone']}</a>.</p>
   </div>
 </section>
 </main>"""
