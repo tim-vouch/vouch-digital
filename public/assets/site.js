@@ -406,18 +406,42 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
     if (idx < n || idx >= 2 * n) go(n + (idx % n), false);
   };
 
-  const offsets = [-2, -1, 0, 1, 2];
-  dots.innerHTML = offsets.map((o) => `<button type="button" class="d${Math.abs(o)}" ${o === 0
-    ? 'aria-current="true" aria-label="Current review"'
-    : `aria-label="${o < 0 ? 'Previous' : 'Next'} review${Math.abs(o) > 1 ? 's' : ''}"`}></button>`).join('');
-  [...dots.children].forEach((b, k) => b.addEventListener('click', () => {
+  // Seven visible dots (+1 hidden buffer each side). Every move slides the whole row one step in the direction of
+  // travel, so it feels like moving along an endless strip while the pill stays in the middle.
+  const offsets = [-4, -3, -2, -1, 0, 1, 2, 3, 4];
+  dots.innerHTML = '<span class="rd-track">' + offsets.map((o) => {
+    const a = Math.abs(o);
+    if (a === 4) return '<span class="rd d4" aria-hidden="true"></span>';
+    return `<button type="button" class="rd d${a}" data-o="${o}" ${o === 0
+      ? 'aria-current="true" aria-label="Current review"'
+      : `aria-label="${o < 0 ? 'Previous' : 'Next'} review${a > 1 ? 's' : ''}"`}></button>`;
+  }).join('') + '</span>';
+  const track = dots.firstElementChild;
+  const bump = (dir) => {
+    track.classList.remove('next', 'prev');
+    void track.offsetWidth;
+    track.classList.add(dir > 0 ? 'next' : 'prev');
+  };
+  dots.querySelectorAll('button').forEach((b) => b.addEventListener('click', () => {
     settle();
-    go(idx + offsets[k], true);
-    dots.classList.remove('tick'); void dots.offsetWidth; dots.classList.add('tick');
+    go(idx + Number(b.dataset.o), true);
   }));
 
+  let last = idx;
+  let raf = 0;
+  const watch = () => {
+    raf = 0;
+    const k = nearest();
+    if (k === last) return;
+    const d = k - last;
+    last = k;
+    if (Math.abs(d) < n) bump(d); // the invisible jump from a clone back to the middle set moves by n: no bump
+  };
   let t;
-  c.addEventListener('scroll', () => { clearTimeout(t); t = setTimeout(settle, 140); }, { passive: true });
+  c.addEventListener('scroll', () => {
+    if (!raf) raf = requestAnimationFrame(watch);
+    clearTimeout(t); t = setTimeout(settle, 140);
+  }, { passive: true });
   if ('onscrollend' in window) c.addEventListener('scrollend', settle);
   let rt;
   window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => go(idx, false), 150); });
