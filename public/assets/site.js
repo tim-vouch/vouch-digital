@@ -400,14 +400,30 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
     });
     return best;
   };
-  // Once scrolling settles in a clone, jump (invisibly) to the same review in the middle set.
-  // The dots update once per swipe, when the scroll comes to rest (as Instagram does). Updating them while a finger
-  // is still dragging made them flip back and forth on phones as the drag crossed the halfway point.
+  // The dots follow the swipe live, but with a dead zone: the next dot only lights once the swipe is 60% of the way
+  // to the next review, and only goes back once it's 60% back. Without it, a finger wobbling around the halfway
+  // point on a phone flipped the pill back and forth.
+  // Once scrolling settles (and the finger is off) in a clone, jump invisibly to the same review in the middle set.
   let shown = idx; // the review the dots currently show
   let moveDots = () => {};
-  let touching = false; // a finger is still on the carousel: wait until it lifts
+  let touching = false; // a finger is on the carousel: never jump under it
+  let gliding = false;  // a dot was tapped: the dots already moved, so ignore the scroll it causes
+  const centreOf = (i) => { const r = cards[i].getBoundingClientRect(); return r.left + r.width / 2; };
+  const watch = () => {
+    if (gliding) return;
+    const mid = c.getBoundingClientRect().left + c.clientWidth / 2;
+    for (let guard = 0; guard < n; guard++) {
+      const a = shown > 0 ? shown - 1 : shown + 1;
+      const step = Math.abs(centreOf(shown) - centreOf(a)) || 1;
+      const f = (mid - centreOf(shown)) / step; // how far past the shown review, in reviews
+      if (f > 0.6 && shown < cards.length - 1) { moveDots(1); shown++; }
+      else if (f < -0.6 && shown > 0) { moveDots(-1); shown--; }
+      else break;
+    }
+  };
   const settle = () => {
     if (touching) return;
+    gliding = false;
     const k = nearest();
     const d = k - shown;
     if (d && Math.abs(d) < n) moveDots(d); // the invisible jump between copies moves by n: no dots change
@@ -435,6 +451,7 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
       const d = i - v;
       moveDots(d); // tapping a dot moves the dots straight away
       shown = idx + d;
+      gliding = true;
       go(idx + d, true);
     });
     dots.appendChild(b);
@@ -462,7 +479,8 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
       const r = Math.abs(i - w);
       b.style.width = wid(i) + 'px';
       b.style.height = ht(i) + 'px';
-      b.style.transform = `translate(calc(${centre[i]}px - 50%), -50%)`;
+      // pixels only (no calc/% mix): iPhone Safari can't animate a calc() translate smoothly
+      b.style.transform = `translate(${centre[i] - wid(i) / 2}px, ${-ht(i) / 2}px)`;
       b.classList.toggle('on', i === v);
       b.tabIndex = r === 5 ? -1 : 0;
       b.setAttribute('aria-hidden', r === 5 ? 'true' : 'false');
@@ -486,8 +504,12 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
 
   moveDots = (d) => { for (let i = 0; i < Math.abs(d); i++) bump(Math.sign(d)); };
   let t;
-  c.addEventListener('scroll', () => { clearTimeout(t); t = setTimeout(settle, 120); }, { passive: true });
-  c.addEventListener('touchstart', () => { touching = true; }, { passive: true });
+  let raf = 0;
+  c.addEventListener('scroll', () => {
+    if (!raf) raf = requestAnimationFrame(() => { raf = 0; watch(); });
+    clearTimeout(t); t = setTimeout(settle, 120);
+  }, { passive: true });
+  c.addEventListener('touchstart', () => { touching = true; gliding = false; }, { passive: true });
   const lift = () => { touching = false; clearTimeout(t); t = setTimeout(settle, 120); };
   c.addEventListener('touchend', lift, { passive: true });
   c.addEventListener('touchcancel', lift, { passive: true });
