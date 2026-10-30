@@ -93,6 +93,14 @@ NAV = [("Services", "/services"), ("Pricing", "/pricing"),
        ("About", "/about"), ("FAQ", "/faq"), ("Contact", "/contact")]
 
 
+def head_cta(path):
+    # Ad landing page: one action only, so no phone number and the same CTA as the page (opens the quiz).
+    if path == "/free-website":
+        return f'<a class="btn btn-mint" href="/book" data-quiz-open>Click to see how it works {icon("arrow")}</a>'
+    return (f'<a class="head-phone" href="tel:{SITE['phone_intl']}" aria-label="Call {SITE['phone']}">{icon('phone')} '
+            f'<span>{SITE['phone']}</span></a>\n      <a class="btn btn-mint" href="/book">Book a call {icon('arrow')}</a>')
+
+
 def header(path):
     links = "".join(
         f'<a href="{href}"{" aria-current=page" if href == path or path.startswith(href + "/") else ""}>{name}</a>'
@@ -103,8 +111,7 @@ def header(path):
     <a class="logo" href="/"><img src="/assets/img/logo.webp" alt="Vouch Digital" width="112" height="48"></a>
     <nav class="nav" id="nav">{links}</nav>
     <div class="head-cta">
-      <a class="head-phone" href="tel:{SITE['phone_intl']}" aria-label="Call {SITE['phone']}">{icon('phone')} <span>{SITE['phone']}</span></a>
-      <a class="btn btn-mint" href="/book" data-quiz-open>Book a call {icon('arrow')}</a>
+      {head_cta(path)}
       <button class="menu-btn" aria-label="Menu" aria-controls="nav" aria-expanded="false">{icon('menu')}</button>
     </div>
   </div>
