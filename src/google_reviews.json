@@ -1,8 +1,15 @@
 {
   "rating": "5.0",
-  "count": 6,
+  "count": 7,
   "maps_url": "https://maps.google.com/?cid=5463523624297031145&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
   "reviews": [
+    {
+      "name": "Junaid",
+      "stars": 5,
+      "text": "Class service, clear communication. Strongly recommend!",
+      "date": "October 2026",
+      "published": "2026-10-30T16:00:50.795949959Z"
+    },
     {
       "name": "Aryan P",
       "stars": 5,
