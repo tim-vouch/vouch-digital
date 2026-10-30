@@ -463,7 +463,6 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
     for (let i = w - 5; i <= w + 5; i++) ids.push(i);
     els.forEach((b, i) => { if (i < w - 5 || i > w + 5) { b.remove(); els.delete(i); } });
     const wid = (i) => (i === v ? PILL : SIZE[Math.abs(i - w)]);
-    const ht = (i) => (i === v ? DOT : SIZE[Math.abs(i - w)]);
     // lay the visible run (w-4..w+4) out edge to edge with even gaps, centred; one pill is always in it, so its
     // total width never changes and dots that keep their size keep their place
     let total = -GAP;
@@ -477,10 +476,9 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
       const b = isNew ? make(i) : els.get(i);
       if (isNew || fresh) b.classList.add('rd-now'); // appear in place without animating
       const r = Math.abs(i - w);
-      b.style.width = wid(i) + 'px';
-      b.style.height = ht(i) + 'px';
-      // pixels only (no calc/% mix): iPhone Safari can't animate a calc() translate smoothly
-      b.style.transform = `translate(${centre[i] - wid(i) / 2}px, ${-ht(i) / 2}px)`;
+      // transform only (pixels + scale): the cheapest thing for an iPhone to animate
+      const s = i === v ? 1 : SIZE[r] / DOT;
+      b.style.transform = `translate(${centre[i] - DOT / 2}px, ${-DOT / 2}px) scale(${s})`;
       b.classList.toggle('on', i === v);
       b.tabIndex = r === 5 ? -1 : 0;
       b.setAttribute('aria-hidden', r === 5 ? 'true' : 'false');
@@ -491,6 +489,8 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
         b.setAttribute('aria-label', `${d < 0 ? 'Previous' : 'Next'} review${Math.abs(d) > 1 ? 's' : ''}`);
       }
     });
+    if (fresh) pill.classList.add('rd-now');
+    pill.style.transform = `translate(${centre[v] - PILL / 2}px, ${-DOT / 2}px)`;
     requestAnimationFrame(() => dots.querySelectorAll('.rd-now').forEach((b) => b.classList.remove('rd-now')));
   };
   const bump = (dir) => {
@@ -500,6 +500,10 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
     layout(false);
   };
   dots.innerHTML = '';
+  const pill = document.createElement('span'); // the mint pill: slides over the grey dots
+  pill.className = 'rd-pill';
+  pill.setAttribute('aria-hidden', 'true');
+  dots.appendChild(pill);
   layout(true);
 
   moveDots = (d) => { for (let i = 0; i < Math.abs(d); i++) bump(Math.sign(d)); };
