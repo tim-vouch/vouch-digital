@@ -886,7 +886,7 @@ html.qz-on{overflow:hidden}
   .vp-btn{width:60px;height:60px}.vp-btn svg{width:26px;height:26px}
   .vp-copy small{display:none}
   .vp-copy b{font-size:17px}
-  .qz{padding:10px;align-items:end}
+  .qz{padding:12px;align-items:center}
   .qz-box{padding:22px 18px 16px;border-radius:18px}
   .qz-title{font-size:17px;margin:2px 32px 14px 0;text-align:left}
 }
