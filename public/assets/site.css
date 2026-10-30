@@ -1043,8 +1043,16 @@ html{scroll-padding-top:20px}
 .vt-media:fullscreen video{object-fit:contain}
 .vt-media:-webkit-full-screen{border-radius:0;aspect-ratio:auto;background:#000}
 .vt-media:-webkit-full-screen video{object-fit:contain}
-.vt-media:fullscreen .vt-top{padding:20px 24px 40px}
-.vt-media:fullscreen .vt-seek{height:56px;padding:0 24px}
+/* full screen (desktop): the usual video-player layout, one bar along the bottom: play/pause, progress, full screen */
+.vt-media:fullscreen .vt-ui:not([hidden]){position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:14px;
+  padding:48px 24px 18px;background:linear-gradient(transparent,rgba(0,0,0,.6))}
+.vt-media:-webkit-full-screen .vt-ui:not([hidden]){position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:14px;
+  padding:48px 24px 18px;background:linear-gradient(transparent,rgba(0,0,0,.6))}
+.vt-media:fullscreen .vt-top,.vt-media:-webkit-full-screen .vt-top{display:contents}
+.vt-media:fullscreen .vt-pp,.vt-media:-webkit-full-screen .vt-pp{order:1}
+.vt-media:fullscreen .vt-seek,.vt-media:-webkit-full-screen .vt-seek{order:2;position:static;flex:1;height:36px;padding:0;background:none}
+.vt-media:fullscreen .vt-fs,.vt-media:-webkit-full-screen .vt-fs{order:3}
+.vt-media:fullscreen .vt-top button,.vt-media:-webkit-full-screen .vt-top button{background:none}
 
 /* ===== Reviews carousel (30 Oct 2026): the pre-loop carousel that was smooth on Tim's iPhone (the phone's own
    scroll-snap, pre-loop dots: plain buttons in a flex row whose width animates .2s), now with the review centred and
