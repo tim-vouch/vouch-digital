@@ -989,3 +989,5 @@ html{scroll-padding-top:20px}
 .qz-title{margin-top:22px;margin-bottom:16px}
 .qz-back[hidden]{display:none}
 @media (max-width:560px){.qz-title{margin-top:18px}}
+.bk-done p + p{margin-top:10px}
+.bk-done .bk-wa{color:var(--ink);background:var(--mint-tint);border-radius:10px;padding:10px 12px;margin-top:14px}

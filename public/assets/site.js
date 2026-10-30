@@ -249,7 +249,9 @@ if (booker) {
         try { if (window.fbq && localStorage.getItem('vouch_cookie_consent') === 'granted') window.fbq('track', 'Schedule'); } catch (_) {}
         booker.innerHTML = `<div class="bk-done"><span class="bk-tick"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
           <h3>Your call is booked</h3>
-          <p>Scheduled for ${fmt(slot, { weekday: 'long', day: 'numeric', month: 'long' })} at ${fmt(slot, { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })}. We'll send a confirmation to ${esc(who.email)}.</p></div>`;
+          <p>Scheduled for ${fmt(slot, { weekday: 'long', day: 'numeric', month: 'long' })} at ${fmt(slot, { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })}.</p>
+          <p>We'll send a confirmation to ${esc(who.email)}.</p>
+          <p class="bk-wa"><b>Check your WhatsApp:</b> I've sent you a short video to watch before we speak.</p></div>`;
         return;
       }
       if (data.error === 'slot_taken') { slot = null; msg.textContent = ''; await load(); booker.querySelector('.bk-msg').textContent = 'Sorry, that time has just gone. Please pick another.'; return; }

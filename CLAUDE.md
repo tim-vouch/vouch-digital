@@ -67,5 +67,6 @@ Mascot (Tim's own artwork): `public/assets/img/mascot.webp`, used via `mascot()`
 - [ ] Real logo file and hero photo
 - [x] All pages built: services + 5 service pages, /plumbers, about, faq, contact, privacy, terms (inner pages in `src/pages_more.py`, legal text in `src/legal/`)
 - [x] 301 redirects from old `/services/*-for-plumbers` URLs (in `src/worker.js`)
-- [ ] `GHL_TOKEN` secret set in Cloudflare (runtime) and a test lead + test booking received in GHL (replaces the never-set `GHL_WEBHOOK_URL`)
+- [x] `GHL_TOKEN` secret set in Cloudflare (runtime); test booking 30 Oct 2026 worked (slots, appointment, Google Meet link, invite email). Contact went to an existing contact via upsert (same phone/email), so check with a fresh number
+- [ ] The booking confirmation says "Check your WhatsApp: I've sent you a short video": the GHL "call booked" WhatsApp workflow must be live before ads run
 - [x] DNS moved to Cloudflare with all records kept (5 Oct 2026); site live on vouchdigital.co.uk and www
