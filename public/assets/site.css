@@ -932,3 +932,8 @@ html.qz-on{overflow:hidden}
 /* Funnel pages: header/footer for looks only */
 .funnel-head .wrap{justify-content:space-between}
 @media (max-width:560px){.funnel-head .btn{font-size:13.5px;padding:11px 16px}}
+
+/* /book: one dark background top to bottom (30 Oct 2026) */
+.book.book-one.dark{background:var(--deep);padding-top:12px}
+.book-one .cal-ph{border-color:rgba(20,211,138,.45)}
+html{scroll-padding-top:20px}

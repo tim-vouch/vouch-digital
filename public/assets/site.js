@@ -148,13 +148,13 @@ document.querySelectorAll('.vsl-play').forEach((b) => b.addEventListener('click'
   b.replaceWith(f);
 }));
 
-// Booking page: thank them by name if they've just come from the form
+// Booking page: "Wait Darren!" when they've just come from the form
 {
-  const h = document.querySelector('[data-thanks]');
+  const h = document.querySelector('[data-first]');
   let lead = {};
   try { lead = JSON.parse(sessionStorage.getItem('vouch_lead') || '{}'); } catch (_) {}
   const first = String(lead.name || '').trim().split(/\s+/)[0];
-  if (h && first) h.textContent = `Thanks, ${first}! ` + h.textContent;
+  if (h && first) h.textContent = ' ' + first;
 }
 
 // Booking page: load the GHL calendar with the visitor's details pre-filled

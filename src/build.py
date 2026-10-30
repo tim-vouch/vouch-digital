@@ -95,8 +95,14 @@ NAV = [("Services", "/services"), ("Pricing", "/pricing"),
 
 # Ad landing pages: one action only (Hormozi). The header and footer stay for looks and the legal details, but
 # nothing navigates away: no menu, no phone, logo not linked, every button opens the quiz, legal pages open in a new tab.
-FUNNEL = {"/free-website"}
+FUNNEL = {"/free-website", "/book"}
 QUIZ_CTA = 'Click to see how it works'
+
+
+def funnel_cta(path):
+    if path == "/book":  # already past the quiz: the one action is picking a time
+        return f'<a class="btn btn-mint" href="#calendar">Pick a time {icon("arrow")}</a>'
+    return f'<a class="btn btn-mint" href="/book" data-quiz-open>{QUIZ_CTA} {icon("arrow")}</a>'
 
 
 def header(path):
@@ -105,7 +111,7 @@ def header(path):
 <header class="site-head funnel-head">
   <div class="wrap">
     <span class="logo"><img src="/assets/img/logo.webp" alt="Vouch Digital" width="112" height="48"></span>
-    <div class="head-cta"><a class="btn btn-mint" href="/book" data-quiz-open>{QUIZ_CTA} {icon("arrow")}</a></div>
+    <div class="head-cta">{funnel_cta(path)}</div>
   </div>
 </header>"""
     links = "".join(
@@ -130,7 +136,7 @@ def footer(path=""):
     if funnel:
         logo = '<span class="logo"><img src="/assets/img/logo.webp" alt="Vouch Digital" width="112" height="48" loading="lazy"></span>'
         nav = ""
-        cta = f'<a class="btn btn-mint" href="/book" data-quiz-open>{QUIZ_CTA} {icon("arrow")}</a>'
+        cta = funnel_cta(path)
         contact = f'<a href="mailto:{SITE["email"]}">{SITE["email"]}</a>'
         nt = ' target="_blank" rel="noopener"'
     else:

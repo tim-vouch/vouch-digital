@@ -343,13 +343,13 @@ def book():
 <main>
 <section class="dark book-hero">
   <div class="wrap">
-    <h1>Wait, here's what happens next</h1>
-    <p class="muted" data-thanks>Watch this quick video, then pick a time for your free call below.</p>
+    <h1>Wait<span data-first></span>! Here's What Happens Next <span aria-hidden="true">👇</span></h1>
+    <p class="muted">Watch this quick video, then pick a time for your free call below.</p>
     <div class="rating-row book-ratings">{ratings}</div>
     {book_intro()}
   </div>
 </section>
-<section class="book book-one">
+<section class="book book-one dark" id="calendar">
   <div class="wrap">
     <div class="book-frame">{cal}</div>
   </div>
