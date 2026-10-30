@@ -13,7 +13,7 @@ wins plumbers more jobs, £197/month, everything included, no contract. Every bu
 **Meta ads funnel (since 30 Oct 2026):** ad → `/free-website` → quiz popup → `/book` (VSL above the GHL calendar,
 pre-filled) → `/booked` (thank-you page, VSL again). The landing page copies Kai Stone's: one headline with the price,
 the VSL thumbnail, one button; every CTA (and the header "Book a call" on that page) opens the quiz (`lp_quiz()` /
-`QUIZ` in `src/pages.py`). The quiz bar starts at 50% and creeps up (endowed progress, `QUIZ_PROGRESS`). Not a plumber
+`QUIZ` in `src/pages.py`). The quiz bar starts at 60%, creeps up and its stripes scroll right (endowed progress, `QUIZ_PROGRESS`). Not a plumber
 or commercial-only → polite exit, nothing sent, no Lead event. Answers go to GHL via `/api/enquiry` (whitelisted in
 `src/worker.js`). Below: video testimonials (`TESTIMONIAL_VIDEOS` in `src/site_data.py`, MP4s in
 `public/assets/video/`, keep each well under 25 MB) and Google reviews. The VSL is set in `SITE["vsl_url"]` (embed

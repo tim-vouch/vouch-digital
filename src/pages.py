@@ -366,14 +366,13 @@ def book():
 # Kai Stone's flow: they book, then watch the video before the call so they arrive pre-sold.
 # Ben Heath (10.2): match the ad, lots of proof, one action, every CTA goes back to the same form.
 
-# Reviews shown on the landing page: the same ones the ads use.
-LP_REVIEWERS = ("Paul", "Matt", "Daniel", "Aryan")
+# Landing page: every Google review with text, newest first (same source as the homepage).
 
 
 def lp_reviews():
     out = ""
     for r in REVIEWS:
-        if not r["text"] or not r["name"].startswith(LP_REVIEWERS):
+        if not r["text"]:
             continue
         first = escape(r["name"].split()[0])
         out += f"""<figure class="rev">{stars(r['stars'])}<blockquote>“{escape(r['text'])}”</blockquote>
@@ -470,8 +469,8 @@ QUIZ = [
     ("name", "Your name", "text", "First and last name", "name"),
     ("business", "What's your business called?", "text", "e.g. Smith Plumbing &amp; Heating", "organization"),
 ]
-# Endowed-progress bar (as on Kai Stone's quiz): starts half full and creeps up, so it always feels nearly done.
-QUIZ_PROGRESS = [50, 60, 68, 76, 84, 90, 94, 98]
+# Endowed-progress bar (as on Kai Stone's quiz): starts at 60% and creeps up, so it always feels nearly done.
+QUIZ_PROGRESS = [60, 68, 76, 84, 90, 94, 96, 98]
 
 
 def lp_quiz():
