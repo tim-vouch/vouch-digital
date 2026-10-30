@@ -406,37 +406,71 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
     if (idx < n || idx >= 2 * n) go(n + (idx % n), false);
   };
 
-  // Instagram-style dots (Tim, 30 Oct 2026). Fixed slots either side: dot, dot, smaller, smallest. The wide pill
-  // starts in the middle; the first swipe in a direction just moves the pill one slot (the dots stay put); swiping
-  // further that way slides the whole row along while the pill stays at that slot. Swiping back moves the pill back.
-  const STEP = 20; // px between slot centres (8px dot + 12px gap)
-  const SLOTS = [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5];
-  dots.innerHTML = '<div class="rd-row">' + SLOTS.map((s) => {
-    const a = Math.abs(s);
-    return a === 5 ? '<span class="rd s5" aria-hidden="true"></span>' : `<button type="button" class="rd s${a}" data-s="${s}"></button>`;
-  }).join('') + '</div><span class="rd-pill" aria-hidden="true"></span>';
-  const row = dots.querySelector('.rd-row');
-  const pill = dots.querySelector('.rd-pill');
-  let p = 0; // which slot the pill is on: -1, 0 or 1
-  const place = () => {
-    pill.style.left = `calc(50% + ${p * STEP}px)`;
-    dots.querySelectorAll('button').forEach((b) => {
-      const d = Number(b.dataset.s) - p;
-      if (d === 0) { b.setAttribute('aria-current', 'true'); b.setAttribute('aria-label', 'Current review'); }
-      else { b.removeAttribute('aria-current'); b.setAttribute('aria-label', `${d < 0 ? 'Previous' : 'Next'} review${Math.abs(d) > 1 ? 's' : ''}`); }
+  // Instagram-style dots (Tim, 30 Oct 2026, v4 matched to a screen recording of Instagram). One dot per review along
+  // an endless strip. Either side of the window centre: dot, dot, smaller, smallest. The flat mint pill is the current
+  // review and lives on the centre slot or one either side of it. Moving within that range just hands the pill to the
+  // next dot (the grey dots stay put); moving past it slides the whole strip one step and the pill stays on its slot.
+  // Every dot animates its own position, size and colour, so a swipe glides rather than snapping.
+  const DOT = 8, GAP = 9, PILL = 24;
+  const SIZE = [DOT, DOT, DOT, 6, 4, 0]; // by distance from the window centre; 5 = hidden buffer
+  let v = 0; // the current review, counted along the endless strip
+  let w = 0; // the window centre (the pill is at w-1, w or w+1)
+  const els = new Map();
+  const make = (i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'rd';
+    b.addEventListener('click', () => {
+      if (i === v) return;
+      settle();
+      go(idx + (i - v), true);
     });
+    dots.appendChild(b);
+    els.set(i, b);
+    return b;
+  };
+  const layout = (fresh) => {
+    const ids = [];
+    for (let i = w - 5; i <= w + 5; i++) ids.push(i);
+    els.forEach((b, i) => { if (i < w - 5 || i > w + 5) { b.remove(); els.delete(i); } });
+    const wid = (i) => (i === v ? PILL : SIZE[Math.abs(i - w)]);
+    const ht = (i) => (i === v ? DOT : SIZE[Math.abs(i - w)]);
+    // lay the visible run (w-4..w+4) out edge to edge with even gaps, centred; one pill is always in it, so its
+    // total width never changes and dots that keep their size keep their place
+    let total = -GAP;
+    for (let i = w - 4; i <= w + 4; i++) total += wid(i) + GAP;
+    let x = -total / 2;
+    const centre = {};
+    for (let i = w - 4; i <= w + 4; i++) { centre[i] = x + wid(i) / 2; x += wid(i) + GAP; }
+    centre[w - 5] = centre[w - 4] - GAP; centre[w + 5] = centre[w + 4] + GAP;
+    ids.forEach((i) => {
+      const isNew = !els.has(i);
+      const b = isNew ? make(i) : els.get(i);
+      if (isNew || fresh) b.classList.add('rd-now'); // appear in place without animating
+      const r = Math.abs(i - w);
+      b.style.width = wid(i) + 'px';
+      b.style.height = ht(i) + 'px';
+      b.style.transform = `translate(calc(${centre[i]}px - 50%), -50%)`;
+      b.classList.toggle('on', i === v);
+      b.tabIndex = r === 5 ? -1 : 0;
+      b.setAttribute('aria-hidden', r === 5 ? 'true' : 'false');
+      if (i === v) { b.setAttribute('aria-current', 'true'); b.setAttribute('aria-label', 'Current review'); }
+      else {
+        b.removeAttribute('aria-current');
+        const d = i - v;
+        b.setAttribute('aria-label', `${d < 0 ? 'Previous' : 'Next'} review${Math.abs(d) > 1 ? 's' : ''}`);
+      }
+    });
+    requestAnimationFrame(() => dots.querySelectorAll('.rd-now').forEach((b) => b.classList.remove('rd-now')));
   };
   const bump = (dir) => {
-    if (Math.abs(p + dir) <= 1) { p += dir; place(); return; }
-    row.classList.remove('shift-next', 'shift-prev');
-    void row.offsetWidth;
-    row.classList.add(dir > 0 ? 'shift-next' : 'shift-prev');
+    v += dir;
+    if (v > w + 1) w = v - 1;
+    if (v < w - 1) w = v + 1;
+    layout(false);
   };
-  dots.querySelectorAll('button').forEach((b) => b.addEventListener('click', () => {
-    settle();
-    go(idx + Number(b.dataset.s) - p, true);
-  }));
-  place();
+  dots.innerHTML = '';
+  layout(true);
 
   let last = idx;
   let raf = 0;
