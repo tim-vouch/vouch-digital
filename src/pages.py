@@ -367,7 +367,7 @@ def lp_reviews():
     return out
 
 
-def lp_cases():
+def lp_cases(only=None):
     cases = [
         ("lp-flotech.webp", 940, 530, "Flotech Heating and Plumbing",
          "<em>12 new</em> Google reviews in his first week",
@@ -382,6 +382,8 @@ def lp_cases():
     ]
     out = ""
     for img, w, h, biz, h3, text, alt, note in cases:
+        if only and img != only:
+            continue
         out += f"""
       <article class="lp-case">
         <img src="/assets/img/{img}" width="{w}" height="{h}" alt="{alt}" loading="lazy">
@@ -398,8 +400,8 @@ def lp_form():
     return f"""
     <form class="enquiry lp-form" id="start" action="/api/enquiry" method="post" novalidate>
       <p class="lp-step">Step 1 of 2</p>
-      <h2>Book your free 15-minute call</h2>
-      <p class="small">Tell us about your business, then pick a time that suits you.</p>
+      <h2>Book your free website call</h2>
+      <p class="small">15 minutes. We'll look at your Google profile and website before we speak, so the call is useful.</p>
       {field("user", "name", "Your name", auto="name")}
       {field("building", "business", "Business name", auto="organization")}
       {field("phone", "phone", "Mobile number", "tel", "tel")}
@@ -412,13 +414,14 @@ def lp_form():
       </select></label>
       <input type="hidden" name="src" value="free-website"><input type="hidden" name="t" value="">
       <label class="hp" aria-hidden="true">Leave this empty<input type="text" name="company_url" tabindex="-1" autocomplete="off"></label>
-      <button class="btn btn-mint btn-block" type="submit">Next: pick a time {icon('arrow')}</button>
+      <button class="btn btn-mint btn-block" type="submit">Next: pick a call time {icon('arrow')}</button>
       <p class="form-msg" role="status" aria-live="polite"></p>
       <p class="form-note">No obligation. We'll only use your details about this call. <a href="/privacy">Privacy policy</a></p>
     </form>"""
 
 
 def lp_stack():
+    """Offer stack. Cut from /free-website on 30 Oct 2026 (Hormozi: shorter converts better). Kept to re-test."""
     p = PLANS[0]
     free = "".join(f'<li class="free"><span class="tick">{icon("check")}</span><span><b>{EXTRAS[k][1]}</b>'
                    f'<small>{EXTRAS[k][2]}</small></span><em><s>{EXTRAS[k][3]}</s> FREE</em></li>'
@@ -443,15 +446,21 @@ def lp_stack():
 
 
 def free_website():
+    """Hormozi's layout (30 Oct 2026): headline, subheadline, proof image, form, then 3 bullets answering the
+    biggest objections, then social proof underneath. Razor: if it doesn't raise the opt-in rate of qualified
+    leads, cut it. Ben Heath 10.2 kept: header navigation, proof, one action with every CTA going to the form."""
     ratings = (f'<a href="#reviews">{G_LOGO}<span><b>Google</b>{stars(5)}</span><em>{RATING}</em></a>'
                f'<a href="#reviews">{TP_ICON}<span><b>Trustpilot</b>{stars(5)}</span><em>{TRUSTPILOT["rating"]}</em></a>'
                f'<a href="#reviews">{FB_LOGO}<span><b>Facebook</b>{stars(5)}</span><em>{FACEBOOK["rating"]}</em></a>')
-    ticks = "".join(f'<li><span class="tick">{icon("check")}</span>{t}</li>' for t in [
-        "Custom-designed for your business, live in 3–5 days",
-        "Genuine Google reviews from your real customers, on autopilot",
-        "£197 a month, everything included. No contract.",
+    # The three biggest objections, most common first.
+    objections = "".join(f'<li><span class="tick">{icon("check")}</span><div><h3>{t}</h3><p>{d}</p></div></li>' for t, d in [
+        ("No catch, no contract",
+         "£197 a month, everything included. The website is your free joining bonus, and you can cancel anytime."),
+        ("Done for you",
+         "A 15-minute call and a short form. We design, build and run it all while you're out on jobs."),
+        ("No fake promises",
+         "We'll never promise you a number of jobs. Just a website as good as your work, and genuine Google reviews."),
     ])
-    faq = "".join(f"<details><summary>{q}{icon('chevron')}</summary><p>{a}</p></details>" for q, a in FAQ_HOME)
     return f"""
 <main class="lp">
 <section class="hero dark lp-hero">
@@ -459,55 +468,26 @@ def free_website():
     <div class="lp-copy">
       <p class="lp-pill">For plumbing &amp; heating business owners</p>
       <h1>A <span class="accent">FREE</span> website built to win boiler installs</h1>
-      <p class="lede">Join the Vouch System and we'll build your new website for free <span class="nw">(normally £1,499)</span>, then keep winning you work while you're out on jobs.</p>
+      <p class="lede">Join the Vouch System for £197 a month and we'll design and build your new website for free <span class="nw">(normally £1,499)</span>. Done for you, live in 3–5 days, no contract.</p>
+      <figure class="lp-shot"><img src="/assets/img/lp-mst.webp" width="885" height="543" alt="A plumber approving his new website on WhatsApp, next to the site on a phone">
+      <figcaption>The website we built for Andres at MST Plumbing and Heating, West London.</figcaption></figure>
     </div>
     {lp_form()}
-    <div class="lp-more">
-      <ul class="ticks">{ticks}</ul>
-      <div class="rating-row">{ratings}</div>
-    </div>
   </div>
 </section>
 
-<section class="lp-proof">
-  <div class="wrap">
-    <div class="sec-head"><p class="eyebrow">Real plumbers, real results</p><h2>Here's what we've done for plumbers like you</h2></div>
-    <div class="lp-cases">{lp_cases()}
-    </div>
-  </div>
+<section class="lp-objections">
+  <div class="wrap"><ul>{objections}</ul></div>
 </section>
 
-<section class="reviews rev-band lp-revs" id="reviews">
+<section class="lp-proof tint" id="reviews">
   <div class="wrap">
-    <div class="rev-top"><div><p class="eyebrow">Google reviews</p><h2>Plumbers who vouch for us</h2></div>
-    <a class="btn btn-mint" href="#start">Book my free call {icon('arrow')}</a></div>
-    <div class="rev-grid rev-carousel" tabindex="0" aria-label="Google reviews">{lp_reviews()}</div>
+    <div class="sec-head"><p class="eyebrow">Real plumbers, real results</p><h2>Plumbers who vouch for us</h2>
+    <div class="rating-row lp-ratings">{ratings}</div></div>
+    <div class="lp-cases one">{lp_cases(only="lp-flotech.webp")}
+    </div>
+    <div class="rev-grid rev-carousel lp-revs" tabindex="0" aria-label="Google reviews">{lp_reviews()}</div>
     <div class="rev-dots" aria-label="Choose review"></div>
-  </div>
-</section>
-
-{lp_stack()}
-
-{process_steps()}
-
-<section class="lp-honest">
-  <div class="wrap prose">
-    <p class="eyebrow">Straight talk</p>
-    <h2>No magic tricks. No fake promises.</h2>
-    <p>No agency (including ours) can promise you a set number of jobs, and you should run from anyone who does.</p>
-    <p>What we do: give you a website that looks as good as your work, a steady flow of genuine Google reviews, and a system that makes sure every enquiry gets an answer. We set it all up and keep it running. You keep doing great work and use the tools we give you.</p>
-    <a class="btn btn-mint" href="#start">Book my free call {icon('arrow')}</a>
-  </div>
-</section>
-
-<section class="faq" id="faq">
-  <div class="wrap">
-    <div class="intro">
-      <p class="eyebrow">Frequently asked questions</p>
-      <h2>Got questions? We've got straight answers.</h2>
-      <p>Anything else, call or text <a href="tel:{SITE['phone_intl']}">{SITE['phone']}</a>.</p>
-    </div>
-    <div>{faq}</div>
   </div>
 </section>
 
@@ -517,8 +497,7 @@ def free_website():
     <p class="eyebrow">15-minute call</p>
     <h2>Ready for your free website?</h2>
     <p class="muted">Book a quick call. We'll look at your Google profile and website together and show you exactly what we'd build.</p>
-    <div class="row"><a class="btn btn-mint" href="#start">Book my free call {icon('arrow')}</a>
-    <a class="btn btn-ghost" href="tel:{SITE['phone_intl']}">{icon('phone')} Call {SITE['phone']}</a></div>
+    <div class="row"><a class="btn btn-mint" href="#start">Book my free website call {icon('arrow')}</a></div>
     </div>
     {mascot()}
   </div>

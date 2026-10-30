@@ -12,7 +12,7 @@ wins plumbers more jobs, £197/month, everything included, no contract. Every bu
 
 **Meta ads funnel (since 30 Oct 2026):** ad → `/free-website` (landing page matching the ad, one short form with a
 domestic/commercial question) → `/book` (GHL calendar, pre-filled) → `/booked` (thank-you page with the VSL, Kai
-Stone's "watch this before the call"). Both new pages are noindex and live in `src/pages.py`. Commercial-only leads
+Stone's "watch this before the call"). Both new pages are noindex and live in `src/pages.py`. The landing page follows Hormozi's short layout (headline, subheadline, proof image, form, 3 objection bullets, then proof underneath); his razor applies: if a section doesn't raise the opt-in rate of qualified leads, cut it. The offer stack (`lp_stack()`) was cut and is kept to re-test. Commercial-only leads
 see a polite "not a fit" message and don't fire the Lead pixel event. `/booked` fires the pixel's Schedule event
 (consent only). Put the VSL embed URL in `SITE["vsl_url"]`. In GHL, set the calendar's confirmation to redirect to
 https://vouchdigital.co.uk/booked.
