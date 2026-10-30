@@ -67,7 +67,7 @@ if (quiz) {
     bar.querySelector('span').style.width = pct + '%';
     bar.querySelector('em').textContent = pct + '%';
     bar.setAttribute('aria-valuenow', pct);
-    back.style.visibility = i ? 'visible' : 'hidden';
+    back.hidden = !i; // no Back on the first question, so the title sits right above the bar
     quiz.querySelector('.qz-title').hidden = i > 0; // Kai Stone style: big title on the first question only
     (s.querySelector('input') || s.querySelector('button')).focus({ preventScroll: true });
   };
@@ -97,7 +97,7 @@ if (quiz) {
     if (step.dataset.field === 'work' && (b.dataset.value === 'not' || b.dataset.value === 'commercial')) {
       steps.forEach((s) => { s.hidden = true; });
       end.hidden = false;
-      back.style.visibility = 'visible';
+      back.hidden = false;
       end.querySelector('button').focus();
       return;
     }
