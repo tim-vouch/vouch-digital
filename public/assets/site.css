@@ -937,3 +937,12 @@ html.qz-on{overflow:hidden}
 .book.book-one.dark{background:var(--deep);padding-top:12px}
 .book-one .cal-ph{border-color:rgba(20,211,138,.45)}
 html{scroll-padding-top:20px}
+
+/* /book light version (30 Oct 2026): white top like the landing page, mint-tint calendar section */
+.book-hero.book-light{background:linear-gradient(180deg,var(--deep) 0,var(--deep) 84px,#fff 84px);color:var(--ink);padding-bottom:48px}
+.book-light h1{color:var(--deep)}
+.book-light .muted{color:var(--ink-soft)!important}
+.book.book-one{background:var(--mint-tint);padding-top:40px}
+.book-one .cal-ph{border-color:#b9dccd}
+.book-light h1{max-width:22em}
+@media (max-width:900px){.book-light .book-ratings{flex-direction:row;flex-wrap:wrap;justify-content:center;gap:14px 20px}.book-light .book-ratings a{width:auto}}

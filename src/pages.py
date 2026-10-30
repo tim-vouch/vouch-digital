@@ -341,15 +341,15 @@ def book():
         cal = '<div class="cal-ph"><p><b>Booking calendar</b><br>Pick a time for your free 15-minute call here.</p></div>'
     return f"""
 <main>
-<section class="dark book-hero">
+<section class="book-hero book-light">
   <div class="wrap">
-    <h1>Wait<span data-first></span>! Here's What Happens Next <span aria-hidden="true">👇</span></h1>
+    <h1>Wait<span data-first></span>! Here's What Happens Next...</h1>
     <p class="muted">Watch this quick video, then pick a time for your free call below.</p>
-    <div class="rating-row book-ratings">{ratings}</div>
+    <div class="rating-row book-ratings lp-ratings">{ratings}</div>
     {book_intro()}
   </div>
 </section>
-<section class="book book-one dark" id="calendar">
+<section class="book book-one" id="calendar">
   <div class="wrap">
     <div class="book-frame">{cal}</div>
   </div>
