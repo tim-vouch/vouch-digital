@@ -139,14 +139,18 @@ if (quiz) {
   });
 }
 
-// Video testimonials: press play to load and play (with controls); only one plays at a time
-document.querySelectorAll('.vt-play').forEach((b) => b.addEventListener('click', () => {
+// Video testimonials: the play button just starts the video (no controls over it, so the hook is seen clean).
+// Tapping the playing video brings up the player controls; at the end it resets to the play button.
+document.querySelectorAll('.vt-play').forEach((b) => {
   const v = b.parentElement.querySelector('video');
-  document.querySelectorAll('.vt video').forEach((o) => { if (o !== v) o.pause(); });
-  v.controls = true;
-  b.hidden = true;
-  v.play().catch(() => {});
-}));
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.vt video').forEach((o) => { if (o !== v) o.pause(); });
+    b.hidden = true;
+    v.play().catch(() => { v.controls = true; });
+  });
+  v.addEventListener('click', () => { if (!v.controls) v.controls = true; });
+  v.addEventListener('ended', () => { v.controls = false; v.currentTime = 0; b.hidden = false; });
+});
 
 // VSL: click-to-play, so nothing loads from the video host until the visitor presses play
 document.querySelectorAll('.vsl-play').forEach((b) => b.addEventListener('click', () => {
