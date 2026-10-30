@@ -376,7 +376,7 @@ def lp_reviews():
             continue
         first = escape(r["name"].split()[0])
         out += f"""<figure class="rev">{stars(r['stars'])}<blockquote>“{escape(r['text'])}”</blockquote>
-          <figcaption class="who"><span>{first}<small>Google review</small></span>{G_LOGO}</figcaption></figure>"""
+          <figcaption class="who"><span>{first}</span>{G_LOGO}</figcaption></figure>"""
     return out
 
 
@@ -455,22 +455,13 @@ QUIZ = [
     ("work", "What kind of work do you do?", [
         ("domestic", "Domestic (homeowners)"), ("commercial", "Commercial"),
         ("mixed", "Both domestic &amp; commercial"), ("not", "I'm not a plumber or heating engineer")]),
-    ("state", "How's business right now?", [
-        ("slow", "Slow, I need jobs now"), ("inconsistent", "Okay, but not consistent"),
-        ("busy", "Busy, booked solid"), ("starting", "Just starting my business")]),
-    ("timeline", "When do you want your new website and system live?", [
-        ("now", "Right away"), ("1-2m", "In the next month or two"),
-        ("later", "Later this year"), ("browsing", "Just seeing what's out there")]),
-    ("turnover", "Roughly what does your business turn over a month?", [
-        ("u5k", "Under £5,000"), ("5-15k", "£5,000 to £15,000"),
-        ("15-50k", "£15,000 to £50,000"), ("50k+", "£50,000+")]),
     ("phone", "Your mobile number", "tel", "07700 900123", "tel"),
     ("email", "What's your best email?", "email", "you@yourbusiness.co.uk", "email"),
     ("name", "Your name", "text", "First and last name", "name"),
     ("business", "What's your business called?", "text", "e.g. Smith Plumbing &amp; Heating", "organization"),
 ]
 # Endowed-progress bar (as on Kai Stone's quiz): starts at 60% and creeps up, so it always feels nearly done.
-QUIZ_PROGRESS = [60, 68, 76, 84, 90, 94, 96, 98]
+QUIZ_PROGRESS = [60, 76, 86, 93, 98]
 
 
 def lp_quiz():
@@ -504,10 +495,9 @@ def lp_quiz():
     <form class="qz-form" action="/api/enquiry" method="post" novalidate>
       {steps}
       <input type="hidden" name="src" value="free-website"><input type="hidden" name="t" value="">
-      <input type="hidden" name="work"><input type="hidden" name="state"><input type="hidden" name="timeline"><input type="hidden" name="turnover">
+      <input type="hidden" name="work">
       <label class="hp" aria-hidden="true">Leave this empty<input type="text" name="company_url" tabindex="-1" autocomplete="off"></label>
     </form>
-    <p class="qz-note" hidden><a href="/privacy" target="_blank" rel="noopener">Privacy policy</a></p>
   </div>
 </div>"""
 
