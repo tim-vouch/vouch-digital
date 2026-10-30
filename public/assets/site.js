@@ -140,51 +140,93 @@ if (quiz) {
 }
 
 // Video testimonials: our own minimal player (the browser's own controls add speed, cast, picture-in-picture and
-// volume buttons we can't remove). Big play button starts it clean; tapping the video shows a small bar with just
-// play/pause, a progress line and full screen. Starting one video pauses the others.
+// volume buttons we can't remove). Big play button starts it clean; tapping the video shows the controls (Tim,
+// 30 Oct 2026): play/pause top left and full screen top right (either side of the Vouch logo in the video), and a
+// full-width progress bar along the bottom that you can tap or drag to skip, so nobody needs full screen to move
+// through it. Starting one video pauses the others.
 {
   const ICON = {
     play: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg>',
     pause: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>',
     full: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>',
   };
+  const fmt = (s) => { s = Math.max(0, Math.floor(s || 0)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
   const vids = [...document.querySelectorAll('.vt video')];
   document.querySelectorAll('.vt-media').forEach((m) => {
     const v = m.querySelector('video');
     const big = m.querySelector('.vt-play');
-    const bar = document.createElement('div');
-    bar.className = 'vt-bar';
-    bar.hidden = true;
-    bar.innerHTML = `<button type="button" class="vt-pp" aria-label="Pause">${ICON.pause}</button>
-      <span class="vt-prog" aria-hidden="true"><i></i></span>
-      <button type="button" class="vt-fs" aria-label="Full screen">${ICON.full}</button>`;
-    m.appendChild(bar);
-    const pp = bar.querySelector('.vt-pp');
-    const prog = bar.querySelector('.vt-prog i');
-    let timer;
+    const ui = document.createElement('div');
+    ui.className = 'vt-ui';
+    ui.hidden = true;
+    ui.innerHTML = `<div class="vt-top">
+        <button type="button" class="vt-pp" aria-label="Pause">${ICON.pause}</button>
+        <button type="button" class="vt-fs" aria-label="Full screen">${ICON.full}</button>
+      </div>
+      <div class="vt-seek" role="slider" tabindex="0" aria-label="Video position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <span class="vt-track"><i></i><b></b></span>
+      </div>`;
+    m.appendChild(ui);
+    const pp = ui.querySelector('.vt-pp');
+    const seek = ui.querySelector('.vt-seek');
+    const fill = ui.querySelector('.vt-track i');
+    const knob = ui.querySelector('.vt-track b');
+    let timer, dragging = false;
     const show = (stay) => {
-      bar.hidden = false;
+      ui.hidden = false;
       clearTimeout(timer);
-      if (!stay && !v.paused) timer = setTimeout(() => { bar.hidden = true; }, 2500);
+      if (!stay && !v.paused && !dragging) timer = setTimeout(() => { ui.hidden = true; }, 2500);
     };
     const sync = () => {
       pp.innerHTML = v.paused ? ICON.play : ICON.pause;
       pp.setAttribute('aria-label', v.paused ? 'Play' : 'Pause');
     };
+    const paint = (f) => {
+      const pc = Math.max(0, Math.min(1, f)) * 100;
+      fill.style.width = pc + '%';
+      knob.style.left = pc + '%';
+      seek.setAttribute('aria-valuenow', String(Math.round(pc)));
+      seek.setAttribute('aria-valuetext', fmt(v.currentTime) + ' of ' + fmt(v.duration));
+    };
+    const at = (e) => { const r = seek.getBoundingClientRect(); return (e.clientX - r.left) / r.width; };
+    const jump = (f) => {
+      if (!v.duration) return;
+      f = Math.max(0, Math.min(1, f));
+      v.currentTime = f * v.duration;
+      paint(f);
+    };
     big.addEventListener('click', () => { big.hidden = true; v.play().catch(() => { big.hidden = false; }); });
-    v.addEventListener('play', () => { vids.forEach((o) => { if (o !== v && !o.paused) o.pause(); }); sync(); });
+    v.addEventListener('play', () => { vids.forEach((o) => { if (o !== v && !o.paused) o.pause(); }); sync(); show(); });
     v.addEventListener('pause', () => { sync(); if (!v.ended && big.hidden) show(true); });
-    v.addEventListener('timeupdate', () => { prog.style.width = ((v.currentTime / v.duration) * 100 || 0) + '%'; });
+    v.addEventListener('timeupdate', () => { if (!dragging) paint(v.currentTime / v.duration || 0); });
     v.addEventListener('click', () => { if (big.hidden) show(); });
     pp.addEventListener('click', () => { if (v.paused) v.play().catch(() => {}); else v.pause(); show(); });
-    bar.querySelector('.vt-fs').addEventListener('click', () => {
+    // tap or drag anywhere along the bar to skip
+    seek.addEventListener('pointerdown', (e) => {
+      dragging = true;
+      seek.classList.add('on');
+      try { seek.setPointerCapture(e.pointerId); } catch (_) { /* gone */ }
+      jump(at(e));
+      show(true);
+    });
+    seek.addEventListener('pointermove', (e) => { if (dragging) jump(at(e)); });
+    const end = () => { if (!dragging) return; dragging = false; seek.classList.remove('on'); show(); };
+    seek.addEventListener('pointerup', end);
+    seek.addEventListener('pointercancel', end);
+    seek.addEventListener('keydown', (e) => {
+      const d = e.key === 'ArrowRight' ? 5 : e.key === 'ArrowLeft' ? -5 : 0;
+      if (!d || !v.duration) return;
+      e.preventDefault();
+      jump((v.currentTime + d) / v.duration);
+      show();
+    });
+    ui.querySelector('.vt-fs').addEventListener('click', () => {
       if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
       else if (m.requestFullscreen) m.requestFullscreen().catch(() => {});
       else if (v.webkitEnterFullscreen) v.webkitEnterFullscreen(); // iPhone: only the video itself can go full screen
       show();
     });
     v.addEventListener('ended', () => {
-      bar.hidden = true;
+      ui.hidden = true;
       v.currentTime = 0;
       big.hidden = false;
       if (document.fullscreenElement === m) document.exitFullscreen().catch(() => {});
