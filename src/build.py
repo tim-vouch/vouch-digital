@@ -126,7 +126,7 @@ def header(path):
     <nav class="nav" id="nav">{links}</nav>
     <div class="head-cta">
       <a class="head-phone" href="tel:{SITE['phone_intl']}" aria-label="Call {SITE['phone']}">{icon('phone')} <span>{SITE['phone']}</span></a>
-      <a class="btn btn-mint" href="/book-call">Book a call {icon('arrow')}</a>
+      <a class="btn btn-mint" href="/book-form" target="_blank" rel="noopener">Book a call {icon('arrow')}</a>
       <button class="menu-btn" aria-label="Menu" aria-controls="nav" aria-expanded="false">{icon('menu')}</button>
     </div>
   </div>
@@ -144,7 +144,7 @@ def footer(path=""):
     else:
         logo = '<a class="logo" href="/"><img src="/assets/img/logo.webp" alt="Vouch Digital" width="112" height="48" loading="lazy"></a>'
         nav = '<nav class="foot-nav">' + "".join(f'<a href="{h}">{n}</a>' for n, h in NAV) + '</nav>'
-        cta = f'<a class="btn btn-mint" href="/book-call">Book a call {icon("arrow")}</a>'
+        cta = f'<a class="btn btn-mint" href="/book-form" target="_blank" rel="noopener">Book a call {icon("arrow")}</a>'
         contact = f'<a href="tel:{SITE["phone_intl"]}">{SITE["phone"]}</a> · <a href="mailto:{SITE["email"]}">{SITE["email"]}</a>'
         nt = ""
     return f"""

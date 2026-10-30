@@ -208,8 +208,7 @@ if (booker) {
         <input name="email" type="email" placeholder="Email address" autocomplete="email" aria-label="Email address" value="${esc(lead.email || '')}">
       </div>`}
       <button type="button" class="bk-btn" ${slot ? '' : 'disabled'}>Book My Call</button>
-      <p class="bk-msg" role="alert"></p>
-      <p class="bk-tz">Times shown in UK time · 15 minutes on Google Meet</p>`;
+      <p class="bk-msg" role="alert"></p>`;
     booker.querySelectorAll('.bk-day').forEach((b) => b.addEventListener('click', () => { keep(); day = +b.dataset.i; slot = null; render(); }));
     booker.querySelectorAll('.bk-time').forEach((b) => b.addEventListener('click', () => { keep(); slot = b.dataset.slot; render(); }));
     booker.querySelector('.bk-btn').addEventListener('click', book);

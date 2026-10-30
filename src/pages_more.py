@@ -354,7 +354,7 @@ def contact():
     ways = [
         ("phone", "Call or text", f'<a href="tel:{SITE["phone_intl"]}">{SITE["phone"]}</a>'),
         ("mail", "Email", f'<a href="mailto:{SITE["email"]}">{SITE["email"]}</a>'),
-        ("clipboard", "Book a call", '<a href="/book-call">Pick a time</a> that suits you for a 15-minute call.'),
+        ("clipboard", "Book a call", '<a href="/book-form" target="_blank" rel="noopener">Pick a time</a> that suits you for a 15-minute call.'),
     ]
     return page(
         hero("Contact", "Let's get your <span class=\"accent\">free website started.</span>",

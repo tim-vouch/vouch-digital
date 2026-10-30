@@ -46,12 +46,13 @@ def process_steps(cls="dark process"):
 </section>"""
 
 
-BOOK = "/book-call"
+BOOK = "/book-form"  # every "Book a call" outside the funnel opens the landing page in a new tab
+NEWTAB = ' target="_blank" rel="noopener"'
 
 
 
 def book_buttons(second=("See pricing", "/pricing")):
-    return (f'<div class="row"><a class="btn btn-mint" href="{BOOK}">Book a call {icon("arrow")}</a>'
+    return (f'<div class="row"><a class="btn btn-mint" href="{BOOK}"{NEWTAB}>Book a call {icon("arrow")}</a>'
             f'<a class="btn btn-ghost" href="{second[1]}">{second[0]}</a></div>')
 
 
@@ -64,7 +65,7 @@ def final_cta(h2="Be the plumber everyone vouches for.",
     <p class="eyebrow">15-minute demo call</p>
     <h2>{h2}</h2>
     <p class="muted">{text}</p>
-    <div class="row"><a class="btn btn-mint" href="{BOOK}">Book a call {icon('arrow')}</a>
+    <div class="row"><a class="btn btn-mint" href="{BOOK}"{NEWTAB}>Book a call {icon('arrow')}</a>
     <a class="btn btn-ghost" href="tel:{SITE['phone_intl']}">{icon('phone')} Call {SITE['phone']}</a></div>
     </div>
     {mascot()}
@@ -119,7 +120,7 @@ def pricing_section(h1=None, lede=None):
       <p class="pk-save is-note">No contract, cancel anytime</p>
       {free}
       <ul>{items}</ul>
-      <a class="pk-btn" href="{BOOK}">Book a call</a>
+      <a class="pk-btn" href="{BOOK}"{NEWTAB}>Book a call</a>
     </div>
     <div class="pk pk-x" data-base="{x['price']}" data-note="{x['pill']}">{x_data}
       <h3>{x['name']}</h3>
@@ -129,7 +130,7 @@ def pricing_section(h1=None, lede=None):
       <p class="pk-ads">{x['note']}</p>
       <p class="pk-all">Everything in the {p['name']}, plus:</p>
       <ul>{x_items}</ul>
-      <a class="pk-btn" href="{BOOK}">Book a call</a>
+      <a class="pk-btn" href="{BOOK}"{NEWTAB}>Book a call</a>
     </div>
     </div>
     </div>
@@ -232,7 +233,7 @@ def home():
       <div class="hero-row">
         <p class="hero-blurb"><span>No jargon, no magic tricks, no fake promises.</span><span>No agency... (including ours) has the miracle solution to all your problems. We'll give you the tools to win but you need to commit to using them!</span></p>
         <div class="hero-cta">
-          <a class="btn btn-mint" href="{BOOK}">Book a call {icon('arrow')}</a>
+          <a class="btn btn-mint" href="{BOOK}"{NEWTAB}>Book a call {icon('arrow')}</a>
         </div>
       </div>
       <div class="rating-row"><a href="#reviews">{G_LOGO}<span><b>Google</b>{stars(5)}</span><em>{RATING}</em></a>
@@ -540,7 +541,7 @@ def free_website():
 <section class="lp-k-proof tint" id="reviews">
   <div class="wrap">
     {lp_video_tests()}
-    <div class="sec-head"><p class="eyebrow">Google reviews</p><h2>Plumbers who vouch for us</h2></div>
+    <div class="sec-head"><h2>Plumbers who vouch for us</h2></div>
     <div class="rev-grid rev-carousel lp-revs" tabindex="0" aria-label="Google reviews">{lp_reviews()}</div>
     <div class="rev-dots" aria-label="Choose review"></div>
     <p class="lp-k-again"><a class="lp-k-btn" href="/book-call" data-quiz-open>{cta}</a></p>

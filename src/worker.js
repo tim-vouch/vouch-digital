@@ -40,10 +40,6 @@ export default {
     const moved = url.pathname.match(/^\/services\/(local-seo|ai-search)\/?$/);
     if (moved) return Response.redirect(url.origin + '/services/' + MOVED[moved[1]], 301);
 
-    // Funnel pages renamed 30 Oct 2026: /free-website -> /book-form, /book -> /book-call (keeps the query string, e.g. UTMs)
-    const renamed = { '/free-website': '/book-form', '/book': '/book-call' }[url.pathname.replace(/\/$/, '')];
-    if (renamed) return Response.redirect(url.origin + renamed + url.search, 301);
-
     // Electricians page retired (Oct 2026): the site is plumbers-only now.
     if (/^\/electricians\/?$/.test(url.pathname)) return Response.redirect(url.origin + '/plumbers', 301);
 
