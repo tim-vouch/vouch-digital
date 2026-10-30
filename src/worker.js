@@ -114,6 +114,14 @@ const LOCATION_ID = 'L3s5HpDyg41gJv8rwS4n'; // Vouch Digital sub-account
 const TIMEZONE = 'Europe/London';
 const CALL_MINUTES = 15;
 const MAX_DAYS = 4;
+// "Look busy": hide about this share of free times from the booking box so the calendar doesn't look empty.
+// The same times stay hidden on every load (picked by a hash of the time), and a day always keeps at least 2.
+const LOOK_BUSY = 0.10;
+const hidden = (iso) => {
+  let h = 2166136261;
+  for (const c of iso) h = Math.imul(h ^ c.charCodeAt(0), 16777619);
+  return ((h >>> 0) % 1000) / 1000 < LOOK_BUSY;
+};
 
 async function ghl(env, path, init = {}) {
   const headers = { Authorization: `Bearer ${env.GHL_TOKEN}`, Version: '2021-04-15', Accept: 'application/json' };
@@ -141,7 +149,11 @@ async function handleSlots(env) {
   if (!env.GHL_TOKEN) return json({ ok: false, error: 'not_configured' }, 503, true);
   const days = await freeSlots(env);
   if (!days) return json({ ok: false, error: 'upstream' }, 502, true);
-  return json({ ok: true, timezone: TIMEZONE, days }, 200, true);
+  const shown = days.map((d) => {
+    const kept = d.slots.filter((t) => !hidden(t));
+    return { date: d.date, slots: kept.length >= 2 ? kept : d.slots };
+  });
+  return json({ ok: true, timezone: TIMEZONE, days: shown }, 200, true);
 }
 
 async function handleBook(request, env) {
