@@ -95,16 +95,16 @@ NAV = [("Services", "/services"), ("Pricing", "/pricing"),
 
 # Ad landing pages: one action only (Hormozi). The header and footer stay for looks and the legal details, but
 # nothing navigates away: no menu, no phone, logo not linked, every button opens the quiz, legal pages open in a new tab.
-FUNNEL = {"/free-website", "/book", "/booked"}
+FUNNEL = {"/book-form", "/book-call", "/booked"}
 QUIZ_CTA = 'Click to see how it works'
 
 
 def funnel_cta(path):
     if path == "/booked":  # booked already: nothing more to click
         return ""
-    if path == "/book":  # already past the quiz: the one action is picking a time
+    if path == "/book-call":  # already past the quiz: the one action is picking a time
         return f'<a class="btn btn-mint" href="#calendar">Pick a time {icon("arrow")}</a>'
-    return f'<a class="btn btn-mint" href="/book" data-quiz-open>{QUIZ_CTA} {icon("arrow")}</a>'
+    return f'<a class="btn btn-mint" href="/book-call" data-quiz-open>{QUIZ_CTA} {icon("arrow")}</a>'
 
 
 def header(path):
@@ -126,7 +126,7 @@ def header(path):
     <nav class="nav" id="nav">{links}</nav>
     <div class="head-cta">
       <a class="head-phone" href="tel:{SITE['phone_intl']}" aria-label="Call {SITE['phone']}">{icon('phone')} <span>{SITE['phone']}</span></a>
-      <a class="btn btn-mint" href="/book">Book a call {icon('arrow')}</a>
+      <a class="btn btn-mint" href="/book-call">Book a call {icon('arrow')}</a>
       <button class="menu-btn" aria-label="Menu" aria-controls="nav" aria-expanded="false">{icon('menu')}</button>
     </div>
   </div>
@@ -144,7 +144,7 @@ def footer(path=""):
     else:
         logo = '<a class="logo" href="/"><img src="/assets/img/logo.webp" alt="Vouch Digital" width="112" height="48" loading="lazy"></a>'
         nav = '<nav class="foot-nav">' + "".join(f'<a href="{h}">{n}</a>' for n, h in NAV) + '</nav>'
-        cta = f'<a class="btn btn-mint" href="/book">Book a call {icon("arrow")}</a>'
+        cta = f'<a class="btn btn-mint" href="/book-call">Book a call {icon("arrow")}</a>'
         contact = f'<a href="tel:{SITE["phone_intl"]}">{SITE["phone"]}</a> · <a href="mailto:{SITE["email"]}">{SITE["email"]}</a>'
         nt = ""
     return f"""
@@ -190,7 +190,7 @@ def main():
         '<?xml version="1.0" encoding="UTF-8"?>'
         f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>\n', encoding="utf-8")
     (OUT / "robots.txt").write_text(
-        "User-agent: *\nAllow: /\nDisallow: /book\nDisallow: /booked\n\n" f"Sitemap: {SITE['domain']}/sitemap.xml\n", encoding="utf-8")
+        "User-agent: *\nAllow: /\nDisallow: /book-form\nDisallow: /book-call\nDisallow: /booked\n\n" f"Sitemap: {SITE['domain']}/sitemap.xml\n", encoding="utf-8")
     print("built sitemap.xml, robots.txt")
 
 

@@ -40,6 +40,10 @@ export default {
     const moved = url.pathname.match(/^\/services\/(local-seo|ai-search)\/?$/);
     if (moved) return Response.redirect(url.origin + '/services/' + MOVED[moved[1]], 301);
 
+    // Funnel pages renamed 30 Oct 2026: /free-website -> /book-form, /book -> /book-call (keeps the query string, e.g. UTMs)
+    const renamed = { '/free-website': '/book-form', '/book': '/book-call' }[url.pathname.replace(/\/$/, '')];
+    if (renamed) return Response.redirect(url.origin + renamed + url.search, 301);
+
     // Electricians page retired (Oct 2026): the site is plumbers-only now.
     if (/^\/electricians\/?$/.test(url.pathname)) return Response.redirect(url.origin + '/plumbers', 301);
 
@@ -105,7 +109,7 @@ async function handleEnquiry(request, env) {
   return res.ok ? json({ ok: true }) : json({ ok: false, error: 'upstream' }, 502);
 }
 
-// ---------- Booking box on /book (Trade Scale style), via the GHL API ----------
+// ---------- Booking box on /book-call (Trade Scale style), via the GHL API ----------
 // Needs secret GHL_TOKEN (a GHL Private Integration key with calendars + contacts scopes), set in Cloudflare.
 // Without it /api/slots returns 503 and the page falls back to GHL's own calendar widget.
 const GHL_API = 'https://services.leadconnectorhq.com';

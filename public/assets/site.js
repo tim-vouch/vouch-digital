@@ -45,11 +45,11 @@ document.querySelectorAll('form.enquiry').forEach((form) => {
     } catch (_) { /* private mode: the calendar will just ask again */ }
     // Meta pixel Lead event (only exists if the visitor accepted cookies)
     try { if (window.fbq && localStorage.getItem('vouch_cookie_consent') === 'granted') window.fbq('track', 'Lead'); } catch (_) {}
-    window.location.href = '/book';
+    window.location.href = '/book-call';
   });
 });
 
-// Landing page quiz (/free-website): a multi-step popup. Every [data-quiz-open] opens it (falls back to /book).
+// Landing page quiz (/book-form): a multi-step popup. Every [data-quiz-open] opens it (falls back to /book-call).
 const quiz = document.getElementById('quiz');
 if (quiz) {
   const form = quiz.querySelector('.qz-form');
@@ -121,7 +121,7 @@ if (quiz) {
       }));
     } catch (_) {}
     try { if (window.fbq && localStorage.getItem('vouch_cookie_consent') === 'granted') window.fbq('track', 'Lead'); } catch (_) {}
-    window.location.href = '/book';
+    window.location.href = '/book-call';
   };
   quiz.querySelectorAll('.qz-next:not([data-quiz-close])').forEach((btn) => {
     const step = btn.closest('.qz-step');

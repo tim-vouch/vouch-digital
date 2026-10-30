@@ -46,7 +46,7 @@ def process_steps(cls="dark process"):
 </section>"""
 
 
-BOOK = "/book"
+BOOK = "/book-call"
 
 
 
@@ -407,7 +407,7 @@ def lp_cases(only=None):
 
 
 def lp_stack():
-    """Offer stack. Cut from /free-website on 30 Oct 2026 (Hormozi: shorter converts better). Kept to re-test."""
+    """Offer stack. Cut from the landing page on 30 Oct 2026 (Hormozi: shorter converts better). Kept to re-test."""
     p = PLANS[0]
     free = "".join(f'<li class="free"><span class="tick">{icon("check")}</span><span><b>{EXTRAS[k][1]}</b>'
                    f'<small>{EXTRAS[k][2]}</small></span><em><s>{EXTRAS[k][3]}</s> FREE</em></li>'
@@ -532,7 +532,7 @@ def free_website():
     <p class="lp-k-price">£197/month <span aria-hidden="true">👇</span></p>
     <p class="lp-k-free">+ your new website <b>FREE</b> (normally £1,499) · No contract</p>
     <div class="lp-k-media">{media}</div>
-    <a class="lp-k-btn" href="/book" data-quiz-open>{cta}</a>
+    <a class="lp-k-btn" href="/book-call" data-quiz-open>{cta}</a>
     <div class="rating-row lp-ratings">{ratings}</div>
   </div>
 </section>
@@ -543,7 +543,7 @@ def free_website():
     <div class="sec-head"><p class="eyebrow">Google reviews</p><h2>Plumbers who vouch for us</h2></div>
     <div class="rev-grid rev-carousel lp-revs" tabindex="0" aria-label="Google reviews">{lp_reviews()}</div>
     <div class="rev-dots" aria-label="Choose review"></div>
-    <p class="lp-k-again"><a class="lp-k-btn" href="/book" data-quiz-open>{cta}</a></p>
+    <p class="lp-k-again"><a class="lp-k-btn" href="/book-call" data-quiz-open>{cta}</a></p>
   </div>
 </section>
 {lp_quiz()}
@@ -619,10 +619,10 @@ ALL = [
      "title": "Marketing for Domestic Plumbers & Heating Engineers | Vouch Digital",
      "desc": "A free website plus missed-call text-back, Google reviews, your Google profile and local SEO "
              "for domestic plumbers. Set up for you, no contract."},
-    {"path": "/book", "body": book, "noindex": True,
+    {"path": "/book-call", "body": book, "noindex": True,
      "title": "Book a call | Vouch Digital",
      "desc": "Book a 15-minute call with Vouch Digital."},
-    {"path": "/free-website", "body": free_website, "noindex": True,
+    {"path": "/book-form", "body": free_website, "noindex": True,
      "title": "Get a FREE website built to win boiler installs | Vouch Digital",
      "desc": "Join the Vouch System for £197 a month and get your new website free (normally £1,499). "
              "Done for you, no contract."},

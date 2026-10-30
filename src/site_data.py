@@ -13,7 +13,7 @@ SITE = {
     "area": "the UK",
     # GHL booking calendar for the 15-minute demo call. GHL's own domain (always works), not link.vouchdigital.co.uk
     "booking_url": "https://api.leadconnectorhq.com/widget/booking/DrMkJxzFYMwX68pGXSZt",  # "15 Minute Chat with Tim" (30 Oct 2026)
-    # False = a placeholder box on /book instead of the calendar (it was failing to load on 30 Oct 2026).
+    # False = a placeholder box on /book-call instead of the calendar (it was failing to load on 30 Oct 2026).
     # Set True once the GHL booking link above is checked and working.
     "calendar_ready": True,
     # Keep True until the site is live on vouchdigital.co.uk
@@ -23,16 +23,16 @@ SITE = {
     # Video sales letter shown on /booked after someone books a call (Kai's "watch this before the call").
     # Paste the embed link (YouTube "embed" URL, Loom "embed" URL, etc.). Empty = a "video on its way" note instead.
     "vsl_url": "",
-    # Optional still for the VSL thumbnail on /free-website (e.g. "/assets/img/vsl-poster.webp", a frame of Tim talking).
+    # Optional still for the VSL thumbnail on /book-form (e.g. "/assets/img/vsl-poster.webp", a frame of Tim talking).
     # Empty = a branded poster drawn in CSS.
     "vsl_poster": "/assets/img/vsl-poster.webp",  # blurred screenshot of our homepage; swap for a blurred frame of the VSL
-    # Short "here's what happens now" video at the top of /book (portrait, ~35 seconds, Trade Scale style).
+    # Short "here's what happens now" video at the top of /book-call (portrait, ~35 seconds, Trade Scale style).
     # Self-hosted MP4 under /assets/video/ (no third-party cookies), plus a still for the poster. Empty = no video.
     "book_video": "",
     "book_video_poster": "",
 }
 
-# Video testimonials on /free-website (real clients only, with their permission).
+# Video testimonials on /book-form (real clients only, with their permission).
 # Each: name, business, quote (their own words from the video), src (MP4 under /assets/video/), poster (still image).
 TESTIMONIAL_VIDEOS = []
 
