@@ -140,6 +140,7 @@ def pricing_section(h1=None, lede=None):
     </div>
     </div>
     <p class="pr-foot">Want just the website? It's £1,499 as a one-off, yours to keep.</p>
+    <p class="pr-terms">Annual plans are paid upfront for 12 months and are non-refundable. You can cancel any time and keep the service until the end of your paid year. See our <a href="/terms">terms</a>.</p>
   </div>
 </section>"""
 

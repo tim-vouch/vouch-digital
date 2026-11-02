@@ -1084,3 +1084,6 @@ html{scroll-padding-top:20px}
   .rev-arrow.prev{left:-66px}
   .rev-arrow.next{right:-66px}
 }
+
+.pr-terms{margin:10px auto 0;max-width:640px;text-align:center;font-size:13px;color:var(--ink-soft)}
+.pr-terms a{color:inherit;text-decoration:underline}
