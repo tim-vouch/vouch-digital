@@ -85,6 +85,8 @@ FAQ_HOME = [
      "No. The monthly plan has no contract, so you can cancel anytime."),
     ("Do I own my domain?",
      "Yes. Your domain is registered in your business's name, not ours."),
+    ("Do I own my website?",
+     "After 6 months with us, yes: we hand you a complete, working copy of your site. If you leave before that, you can either let us take it down or keep it for a one-off £499."),
     ("How long does it take to get set up?",
      "Your website is usually live within 3–5 days of us receiving your onboarding form. Then we walk you through "
      "everything on a 25-minute launch call."),

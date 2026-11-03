@@ -64,6 +64,8 @@ SERVICE_PAGES = {
              "bringing in enquiries, a new one will do a better job. We'll tell you honestly on the call."),
             ("Do I own my domain?",
              "Yes. Your domain is registered in your business's name, not ours."),
+            ("Do I own my website?",
+             "After 6 months with us, yes: we hand you a complete, working copy of your site. If you leave before that, you can either let us take it down or keep it for a one-off £499."),
             ("How long does it take?",
              "Usually 3–5 days once we have your onboarding form and photos."),
         ],
