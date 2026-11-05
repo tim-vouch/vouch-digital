@@ -245,6 +245,24 @@ document.querySelectorAll('.vsl-play').forEach((b) => b.addEventListener('click'
   b.replaceWith(f);
 }));
 
+// Booking page: sticky "Book your call" for anyone sold before the video ends. Shows once they scroll a little,
+// hides while the calendar is on screen, and goes for good once they've booked.
+{
+  const sticky = document.querySelector('.book-sticky');
+  const cal = document.getElementById('calendar');
+  if (sticky && cal && 'IntersectionObserver' in window) {
+    sticky.hidden = false;
+    let calOn = false;
+    const update = () => {
+      const booked = !!document.querySelector('.bk-done');
+      sticky.classList.toggle('show', !booked && !calOn && window.scrollY > 120);
+    };
+    new IntersectionObserver((es) => { calOn = es[0].isIntersecting; update(); }, { threshold: 0.15 }).observe(cal);
+    window.addEventListener('scroll', update, { passive: true });
+    sticky.addEventListener('click', (e) => { e.preventDefault(); cal.scrollIntoView({ behavior: 'smooth' }); });
+  }
+}
+
 // Booking page: "Wait Darren!" when they've just come from the form
 {
   const h = document.querySelector('[data-first]');

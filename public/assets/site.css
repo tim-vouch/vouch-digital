@@ -1087,3 +1087,23 @@ html{scroll-padding-top:20px}
 
 .pr-terms{margin:10px auto 0;max-width:640px;text-align:center;font-size:13px;color:var(--ink-soft)}
 .pr-terms a{color:inherit;text-decoration:underline}
+
+/* /book-call (5 Nov 2026): VSL on top, calendar under it, Get Started under that, sticky "Book your call" */
+.book-eyebrow{margin-top:8px}
+.book-light h1{max-width:20em}
+.book-vsl-top{max-width:900px;margin:30px auto 0}
+.book-vsl-ph{display:grid;place-items:center;text-align:center;color:rgba(255,255,255,.85);border:1px dashed rgba(20,211,138,.5)}
+.book-vsl-ph b{color:#fff;font-family:var(--head);font-size:20px}
+.book-cal-head{text-align:center;margin:0 auto 22px;max-width:36em}
+.book-cal-head h2{font-size:clamp(24px,3vw,32px);font-weight:800;margin-bottom:8px}
+.book-cal-head p{color:var(--ink-soft)}
+.book-go{text-align:center;margin-top:44px;max-width:560px}
+.book-go-q{font-family:var(--head);font-weight:800;font-size:20px;margin-bottom:12px}
+.book-go .btn-ghost{color:var(--deep);border-color:var(--deep);background:#fff}
+.book-go .btn-ghost:hover{background:var(--deep);color:#fff}
+.book-go-small{margin-top:10px;font-size:14px;font-weight:600}
+.book-go-note{margin-top:4px;font-size:14px;color:var(--ink-soft)}
+.book-sticky{position:fixed;left:50%;bottom:16px;z-index:90;transform:translate(-50%,140%);opacity:0;transition:transform .3s,opacity .3s;box-shadow:0 12px 30px rgba(4,32,27,.35);white-space:nowrap}
+.book-sticky.show{transform:translate(-50%,0);opacity:1}
+body:has(.cookie-banner) .book-sticky{bottom:96px}
+@media (max-width:560px){body:has(.cookie-banner) .book-sticky{bottom:150px}}

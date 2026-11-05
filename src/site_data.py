@@ -20,16 +20,17 @@ SITE = {
     "noindex": False,
     # Meta (Facebook) pixel. Only loads after a visitor accepts cookies (see the consent code in site.js).
     "meta_pixel_id": "1737681243973132",
-    # Video sales letter shown on /booked after someone books a call (Kai's "watch this before the call").
-    # Paste the embed link (YouTube "embed" URL, Loom "embed" URL, etc.). Empty = a "video on its way" note instead.
+    # The VSL (Tim, 6m44, recorded 5 Nov 2026): top of /book-call, above the calendar. Paste the YouTube "embed" link
+    # of the unlisted upload, ideally on youtube-nocookie.com (e.g. "https://www.youtube-nocookie.com/embed/VIDEO_ID").
+    # It only loads when the visitor presses play. Empty = a placeholder box. Don't run ads until this is set.
     "vsl_url": "",
-    # Optional still for the VSL thumbnail on /book-form (e.g. "/assets/img/vsl-poster.webp", a frame of Tim talking).
-    # Empty = a branded poster drawn in CSS.
+    # Blurred still for the VSL thumbnail on /book-form (the quiz unlocks the video). Empty = a branded poster in CSS.
     "vsl_poster": "/assets/img/vsl-poster.webp",  # blurred screenshot of our homepage; swap for a blurred frame of the VSL
-    # Short "here's what happens now" video at the top of /book-call (portrait, ~35 seconds, Trade Scale style).
-    # Self-hosted MP4 under /assets/video/ (no third-party cookies), plus a still for the poster. Empty = no video.
-    "book_video": "",
-    "book_video_poster": "",
+    # Clear still for the VSL on /book-call (e.g. "/assets/img/vsl-still.webp", a frame of Tim). Empty = branded poster.
+    "vsl_still": "",
+    # Stripe Payment Link for the £197/month plan: the "Get Started" button under the calendar on /book-call.
+    # Empty = the button is hidden.
+    "checkout_url": "",
 }
 
 # Video testimonials on /book-form (real clients only, with their permission).

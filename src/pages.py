@@ -318,28 +318,31 @@ def home():
 </main>"""
 
 
-def book_intro():
-    """Trade Scale style: Tim's ~30-second portrait clip, right above the calendar. Placeholder until recorded.
-    The full VSL is not here (it would slow booking down); it goes out on WhatsApp after booking."""
-    if not SITE.get("book_video"):
-        return ('<div class="book-intro book-ph"><span class="vp-btn" aria-hidden="true"><svg viewBox="0 0 24 24">'
-                '<path d="M9 6.5v11l9-5.5z"/></svg></span><p>Tim\'s 30-second video<br><small>coming soon</small></p></div>')
-    poster = f' poster="{SITE["book_video_poster"]}"' if SITE.get("book_video_poster") else ""
-    return (f'<div class="book-intro"><video controls playsinline preload="metadata"{poster}>'
-            f'<source src="{SITE["book_video"]}" type="video/mp4"></video></div>')
-
-
-def book_vsl_below():
-    """The full walkthrough promised on the landing page, under the calendar so it never slows booking down."""
+def book_vsl():
+    """The VSL the landing page promised, right at the top (5 Nov 2026: replaces Tim's 30-second clip).
+    The outro says "pick a time below this video" and "tap Get started below this video", so both sit underneath."""
     if not SITE.get("vsl_url"):
+        return ('<div class="svc-video book-vsl-top book-vsl-ph"><p><b>Tim\'s video</b><br>'
+                '<small>Under 7 minutes: how we help plumbers win more jobs</small></p></div>')
+    return vsl_player("book-vsl-top", still=True)
+
+
+def book_checkout():
+    """For anyone already sold by the video: straight to the Stripe checkout. Secondary to the call, on purpose."""
+    if not SITE.get("checkout_url"):
         return ""
     return f"""
-  <div class="wrap book-vsl-below"><p class="eyebrow">Here's the video</p><h2>How it all works</h2>{vsl_player()}</div>"""
+  <div class="wrap book-go">
+    <p class="book-go-q">Ready to get started now?</p>
+    <a class="btn btn-ghost book-go-btn" href="{SITE['checkout_url']}" target="_blank" rel="noopener">Get Started {icon('arrow')}</a>
+    <p class="book-go-small">£197/month · No contract · Free website included</p>
+    <p class="book-go-note">We'll use our call as your onboarding call, so you're up and running even faster.</p>
+  </div>"""
 
 
 def book():
-    """'Wait, here's what happens next' (Chris Dylan): Tim's 30-second clip, then the calendar straight under it,
-    nothing else to distract (Trade Scale layout)."""
+    """Post-quiz page (5 Nov 2026, Kevin/Kai layout): the VSL first, the calendar under it, then Get Started.
+    A sticky "Book your call" button (site.js) jumps to the calendar for anyone ready before the video ends."""
     ratings = (f'<a href="#">{G_LOGO}<span><b>Google</b>{stars(5)}</span><em>{RATING}</em></a>'
                f'<a href="{TRUSTPILOT["url"]}" target="_blank" rel="noopener">{TP_ICON}<span><b>Trustpilot</b>{stars(5)}</span><em>{TRUSTPILOT["rating"]}</em></a>'
                f'<a href="{FACEBOOK["url"] or "#"}" target="_blank" rel="noopener">{FB_LOGO}<span><b>Facebook</b>{stars(5)}</span><em>{FACEBOOK["rating"]}</em></a>')
@@ -355,23 +358,27 @@ def book():
 <main>
 <section class="book-hero book-light">
   <div class="wrap">
-    <h1>Wait<span data-first></span>! There's 1&nbsp;More&nbsp;Step&nbsp;<span aria-hidden="true">👇</span></h1>
-    <p class="muted">Watch this quick video on what happens next.<br>Then pick a time for your free call below.</p>
+    <p class="eyebrow book-eyebrow">Thanks<span data-first></span>! One more step</p>
+    <h1>Watch this short video, then pick a time below for your free call&nbsp;<span aria-hidden="true">👇</span></h1>
+    <p class="muted">Under 7 minutes: exactly how we help plumbers win more jobs, with real client results.</p>
+    {book_vsl()}
     <div class="rating-row book-ratings lp-ratings">{ratings}</div>
-    {book_intro()}
   </div>
 </section>
 <section class="book book-one" id="calendar">
   <div class="wrap">
+    <div class="book-cal-head"><h2>Pick a time for your free 15&#8209;minute call</h2>
+    <p>I'll walk you through a few of our plumbers' accounts and show you how it'd work for your business.</p></div>
     <div class="book-frame">{cal}</div>
   </div>
-  {book_vsl_below()}
+  {book_checkout()}
 </section>
+<a class="btn btn-mint book-sticky" href="#calendar" hidden>📅 Book your call</a>
 </main>
 <script src="https://link.msgsndr.com/js/form_embed.js" defer></script>"""
 
 
-# ---------- Meta ads funnel (Oct 2026): ad → /book-form (quiz) → /book-call (clip + booking box); the VSL goes out on WhatsApp ----------
+# ---------- Meta ads funnel (Oct 2026): ad → /book-form (quiz) → /book-call (VSL, then the booking box, then Get Started) ----------
 # Kai Stone's flow: they book, then watch the video before the call so they arrive pre-sold.
 # Ben Heath (10.2): match the ad, lots of proof, one action, every CTA goes back to the same form.
 
@@ -439,19 +446,21 @@ def lp_stack():
 </section>"""
 
 
-def vsl_player(cls="lp-vsl"):
-    """The VSL as a click-to-play facade: nothing loads from the video host until the visitor presses play."""
+def vsl_player(cls="lp-vsl", still=False):
+    """The VSL as a click-to-play facade: nothing loads from the video host until the visitor presses play.
+    still=True uses SITE["vsl_still"] (a clear frame) instead of the blurred landing-page poster."""
     vsl = SITE.get("vsl_url")
     if not vsl:
         return ""
     sep = "&" if "?" in vsl else "?"
     return (f'<div class="svc-video {cls}"><button type="button" class="vsl-play" data-embed="{vsl}{sep}autoplay=1" '
-            f'aria-label="Play the video">{vsl_poster_inner()}</button></div>')
+            f'aria-label="Play the video">{vsl_poster_inner(still)}</button></div>')
 
 
-def vsl_poster_inner():
-    if SITE.get("vsl_poster"):
-        art = f'<img src="{SITE["vsl_poster"]}" alt="" loading="lazy">'
+def vsl_poster_inner(still=False):
+    pic = SITE.get("vsl_still") if still else SITE.get("vsl_poster")
+    if pic:
+        art = f'<img src="{pic}" alt="" loading="lazy">'
     else:
         art = (f'<span class="vp-art"><span class="vp-copy"><b>How we win plumbers more jobs</b>'
                f'<small>A quick walkthrough with Tim, founder of Vouch Digital</small></span>'
