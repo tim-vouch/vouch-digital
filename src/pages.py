@@ -343,9 +343,6 @@ def book_checkout():
 def book():
     """Post-quiz page (5 Nov 2026, Kevin/Kai layout): the VSL first, the calendar under it, then Get Started.
     A sticky "Book your call" button (site.js) jumps to the calendar for anyone ready before the video ends."""
-    ratings = (f'<a href="#">{G_LOGO}<span><b>Google</b>{stars(5)}</span><em>{RATING}</em></a>'
-               f'<a href="{TRUSTPILOT["url"]}" target="_blank" rel="noopener">{TP_ICON}<span><b>Trustpilot</b>{stars(5)}</span><em>{TRUSTPILOT["rating"]}</em></a>'
-               f'<a href="{FACEBOOK["url"] or "#"}" target="_blank" rel="noopener">{FB_LOGO}<span><b>Facebook</b>{stars(5)}</span><em>{FACEBOOK["rating"]}</em></a>')
     if SITE.get("calendar_ready"):
         # Our own Trade Scale-style booking box (times from GHL via /api/slots). If that fails (e.g. no GHL_TOKEN
         # in Cloudflare), site.js swaps in GHL's own calendar widget from the template.
@@ -358,11 +355,8 @@ def book():
 <main>
 <section class="book-hero book-light">
   <div class="wrap">
-    <p class="eyebrow book-eyebrow">Thanks<span data-first></span>! One more step</p>
-    <h1>Watch this short video, then pick a time below for your free call&nbsp;<span aria-hidden="true">👇</span></h1>
-    <p class="muted">Under 7 minutes: exactly how we help plumbers win more jobs, with real client results.</p>
+    <h1>Wait<span data-first></span>! Watch This Short Video and Pick a Time for Your Free&nbsp;Call&nbsp;<span aria-hidden="true">👇</span></h1>
     {book_vsl()}
-    <div class="rating-row book-ratings lp-ratings">{ratings}</div>
   </div>
 </section>
 <section class="book book-one" id="calendar">
