@@ -59,6 +59,11 @@ Mascot (Tim's own artwork): `public/assets/img/mascot.webp`, used via `mascot()`
   `src/site_data.py`, from £997/month plus ad spend, tailored, "Book a call"). Exclusive is the price anchor; its
   extras have no service pages, so each opens in place. Not on the homepage or service pages. One billing toggle
   drives both cards (monthly, or annual upfront with 3 months free; quarterly removed 28 Oct 2026).
+- 30-day guarantee (9 Nov 2026, matches the Meta ads): not happy with the website → tell us within 30 days of the first
+  payment and we refund it in full (the annual payment in full on an annual plan); the agreement ends at once and the
+  website terms apply (taken down, or the £499 transfer fee). Once per business. It's a satisfaction guarantee, never a
+  results guarantee (terms clause 8 still promises no outcomes). Lives in terms clause 5, under the Growth card on
+  /pricing (`.pk-guar`), the pricing small print, and FAQ_HOME "What if I don't like my website?". Keep all four in step.
 
 ## Launch checklist
 - [x] Set `noindex` to False in `src/site_data.py`

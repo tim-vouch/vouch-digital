@@ -1107,3 +1107,9 @@ html{scroll-padding-top:20px}
 .book-sticky.show{transform:translate(-50%,0);opacity:1}
 body:has(.cookie-banner) .book-sticky{bottom:96px}
 @media (max-width:560px){body:has(.cookie-banner) .book-sticky{bottom:150px}}
+
+/* Pricing: 30-day guarantee under the Growth card's button (9 Nov 2026) */
+.pk-guar{margin:12px 0 -6px;text-align:center;font-size:14px;font-weight:700;color:rgba(255,255,255,.92)}
+.pk-guar::before{content:"✓ ";color:var(--mint)}
+.pk-guar-sp{visibility:hidden}
+@media (max-width:860px){.pk-guar-sp{display:none}}

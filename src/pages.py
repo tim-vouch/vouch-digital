@@ -126,6 +126,7 @@ def pricing_section(h1=None, lede=None):
       {free}
       <ul>{items}</ul>
       <a class="pk-btn" href="{BOOK}"{NEWTAB}>Book a call</a>
+      <p class="pk-guar">30-day money-back guarantee</p>
     </div>
     <div class="pk pk-x" data-base="{x['price']}" data-note="{x['pill']}">{x_data}
       <h3>{x['name']}</h3>
@@ -136,11 +137,12 @@ def pricing_section(h1=None, lede=None):
       <p class="pk-all">Everything in the {p['name']}, plus:</p>
       <ul>{x_items}</ul>
       <a class="pk-btn" href="{BOOK}"{NEWTAB}>Book a call</a>
+      <p class="pk-guar pk-guar-sp" aria-hidden="true">&nbsp;</p>
     </div>
     </div>
     </div>
     <p class="pr-foot">Want just the website? It's £1,499 as a one-off, yours to keep.</p>
-    <p class="pr-terms">Annual plans are paid upfront for 12 months and are non-refundable. You can cancel any time and keep the service until the end of your paid year. See our <a href="/terms">terms</a>.</p>
+    <p class="pr-terms">Not happy with your website? Tell us within 30 days of your first payment and we'll refund it in full. Annual plans are paid upfront for 12 months and, after those first 30 days, are non-refundable. You can cancel any time and keep the service until the end of your paid year. See our <a href="/terms">terms</a>.</p>
   </div>
 </section>"""
 
