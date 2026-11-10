@@ -527,10 +527,23 @@ document.querySelectorAll('.rev-carousel').forEach((c) => {
   const get = () => { try { return localStorage.getItem(KEY); } catch (_) { return null; } };
   const set = (v) => { try { localStorage.setItem(KEY, v); } catch (_) { /* private mode */ } };
 
+  // Ahrefs Web Analytics (cookie-free visit counts). Like the pixel, it only loads after Accept (site rule: no tracking before consent).
+  let analyticsLoaded = false;
+  const loadAnalytics = () => {
+    if (analyticsLoaded || framed) return;
+    analyticsLoaded = true;
+    const s = document.createElement('script');
+    s.src = 'https://analytics.ahrefs.com/analytics.js';
+    s.async = true;
+    s.dataset.key = 'qHixpAxkEbqV4RnCETuxOg';
+    document.head.appendChild(s);
+  };
+
   // The pixel base code is in every page's <head>, paused with fbq('consent','revoke').
   // Accept switches it on with Meta's own consent call, then records the page view.
   let granted = false;
   const loadPixel = () => {
+    loadAnalytics();
     if (!window.fbq || granted) return;
     granted = true;
     window.fbq('consent', 'grant');

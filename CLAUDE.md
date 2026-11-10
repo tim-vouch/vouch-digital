@@ -38,7 +38,7 @@ or commercial-only → polite exit, nothing sent, no Lead event. Answers go to G
   `src/build.py`) paused with `fbq('consent','revoke')`; clicking Accept on the cookie banner calls
   `fbq('consent','grant')` and fires PageView (consent code at the end of `public/assets/site.js`; "Cookie settings"
   in the footer reopens it). Lead fires when the enquiry form is sent, only for visitors who accepted. Meta's
-  `<noscript>` image is deliberately left out (it would track people who can't see the banner). Never add any tracking or non-essential cookies that load before consent,
+  `<noscript>` image is deliberately left out (it would track people who can't see the banner). Ahrefs Web Analytics (cookie-free, key in `loadAnalytics()` in site.js) also loads only after Accept, from the same consent code (10 Nov 2026). Never add any tracking or non-essential cookies that load before consent,
   keep Reject on the banner as visible and easy as Accept (ICO), and update the privacy policy cookies section
   (`src/legal/privacy.html`) whenever tracking changes.
 
