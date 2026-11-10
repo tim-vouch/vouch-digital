@@ -84,8 +84,8 @@ FAQ_HOME = [
      "See our <a href=\"/pricing\">pricing</a>."),
     ("Am I locked into a contract?",
      "No. The monthly plan has no contract, so you can cancel anytime."),
-    ("What if I don't like my website?",
-     "You're covered by our 30-day guarantee. If you're not happy with your website, tell us within 30 days of your "
+    ("What if I'm not happy?",
+     "You're covered by our 30-day guarantee. If you're not happy with our system, including your website, tell us within 30 days of your "
      "first payment and we'll refund it in full. See our <a href=\"/terms\">terms</a>."),
     ("Do I own my domain?",
      "Yes. Your domain is registered in your business's name, not ours."),
