@@ -244,9 +244,7 @@ def home():
           <a class="btn btn-mint" href="{BOOK}"{NEWTAB}>Book a call {icon('arrow')}</a>
         </div>
       </div>
-      <div class="rating-row"><a href="#reviews">{G_LOGO}<span><b>Google</b>{stars(5)}</span><em>{RATING}</em></a>
-      <a href="#reviews">{TP_ICON}<span><b>Trustpilot</b>{stars(5)}</span><em>{TRUSTPILOT['rating']}</em></a>
-      <a href="#reviews">{FB_LOGO}<span><b>Facebook</b>{stars(5)}</span><em>{FACEBOOK['rating']}</em></a></div>
+      <div class="rating-row"><a href="#reviews">{G_LOGO}<span><b>Google</b>{stars(5)}</span><em>{RATING}</em></a></div>
     </div>
     {mascot("mascot hero-mascot", lazy=False)}
   </div>
@@ -540,9 +538,7 @@ def lp_video_tests():
 def free_website():
     """Kai Stone's layout (30 Oct 2026): one headline with the price, the VSL thumbnail, one button that opens a
     multi-step quiz popup, then video testimonials and Google reviews. Every CTA opens the same quiz."""
-    ratings = (f'<a href="#reviews">{G_LOGO}<span><b>Google</b>{stars(5)}</span><em>{RATING}</em></a>'
-               f'<a href="#reviews">{TP_ICON}<span><b>Trustpilot</b>{stars(5)}</span><em>{TRUSTPILOT["rating"]}</em></a>'
-               f'<a href="#reviews">{FB_LOGO}<span><b>Facebook</b>{stars(5)}</span><em>{FACEBOOK["rating"]}</em></a>')
+    ratings = (f'<a href="#reviews">{G_LOGO}<span><b>Google</b>{stars(5)}</span><em>{RATING}</em></a>')
     # Kai Stone style: a blurred still with a big play button. Clicking it (or the button) opens the quiz; the
     # video itself comes after (below the calendar on /book-call and on WhatsApp).
     media = f'<button type="button" class="lp-poster" data-quiz-open aria-label="Watch the video">{vsl_poster_inner()}</button>'
