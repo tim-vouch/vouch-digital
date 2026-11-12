@@ -64,7 +64,7 @@ def book_buttons(second=("See pricing", "/pricing")):
 def final_cta(h2="Be the plumber everyone vouches for.",
               text="Book a 15-minute call. We'll show you how it works and get your free website started."):
     return f"""
-<section class="dark final has-mascot">
+<section class="dark final">
   <div class="wrap">
     <div class="final-copy">
     <p class="eyebrow">15-minute demo call</p>
@@ -73,7 +73,6 @@ def final_cta(h2="Be the plumber everyone vouches for.",
     <div class="row"><a class="btn btn-mint" href="{BOOK}"{NEWTAB}>Book a call {icon('arrow')}</a>
     <a class="btn btn-ghost" href="tel:{SITE['phone_intl']}">{icon('phone')} Call {SITE['phone']}</a></div>
     </div>
-    {mascot()}
   </div>
 </section>"""
 
@@ -116,7 +115,7 @@ def pricing_section(h1=None, lede=None):
     <div class="sec-head"><p class="eyebrow">Pricing</p>{f'<h1>{h1}</h1>' if h1 else '<h2>Our pricing</h2>'}
     <p>{lede or 'Pay monthly with no contract, or pay upfront and save.'}</p></div>
     <div class="bill-tabs" role="tablist" aria-label="Billing period">{tabs}</div>
-    <div class="pk-stage"><img class="pk-lean" src="/assets/img/mascot-lean.webp" width="320" height="475" loading="lazy" alt="Vouch Digital mascot leaning on the pricing card, giving a thumbs up">
+    <div class="pk-stage">
     <div class="pk-row">
     <div class="pk" data-base="{p['price']}" data-note="No contract, cancel anytime">{g_data}
       <h3>{p['name']}</h3>
@@ -237,7 +236,7 @@ def home():
 <section class="hero dark hero-v2 hero-k">
   <div class="wrap">
     <div class="hero-copy">
-      <h1>Website Design &amp; Marketing Systems <span class="accent">For Domestic Plumbers</span></h1>
+      <h1>Website Design &amp; Marketing Systems <span class="accent">For Plumbers</span></h1>
       <div class="hero-row">
         <p class="hero-blurb"><span>No jargon, no magic tricks, no fake promises.</span><span>No agency... (including ours) has the miracle solution to all your problems. We'll give you the tools to win but you need to commit to using them!</span></p>
         <div class="hero-cta">

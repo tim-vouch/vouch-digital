@@ -1114,15 +1114,13 @@ body:has(.cookie-banner) .book-sticky{bottom:96px}
 .pk-guar-sp{visibility:hidden}
 @media (max-width:860px){.pk-guar-sp{display:none}}
 
-/* 12 Nov 2026: no ratings row in the homepage hero, so the mascot is smaller and the testimonials come up sooner.
-   Mobile: the mascot stands beside Book a call (the button row is as tall as the mascot), never over the text. */
+/* 12 Nov 2026: no ratings row in the homepage hero. The mascot appears only here, on desktop and laptop (981px+),
+   at 360px; below that it's hidden so the testimonials come straight after Book a call. */
 @media (min-width:981px){
   .hero-k.hero-v2 .hero-copy{padding-bottom:56px}
   .hero-k .hero-mascot{width:360px;margin-top:0}
 }
-@media (max-width:760px){
-  .hero-k .hero-copy{padding-bottom:0}
-  .hero-k .hero-row{gap:14px}
-  .hero-k .hero-cta{min-height:136px;align-content:center}
-  .hero-k .hero-mascot{width:101px;bottom:0;right:max(calc(50vw - 170px),12px)}
+@media (max-width:980px){
+  .hero-k .hero-mascot{display:none}
+  .hero-k .hero-copy{padding-bottom:44px}
 }
