@@ -816,7 +816,7 @@ section.first{padding-top:144px}
 @media (max-width:560px){.lp-shot{margin-top:20px}.lp-objections{padding:44px 0}}
 
 /* Landing page v3: Kai Stone layout with quiz popup (30 Oct 2026) */
-.lp-k-hero{padding:120px 0 64px;text-align:center;background:linear-gradient(180deg,var(--deep) 0,var(--deep) 84px,#fff 84px)}
+.lp-k-hero{padding:120px 0 36px;text-align:center;background:linear-gradient(180deg,var(--deep) 0,var(--deep) 84px,#fff 84px)}
 .lp-k-hero h1{font-size:clamp(28px,4vw,46px);line-height:1.15;color:var(--deep);max-width:22em;margin:0 auto}
 .lp-k-price{font-family:var(--head);font-weight:800;font-size:clamp(34px,4.6vw,52px);color:var(--mint-dark);margin:6px 0 4px}
 .lp-k-free{font-size:17px;color:var(--ink-soft);margin-bottom:28px}
@@ -838,7 +838,7 @@ section.first{padding-top:144px}
 .lp-k-btn{display:inline-block;background:var(--mint);color:var(--deep);font-family:var(--head);font-weight:800;font-size:clamp(19px,2.2vw,24px);text-decoration:none;padding:18px 44px;border-radius:12px;box-shadow:0 0 0 6px rgba(20,211,138,.25),0 12px 28px rgba(20,211,138,.3);transition:transform .15s,background .15s}
 .lp-k-btn:hover{background:#2be09a;transform:translateY(-2px)}
 .lp-k-hero .lp-ratings{margin-top:36px;justify-content:center}
-.lp-k-proof{padding:64px 0}
+.lp-k-proof{padding:36px 0 64px}
 .lp-k-proof .sec-head h2{font-size:clamp(28px,3.6vw,40px)}
 .lp-k-again{text-align:center;margin-top:36px}
 /* Video testimonials (30 Oct 2026): portrait video with the client's result quote beside it */
@@ -895,7 +895,7 @@ html.qz-on{overflow:hidden}
 .qz-note{font-size:12px;color:var(--ink-soft);margin-top:16px}
 .qz-note a{color:var(--ink-soft)}
 @media (max-width:560px){
-  .lp-k-hero{padding:104px 0 48px}
+  .lp-k-hero{padding:104px 0 28px}
   .lp-k-btn{width:100%;padding:17px 18px}
   .vp-btn{width:60px;height:60px}.vp-btn svg{width:26px;height:26px}
   .vp-copy small{display:none}

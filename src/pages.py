@@ -537,8 +537,7 @@ def lp_video_tests():
 
 def free_website():
     """Kai Stone's layout (30 Oct 2026): one headline with the price, the VSL thumbnail, one button that opens a
-    multi-step quiz popup, then video testimonials and Google reviews. Every CTA opens the same quiz."""
-    ratings = (f'<a href="#reviews">{G_LOGO}<span><b>Google</b>{stars(5)}</span><em>{RATING}</em></a>')
+    multi-step quiz popup, then video testimonials straight under the button (no ratings row, 12 Nov 2026) and Google reviews. Every CTA opens the same quiz."""
     # Kai Stone style: a blurred still with a big play button. Clicking it (or the button) opens the quiz; the
     # video itself comes after (below the calendar on /book-call and on WhatsApp).
     media = f'<button type="button" class="lp-poster" data-quiz-open aria-label="Watch the video">{vsl_poster_inner()}</button>'
@@ -552,7 +551,6 @@ def free_website():
     <p class="lp-k-free">+ your new website <b>FREE</b> (normally £1,499) · No contract</p>
     <div class="lp-k-media">{media}</div>
     <a class="lp-k-btn" href="/book-call" data-quiz-open>{cta}</a>
-    <div class="rating-row lp-ratings">{ratings}</div>
   </div>
 </section>
 
