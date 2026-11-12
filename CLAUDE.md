@@ -44,7 +44,7 @@ or commercial-only → polite exit, nothing sent, no Lead event. Answers go to G
 
 ## Design
 Dark green `#04201b`, mint `#14d38a`, mint tint `#e9f8f1`. Headings Outfit, body Inter.
-Based on the mockup Tim approved on 4 Oct 2026. Only the homepage has the big dark hero. Inner pages open with a light heading (`hero()` in `src/pages_more.py`, class `page-hero`); on /pricing and /faq the first section carries the H1 itself (class `first`), so nothing is said twice.
+Based on the mockup Tim approved on 4 Oct 2026. Only the homepage has the big dark hero (no ratings row since 12 Nov 2026: mascot 360px on desktop, and on mobile a small mascot standing beside Book a call, never over the text, so the testimonials come up sooner). Inner pages open with a light heading (`hero()` in `src/pages_more.py`, class `page-hero`); on /pricing and /faq the first section carries the H1 itself (class `first`), so nothing is said twice.
 Mascot (Tim's own artwork): `public/assets/img/mascot.webp`, used via `mascot()` in `src/pages.py` (final CTA on every page, beside the pricing card).
 
 ## Never

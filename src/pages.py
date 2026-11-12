@@ -244,7 +244,6 @@ def home():
           <a class="btn btn-mint" href="{BOOK}"{NEWTAB}>Book a call {icon('arrow')}</a>
         </div>
       </div>
-      <div class="rating-row"><a href="#reviews">{G_LOGO}<span><b>Google</b>{stars(5)}</span><em>{RATING}</em></a></div>
     </div>
     {mascot("mascot hero-mascot", lazy=False)}
   </div>
