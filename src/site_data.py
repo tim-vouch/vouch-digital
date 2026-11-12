@@ -24,7 +24,7 @@ SITE = {
     # of the unlisted upload, ideally on youtube-nocookie.com (e.g. "https://www.youtube-nocookie.com/embed/VIDEO_ID").
     # It only loads when the visitor presses play. Empty = a placeholder box. Don't run ads until this is set.
     "vsl_url": "",
-    # Blurred still for the VSL thumbnail on /book-form (the quiz unlocks the video). Empty = a branded poster in CSS.
+    # Blurred still for the VSL thumbnail on /demo-video (the quiz unlocks the video). Empty = a branded poster in CSS.
     "vsl_poster": "/assets/img/vsl-poster.webp",  # blurred screenshot of our homepage; swap for a blurred frame of the VSL
     # Clear still for the VSL on /book-call (e.g. "/assets/img/vsl-still.webp", a frame of Tim). Empty = branded poster.
     "vsl_still": "",
@@ -33,7 +33,7 @@ SITE = {
     "checkout_url": "",
 }
 
-# Video testimonials on /book-form (real clients only, with their permission).
+# Video testimonials on /demo-video (real clients only, with their permission).
 # Each: name, business, quote (their own words from the video), src (MP4 under /assets/video/), poster (still image).
 TESTIMONIAL_VIDEOS = [
     # quote = the client's own words from the video, exactly as said (a result, not the "I'd recommend" hook line).

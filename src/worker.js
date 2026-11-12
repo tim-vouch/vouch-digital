@@ -40,6 +40,9 @@ export default {
     const moved = url.pathname.match(/^\/services\/(local-seo|ai-search)\/?$/);
     if (moved) return Response.redirect(url.origin + '/services/' + MOVED[moved[1]], 301);
 
+    // Landing page renamed /book-form → /demo-video (12 Nov 2026). Keep old ad links working, query string included.
+    if (/^\/book-form\/?$/.test(url.pathname)) return Response.redirect(url.origin + '/demo-video' + url.search, 301);
+
     // Electricians page retired (Oct 2026): the site is plumbers-only now.
     if (/^\/electricians\/?$/.test(url.pathname)) return Response.redirect(url.origin + '/plumbers', 301);
 

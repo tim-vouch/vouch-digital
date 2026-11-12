@@ -51,7 +51,7 @@ def process_steps(cls="dark process"):
 </section>"""
 
 
-BOOK = "/book-form"  # every "Book a call" outside the funnel opens the landing page in a new tab
+BOOK = "/demo-video"  # every "Book a call" outside the funnel opens the landing page in a new tab
 NEWTAB = ' target="_blank" rel="noopener"'
 
 
@@ -374,7 +374,7 @@ def book():
 <script src="https://link.msgsndr.com/js/form_embed.js" defer></script>"""
 
 
-# ---------- Meta ads funnel (Oct 2026): ad → /book-form (quiz) → /book-call (VSL, then the booking box, then Get Started) ----------
+# ---------- Meta ads funnel (Oct 2026): ad → /demo-video (quiz) → /book-call (VSL, then the booking box, then Get Started) ----------
 # Kai Stone's flow: they book, then watch the video before the call so they arrive pre-sold.
 # Ben Heath (10.2): match the ad, lots of proof, one action, every CTA goes back to the same form.
 
@@ -595,7 +595,7 @@ ALL = [
     {"path": "/book-call", "body": book, "noindex": True,
      "title": "Book a call | Vouch Digital",
      "desc": "Book a 15-minute call with Vouch Digital."},
-    {"path": "/book-form", "body": free_website, "noindex": True,
+    {"path": "/demo-video", "body": free_website, "noindex": True,
      "title": "Get a FREE website built to win boiler installs | Vouch Digital",
      "desc": "Join the Vouch System for £197 a month and get your new website free (normally £1,499). "
              "Done for you, no contract."},

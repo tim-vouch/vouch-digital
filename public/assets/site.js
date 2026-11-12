@@ -49,7 +49,7 @@ document.querySelectorAll('form.enquiry').forEach((form) => {
   });
 });
 
-// Landing page quiz (/book-form): a multi-step popup. Every [data-quiz-open] opens it (falls back to /book-call).
+// Landing page quiz (/demo-video): a multi-step popup. Every [data-quiz-open] opens it (falls back to /book-call).
 const quiz = document.getElementById('quiz');
 if (quiz) {
   const form = quiz.querySelector('.qz-form');

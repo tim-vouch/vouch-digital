@@ -9,6 +9,6 @@
     "not_found_handling": "404-page",
     "html_handling": "drop-trailing-slash",
     // With a 404 page set, unmatched paths never reach the Worker unless listed here.
-    "run_worker_first": ["/api/*", "/services/*"]
+    "run_worker_first": ["/api/*", "/services/*", "/book-form", "/electricians"]
   }
 }
