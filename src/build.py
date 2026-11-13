@@ -71,7 +71,7 @@ def head(title, desc, path, noindex=False):
 <meta name="facebook-domain-verification" content="3t84q3i49854mqyiuc8ebzmlia4rfv" />
 <meta name="meta-pixel-id" content="{SITE['meta_pixel_id']}">
 {PIXEL_HEAD}
-<meta property="og:image" content="{SITE['domain']}/assets/img/icon-512.png">
+<meta property="og:image" content="{SITE['domain']}/assets/img/icon-512-dark.png">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
